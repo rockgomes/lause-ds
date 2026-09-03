@@ -1,0 +1,21 @@
+{
+  "type": {
+    "base": 16,
+    "ratio": 1.2,
+    "stepsDown": 2,
+    "stepsUp": 12,
+    "tuned": {}
+  },
+  "leading": { "tight": 1.1, "snug": 1.3, "normal": 1.5, "open": 1.85 },
+  "space": [0, 2, 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192],
+  "radius": { "none": 0, "sm": 4, "md": 10, "lg": 22, "pill": 999 },
+  "shadow": {
+    "low": { "color": "rgba(15, 34, 56, 0.10)", "offsetX": 0, "offsetY": 1, "blur": 3, "spread": 0 },
+    "mid": { "color": "rgba(15, 34, 56, 0.10)", "offsetX": 0, "offsetY": 6, "blur": 18, "spread": 0 }
+  },
+  "font": {
+    "serif": ["Young Serif", "Georgia", "serif"],
+    "sans": ["Instrument Sans", "Helvetica Neue", "Arial", "sans-serif"]
+  },
+  "opacity": { "dim": 0.38, "faint": 0.18 }
+}

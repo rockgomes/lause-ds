@@ -1,0 +1,20 @@
+{
+  "name": "lause-ds-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "build:tokens": "npm run build --workspace @lause-ds/tokens",
+    "typecheck": "tsc -b packages/tokens"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/node": "^26.4.1",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  }
+}

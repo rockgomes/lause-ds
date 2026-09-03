@@ -1,0 +1,8 @@
+{
+  "name": "lause-ds",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lause design system: tokens and components. Components arrive in Plan 2.",
+  "files": ["src/tokens"]
+}

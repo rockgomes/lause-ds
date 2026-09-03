@@ -29,6 +29,7 @@ Written in full in [docs/specs/2026-09-03-lause-ds-design.md](docs/specs/2026-09
 
 ```
 tokens/         W3C design-token JSON — the single source
+packages/tokens the token build tool (private)
 packages/ui     React + Tailwind components, one folder per component
 packages/mcp    the MCP server; reads tokens/ and packages/ui
 figma/          Code Connect mappings and export scripts
@@ -43,4 +44,13 @@ docs/           specs, decisions, component rules
 
 ## Status
 
-Planning. No code yet. See the spec for open questions.
+Foundation done: tokens build, light and dark modes, contrast checked in CI. Components next (Plan 2).
+
+## Using the tokens today
+
+```bash
+npm run build:tokens   # regenerates tokens/primitives.tokens.json, packages/ui/src/tokens/*.css, figma/variables.json
+npm test               # includes the WCAG contrast check on every semantic pair, both modes
+```
+
+Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything else under `tokens/`, `packages/ui/src/tokens/` and `figma/` is generated and CI fails if it drifts.

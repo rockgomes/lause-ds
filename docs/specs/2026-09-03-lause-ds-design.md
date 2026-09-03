@@ -53,16 +53,19 @@ needs" rule applies to components, never to primitives.
 **Semantic tokens give meaning.** They point at a ramp step, never at a raw value. This
 is the tier a mode (dark, a second brand) swaps.
 
-| Semantic | Points at | Note |
-|---|---|---|
-| `color.ground` | `ice.100` | page background |
-| `color.ink` | `navy.900` | text, filled controls |
-| `color.dim` | `navy.500` | secondary text; a solid step, so contrast is checkable. An alpha twin `color.dim-alpha` (`ink` at `opacity.dim`) exists for layering over images |
-| `color.accent` | `coral.500` | the one accent |
-| `color.surface` | `white` | tiles |
-| `font.content` | `font.family.serif` | the thing being learned |
-| `font.chrome` | `font.family.sans` | everything else |
-| Type roles, the only names anyone uses: `type.label` · `type.body` · `type.title` · `type.reading` · `type.headline` · `type.display` | `type.size` steps 13 · 16 · 19 · 57 · 83 · 143, each with a `font`, `leading` and `weight` | Roles follow the shape people know from Material and Apple (display, headline, title, body, label), plus `reading` because Lause's unit is a sentence. The mockups used 14, 20, 21, 54, 58, 88, 150; they are re-fitted to the roles when built. Nobody references a step number directly |
+| Semantic | Light | Dark | Note |
+|---|---|---|---|
+| `color.ground` | `ice.100` | `navy.950` | page background |
+| `color.ink` | `navy.900` | `ice.100` | text, filled controls |
+| `color.dim` | `navy.700` | `ice.400` | secondary text; a solid step, so contrast is checkable. Tuned from `navy.500`: 500 and 600 fail 4.5:1 on `ground`; 700 measures 5.47:1 (light), `ice.400` 8.47:1 (dark) |
+| `color.accent` | `coral.600` | `coral.500` | graphic accent (underlines, current segment, lit edge). Tuned from `coral.500` on light: the anchor is 2.62:1 on `ice.100`, below the 3:1 graphic minimum; 600 measures 3.98:1. Dark keeps the anchor at full strength, 5.82:1 on `navy.950` |
+| `color.accent-text` | `coral.700` | `coral.300` | accent used as small text; 6.02:1 (light), 10.34:1 (dark) |
+| `color.accent-on-ink` | `coral.500` | `coral.600` | accent drawn on `ink` fills. One `accent` cannot pass on both `ground` and `ink` in both modes because ink and ground swap luminance; 5.18:1 (light), 3.98:1 (dark) |
+| `color.on-ink` | `ice.100` | `navy.950` | text on ink fills; 13.56:1 (light), 15.22:1 (dark) |
+| `color.surface` | `white` | `navy.900` | tiles |
+| `font.content` | `font.family.serif` | same | the thing being learned |
+| `font.chrome` | `font.family.sans` | same | everything else |
+| Type roles, the only names anyone uses: `type.label` · `type.body` · `type.title` · `type.reading` · `type.headline` · `type.display` | `type.size` steps 13 · 16 · 19 · 57 · 83 · 143, each with a `font`, `leading` and `weight` | same | Roles follow the shape people know from Material and Apple (display, headline, title, body, label), plus `reading` because Lause's unit is a sentence. The mockups used 14, 20, 21, 54, 58, 88, 150; they are re-fitted to the roles when built. Nobody references a step number directly |
 
 **Component tokens** exist only where a component needs its own knob (`bubble.tail`,
 `tile.stack-gap`). They point at semantic or primitive tokens.
