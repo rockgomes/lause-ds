@@ -5,7 +5,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  id-token: write
 concurrency: release-${{ github.ref }}
 jobs:
   release:
@@ -22,6 +21,11 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run typecheck
+      - run: npm run build:tokens
+      - run: npm run build:ui
+      - run: npm test
       - name: version or publish
         if: env.HAS_NPM_TOKEN == 'true'
         uses: changesets/action@v1

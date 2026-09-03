@@ -5,6 +5,7 @@ import './preview.css';
 export type Theme = 'light' | 'dark';
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     a11y: { test: 'error' },
     backgrounds: { disable: true },
