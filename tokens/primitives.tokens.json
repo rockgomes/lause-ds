@@ -256,6 +256,22 @@
       }
     }
   },
+  "stroke": {
+    "thin": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.5,
+        "unit": "px"
+      }
+    },
+    "focus": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
   "shadow": {
     "low": {
       "$type": "shadow",

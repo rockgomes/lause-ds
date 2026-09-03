@@ -24,6 +24,8 @@ describe('scales', () => {
     const f = flatten(buildScales(rules, colors));
     expect(f.get('space.8')?.$value).toEqual({ value: 8, unit: 'px' });
     expect(f.get('radius.pill')?.$value).toEqual({ value: 999, unit: 'px' });
+    expect(f.get('stroke.thin')?.$value).toEqual({ value: 1.5, unit: 'px' });
+    expect(f.get('stroke.focus')?.$value).toEqual({ value: 2, unit: 'px' });
     expect(f.get('type.leading.open')?.$value).toBe(1.85);
     expect(f.get('font.family.serif')?.$value).toEqual(['Young Serif', 'Georgia', 'serif']);
     expect(f.get('opacity.dim')?.$value).toBe(0.38);
