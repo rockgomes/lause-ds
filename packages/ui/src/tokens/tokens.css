@@ -115,6 +115,7 @@
   --lause-radius-control: var(--lause-radius-pill);
   --lause-radius-card: var(--lause-radius-lg);
   --lause-radius-bubble: var(--lause-radius-md);
+  --lause-radius-keycap: var(--lause-radius-sm);
   --lause-shadow-tile: var(--lause-shadow-mid);
 }
 [data-theme="dark"] {
@@ -155,5 +156,6 @@
   --lause-radius-control: var(--lause-radius-pill);
   --lause-radius-card: var(--lause-radius-lg);
   --lause-radius-bubble: var(--lause-radius-md);
+  --lause-radius-keycap: var(--lause-radius-sm);
   --lause-shadow-tile: var(--lause-shadow-mid);
 }

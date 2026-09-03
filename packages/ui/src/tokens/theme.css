@@ -49,5 +49,6 @@
   --radius-control: var(--lause-radius-control);
   --radius-card: var(--lause-radius-card);
   --radius-bubble: var(--lause-radius-bubble);
+  --radius-keycap: var(--lause-radius-keycap);
   --shadow-tile: var(--lause-shadow-tile);
 }

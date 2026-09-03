@@ -13,7 +13,9 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run typecheck
+      - run: npm run build:ui
       - run: npm run build:tokens
       - name: fail if generated files drifted
         run: git add -A tokens packages/ui/src/tokens figma && git diff --cached --exit-code -- tokens packages/ui/src/tokens figma

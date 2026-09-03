@@ -958,6 +958,18 @@
           }
         },
         {
+          "name": "radius/keycap",
+          "type": "FLOAT",
+          "values": {
+            "Light": {
+              "alias": "radius/sm"
+            },
+            "Dark": {
+              "alias": "radius/sm"
+            }
+          }
+        },
+        {
           "name": "shadow/tile",
           "type": "STRING",
           "values": {

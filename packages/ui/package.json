@@ -3,11 +3,43 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Lause design system: tokens and components. Components arrive in Plan 2.",
-  "files": ["src/tokens"],
+  "description": "Lause design system: tokens and React components.",
+  "files": ["dist", "src/tokens"],
+  "sideEffects": ["*.css"],
   "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
     "./styles.css": "./src/tokens/index.css",
     "./tokens.css": "./src/tokens/tokens.css",
     "./theme.css": "./src/tokens/theme.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "clsx": "2.1.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "10.6.0",
+    "@storybook/addon-docs": "10.6.0",
+    "@storybook/addon-vitest": "10.6.0",
+    "@storybook/react-vite": "10.6.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitest/browser": "4.1.11",
+    "@vitest/browser-playwright": "4.1.11",
+    "playwright": "1.62.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "storybook": "10.6.0",
+    "tailwindcss": "4.3.3",
+    "vite": "8.2.2"
   }
 }

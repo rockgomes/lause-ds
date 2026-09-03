@@ -18,6 +18,6 @@
     "headline": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.83}",  "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } },
     "display":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.143}", "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } }
   },
-  "radius": { "control": { "$type": "dimension", "$value": "{radius.pill}" }, "card": { "$type": "dimension", "$value": "{radius.lg}" }, "bubble": { "$type": "dimension", "$value": "{radius.md}" } },
+  "radius": { "control": { "$type": "dimension", "$value": "{radius.pill}" }, "card": { "$type": "dimension", "$value": "{radius.lg}" }, "bubble": { "$type": "dimension", "$value": "{radius.md}" }, "keycap": { "$type": "dimension", "$value": "{radius.sm}", "$description": "keyboard hints" } },
   "shadow": { "tile": { "$type": "shadow", "$value": "{shadow.mid}" } }
 }

@@ -8,7 +8,9 @@
   "scripts": {
     "test": "vitest run",
     "build:tokens": "npm run build --workspace @lause-ds/tokens",
-    "typecheck": "tsc -b packages/tokens"
+    "build:ui": "npm run build --workspace lause-ds",
+    "storybook": "npm run storybook --workspace lause-ds",
+    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui"
   },
   "devDependencies": {
     "@types/culori": "^4.0.1",
