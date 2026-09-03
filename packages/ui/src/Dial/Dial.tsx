@@ -1,3 +1,5 @@
+'use client';
+
 import { clsx } from 'clsx';
 import type { KeyboardEvent } from 'react';
 import { disabledControl, focusRing, hitTarget } from '../styles.js';
