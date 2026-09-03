@@ -28,12 +28,12 @@ Written in full in [docs/specs/2026-09-03-lause-ds-design.md](docs/specs/2026-09
 ## Layout
 
 ```
-tokens/         W3C design-token JSON — the single source
-packages/tokens the token build tool (private)
-packages/ui     React + Tailwind components, one folder per component
-packages/mcp    the MCP server; reads tokens/ and packages/ui
-figma/          Code Connect mappings and export scripts
-docs/           specs, decisions, component rules
+tokens/           W3C design-token JSON — the single source
+packages/tokens   the token build tool (private)
+packages/ui       lause-ds: React + Tailwind components, one folder per component, stories beside them
+packages/mcp      the MCP server; reads tokens/ and packages/ui (Plan 5)
+figma/            variables export, Code Connect mappings (Plan 4)
+docs/             specs, plans, component rules
 ```
 
 ## Working rules
@@ -44,9 +44,9 @@ docs/           specs, decisions, component rules
 
 ## Status
 
-Foundation done: tokens build, light and dark modes, contrast checked in CI. Components next (Plan 2).
+Foundation and the first six components done: Keycap, Button, Progress, Bar, Dial, Tile. Every story is a test with an axe check. Releases go through changesets. Reading components next (Plan 3).
 
-## Using the tokens today
+## Using the system
 
 ```bash
 npm run build:tokens   # regenerates tokens/primitives.tokens.json, packages/ui/src/tokens/*.css, figma/variables.json
@@ -62,3 +62,20 @@ Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything el
 ```
 
 `theme.css` needs `tokens.css` loaded first; `styles.css` does both in order.
+
+Components:
+
+```tsx
+import { Button, Dial, Tile, TileStack } from 'lause-ds';
+import 'lause-ds/styles.css';
+```
+
+Tailwind v4 consumers add `@source "../node_modules/lause-ds/dist";` to their CSS so the components' classes are generated, and load Young Serif and Instrument Sans themselves (Google Fonts, or self-hosted).
+
+## The workshop
+
+```bash
+npm run storybook   # every component, every state, light and dark, with the a11y panel
+npm test            # runs every story in Chromium: play functions, then axe; a violation fails
+npx changeset       # every pull request that changes lause-ds declares its bump here
+```

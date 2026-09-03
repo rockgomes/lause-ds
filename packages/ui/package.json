@@ -1,9 +1,12 @@
 {
   "name": "lause-ds",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "description": "Lause design system: tokens and React components.",
+  "repository": { "type": "git", "url": "git+https://github.com/rockgomes/lause-ds.git", "directory": "packages/ui" },
+  "license": "MIT",
+  "publishConfig": { "access": "public" },
   "files": ["dist", "src/tokens"],
   "sideEffects": ["*.css"],
   "exports": {
