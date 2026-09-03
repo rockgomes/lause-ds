@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 import type { ComponentProps, KeyboardEvent } from 'react';
-import { disabledControl, focusRing, hitTarget } from '../styles.js';
+import { focusRing, hitTarget } from '../styles.js';
 
 export type DialOption<V extends string> = { value: V; label: string };
 
@@ -44,6 +44,7 @@ export function Dial<V extends string>({ options, value, onChange, label, disabl
       onKeyDown={onKeyDown}
       className={clsx(
         'inline-flex rounded-control border-(length:--lause-stroke-thin) border-ink p-2 font-chrome text-label font-semibold',
+        disabled && 'opacity-(--lause-opacity-dim)',
         className,
       )}
       {...rest}
@@ -64,7 +65,7 @@ export function Dial<V extends string>({ options, value, onChange, label, disabl
               'rounded-control px-12',
               hitTarget,
               focusRing,
-              disabledControl,
+              'disabled:cursor-not-allowed',
               selected ? 'bg-ink text-on-ink' : 'text-dim',
             )}
           >
