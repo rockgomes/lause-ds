@@ -54,3 +54,11 @@ npm test               # includes the WCAG contrast check on every semantic pair
 ```
 
 Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything else under `tokens/`, `packages/ui/src/tokens/` and `figma/` is generated and CI fails if it drifts.
+
+### Consuming them
+
+```css
+@import 'lause-ds/styles.css';
+```
+
+`theme.css` needs `tokens.css` loaded first; `styles.css` does both in order.
