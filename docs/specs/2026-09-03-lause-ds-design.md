@@ -1,7 +1,7 @@
 # Lause design system — design
 
 **Date:** 2026-09-03
-**Status:** Draft. Open questions at the end are being settled one at a time.
+**Status:** Draft. Two open questions remain at the end.
 **Origin:** The UI direction "Lause" of the Estonian citizenship exam trainer. Visual rules
 live in that repo at `docs/design/2026-09-03-lause-design-decisions.md`; this system is the
 reusable form of them.
@@ -25,7 +25,9 @@ Two audiences, one artefact.
 | 3 | `tokens/` is the single source; code, Figma and the server all read it | One change, three places updated |
 | 4 | Separate repo, npm package `lause-ds`, the app imports it | A system with a customer, not a folder inside an app |
 | 5 | React + Tailwind for the coded library | Matches the app's stack (Next.js, Tailwind, shadcn) |
-| 6 | Light theme only in the first release, but tokens are structured so a mode can be added | The product decision was light-only; the token structure should not close the door |
+| 6 | One dark mode ships in the first release | Proves the semantic layer swaps cleanly; the first thing a system interviewer asks about. The app itself stays light |
+| 7 | Two docs surfaces: a custom site as the front door, built with the system's own components, and a public Storybook as the workshop | The site tells the story and shows one example per component; Storybook shows every state. Each links to the other and never copies the other's job. The site is built last, after components exist |
+| 8 | Changesets plus semver; merging to `main` bumps and publishes to npm; the app pins a version | One sentence per pull request buys a trustworthy changelog, and nothing changes when a second consumer arrives |
 
 ## 3. Tokens
 
@@ -118,8 +120,7 @@ Agent-ready files that ship regardless of the server: `tokens/*.tokens.json`,
 
 ## 8. Open questions, in the order to settle them
 
-1. Theming: light only, or add one mode (dark or a second brand) to show the structure works.
-2. Docs site: Storybook, or a small custom site in the system's own style.
-3. Versioning and release: changesets, semver, when the app pins a version.
-4. Where the MCP server is hosted for the public demo.
-5. Accessibility bar: WCAG AA for every component, checked in CI.
+1. Where the MCP server is hosted for the public demo.
+2. Accessibility bar: WCAG AA for every component, checked in CI.
+
+Settled and moved to §2: theming (decision 6), docs (decision 7), versioning (decision 8).
