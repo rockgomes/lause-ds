@@ -1,0 +1,12 @@
+{
+  "name": "@lause-ds/tokens",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/build.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "culori": "4.0.2"
+  }
+}
