@@ -10,13 +10,19 @@ const CHROMA: Record<Step, number> = { '50': 0.15, '100': 0.25, '200': 0.45, '30
 
 export type Anchors = { hues: Record<string, string>; white: string; black: string };
 
+function toOklch(hex: string) {
+  const parsed = parse(hex);
+  if (!parsed) throw new Error(`invalid anchor colour: ${hex}`);
+  return oklch(parsed)!;
+}
+
 export function nearestStep(anchorHex: string): Step {
-  const l = oklch(parse(anchorHex)!)!.l;
+  const l = toOklch(anchorHex).l;
   return STEPS.reduce((best, s) => (Math.abs(LIGHTNESS[s] - l) < Math.abs(LIGHTNESS[best] - l) ? s : best), STEPS[0]);
 }
 
 export function buildRamp(anchorHex: string): Record<Step, string> {
-  const a = oklch(parse(anchorHex)!)!;
+  const a = toOklch(anchorHex);
   const home = nearestStep(anchorHex);
   const baseChroma = (a.c ?? 0) / CHROMA[home];
   const out = {} as Record<Step, string>;
