@@ -41,6 +41,12 @@ describe('emit theme', () => {
   it('leads with the dark variant tied to [data-theme], ahead of the theme block', () => {
     expect(theme.startsWith('@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));\n\n@theme inline {')).toBe(true);
   });
+  it('closes the default colour scale before defining the token colours', () => {
+    const closeIndex = theme.indexOf('--color-*: initial;');
+    const inkIndex = theme.indexOf('--color-ink:');
+    expect(closeIndex).toBeGreaterThan(-1);
+    expect(inkIndex).toBeGreaterThan(closeIndex);
+  });
   it('maps tokens into a Tailwind v4 theme block', () => {
     expect(theme).toContain('@theme inline {');
     expect(theme).toContain('--color-ink: var(--lause-color-ink);');
