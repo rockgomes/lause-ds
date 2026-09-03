@@ -60,17 +60,31 @@ describe('emit figma', () => {
   it('has two collections with the right modes', () => {
     expect(f.collections.map((c) => [c.name, c.modes])).toEqual([['Primitives', ['Value']], ['Semantic', ['Light', 'Dark']]]);
   });
-  it('carries colours as hex per mode', () => {
+  it('carries semantic colours as aliases to their primitive, per mode', () => {
     const ink = f.collections[1].variables.find((v) => v.name === 'color/ink')!;
     expect(ink.type).toBe('COLOR');
-    expect(ink.values).toEqual({ Light: '#0f2238', Dark: '#e4edf3' });
+    expect(ink.values).toEqual({ Light: { alias: 'color/navy/900' }, Dark: { alias: 'color/ice/100' } });
   });
-  it('carries dimensions as floats', () => {
+  it('carries primitive dimensions as literal floats', () => {
     const s = f.collections[0].variables.find((v) => v.name === 'type/size/57')!;
     expect(s).toEqual({ name: 'type/size/57', type: 'FLOAT', values: { Value: 57 } });
   });
-  it('carries shadows as one string per mode', () => {
+  it('carries semantic shadows as an alias per mode', () => {
     const s = f.collections[1].variables.find((v) => v.name === 'shadow/tile')!;
-    expect(s).toEqual({ name: 'shadow/tile', type: 'STRING', values: { Light: '0px 6px 18px 0px rgba(15, 34, 56, 0.10)', Dark: '0px 6px 18px 0px rgba(15, 34, 56, 0.10)' } });
+    expect(s).toEqual({ name: 'shadow/tile', type: 'STRING', values: { Light: { alias: 'shadow/mid' }, Dark: { alias: 'shadow/mid' } } });
+  });
+  it('computes typography line height in pixels', () => {
+    const s = f.collections[1].variables.find((v) => v.name === 'type/body/lineHeight')!;
+    expect(s).toEqual({ name: 'type/body/lineHeight', type: 'FLOAT', values: { Light: 24, Dark: 24 } });
+  });
+  it('computes reading line height in pixels', () => {
+    const s = f.collections[1].variables.find((v) => v.name === 'type/reading/lineHeight')!;
+    expect(s).toEqual({ name: 'type/reading/lineHeight', type: 'FLOAT', values: { Light: 105, Dark: 105 } });
+  });
+  it('carries typography fontFamily and fontSize as aliases', () => {
+    const family = f.collections[1].variables.find((v) => v.name === 'type/body/fontFamily')!;
+    expect(family).toEqual({ name: 'type/body/fontFamily', type: 'STRING', values: { Light: { alias: 'font/family/sans' }, Dark: { alias: 'font/family/sans' } } });
+    const size = f.collections[1].variables.find((v) => v.name === 'type/body/fontSize')!;
+    expect(size).toEqual({ name: 'type/body/fontSize', type: 'FLOAT', values: { Light: { alias: 'type/size/16' }, Dark: { alias: 'type/size/16' } } });
   });
 });
