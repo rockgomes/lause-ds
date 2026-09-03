@@ -14,7 +14,7 @@ export type DialProps<V extends string> = {
   className?: string;
 };
 
-const steps: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+const steps: Record<string, number> = Object.assign(Object.create(null), { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 });
 
 /** A segmented control that behaves as a radio group: arrow keys move and select, Home/End jump. */
 export function Dial<V extends string>({ options, value, onChange, label, disabled = false, className }: DialProps<V>) {

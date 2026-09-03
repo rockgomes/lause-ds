@@ -39,7 +39,7 @@ export const Dimmed: Story = { args: { state: 'dimmed' } };
 
 export const Stack: Story = {
   render: (args) => (
-    <TileStack aria-label="Vali õige vastus">
+    <TileStack label="Vali õige vastus">
       {options.map((option, i) => (
         <Tile {...args} key={option} keycap={String(i + 1)} state={i === 1 ? 'selected' : 'idle'}>
           {option}

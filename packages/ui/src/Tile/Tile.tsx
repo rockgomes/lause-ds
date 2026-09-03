@@ -13,7 +13,7 @@ export type TileProps = ComponentProps<'button'> & {
 
 const states: Record<TileState, string> = {
   idle: 'bg-surface text-ink shadow-tile',
-  selected: 'bg-surface text-ink shadow-tile ring-2 ring-accent',
+  selected: 'bg-surface text-ink shadow-tile ring-(length:--lause-stroke-focus) ring-accent',
   filled: 'bg-ink text-on-ink',
   dimmed: 'bg-surface text-dim shadow-tile',
 };
@@ -41,7 +41,12 @@ export function Tile({ state = 'idle', keycap, className, children, type = 'butt
   );
 }
 
+export type TileStackProps = ComponentProps<'div'> & {
+  /** Accessible name of the group, e.g. "Vali õige vastus". */
+  label: string;
+};
+
 /** The column that holds option tiles: 640px wide at most, one tile per row. */
-export function TileStack({ className, ...rest }: ComponentProps<'div'>) {
-  return <div role="group" className={clsx('flex w-full max-w-[640px] flex-col gap-12', className)} {...rest} />;
+export function TileStack({ label, className, ...rest }: TileStackProps) {
+  return <div role="group" aria-label={label} className={clsx('flex w-full max-w-[640px] flex-col gap-12', className)} {...rest} />;
 }

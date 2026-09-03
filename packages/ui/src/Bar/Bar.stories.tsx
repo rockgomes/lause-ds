@@ -7,7 +7,7 @@ const riigikord: BarSegment[] = ['retained', 'retained', 'retained', 'retained',
 const meta = {
   title: 'Bar',
   component: Bar,
-  args: { segments: riigikord, summary: 'Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10' },
+  args: { segments: riigikord, label: 'Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10' },
 } satisfies Meta<typeof Bar>;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -22,7 +22,7 @@ export const Domain: Story = {
 };
 
 export const Untouched: Story = {
-  args: { segments: Array.from({ length: 48 }, () => 'unread' as const), summary: 'Põhiõigused: 0 kinnistunud, 0 loetud, 48 lugemata, kokku 48' },
+  args: { segments: Array.from({ length: 48 }, () => 'unread' as const), label: 'Põhiõigused: 0 kinnistunud, 0 loetud, 48 lugemata, kokku 48' },
 };
 
 export const Rows: Story = {
@@ -35,7 +35,7 @@ export const Rows: Story = {
         <div key={name as string} className="flex flex-col gap-4">
           <dt className="text-label text-dim">{name as string}</dt>
           <dd>
-            <Bar {...args} segments={segments as BarSegment[]} summary={`${name as string}: ${(segments as BarSegment[]).length} paragrahvi`} />
+            <Bar {...args} segments={segments as BarSegment[]} label={`${name as string}: ${(segments as BarSegment[]).length} paragrahvi`} />
           </dd>
         </div>
       ))}
