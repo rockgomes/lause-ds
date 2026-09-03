@@ -5,12 +5,13 @@ export type ScaleRules = {
   leading: Record<string, number>;
   space: number[];
   radius: Record<string, number>;
-  shadow: Record<string, string>;
+  shadow: Record<string, { color: string; offsetX: number; offsetY: number; blur: number; spread: number }>;
   font: Record<string, string[]>;
   opacity: Record<string, number>;
 };
 
 const px = (value: number, $description?: string): Token => ({ $type: 'dimension', $value: { value, unit: 'px' }, ...($description ? { $description } : {}) });
+const dim = (value: number) => ({ value, unit: 'px' });
 
 export function typeSizes(t: ScaleRules['type']): number[] {
   const out: number[] = [];
@@ -27,7 +28,7 @@ export function buildScales(rules: ScaleRules): Group {
   const leading: Group = Object.fromEntries(Object.entries(rules.leading).map(([k, v]) => [k, { $type: 'number', $value: v }]));
   const space: Group = Object.fromEntries(rules.space.map((v) => [String(v), px(v)]));
   const radius: Group = Object.fromEntries(Object.entries(rules.radius).map(([k, v]) => [k, px(v)]));
-  const shadow: Group = Object.fromEntries(Object.entries(rules.shadow).map(([k, v]) => [k, { $type: 'shadow', $value: v }]));
+  const shadow: Group = Object.fromEntries(Object.entries(rules.shadow).map(([k, v]) => [k, { $type: 'shadow', $value: { color: v.color, offsetX: dim(v.offsetX), offsetY: dim(v.offsetY), blur: dim(v.blur), spread: dim(v.spread) } }]));
   const family: Group = Object.fromEntries(Object.entries(rules.font).map(([k, v]) => [k, { $type: 'fontFamily', $value: v }]));
   const opacity: Group = Object.fromEntries(Object.entries(rules.opacity).map(([k, v]) => [k, { $type: 'number', $value: v }]));
   return { type: { size, leading }, space, radius, shadow, font: { family }, opacity };

@@ -25,5 +25,7 @@ describe('scales', () => {
     expect(f.get('font.family.serif')?.$value).toEqual(['Young Serif', 'Georgia', 'serif']);
     expect(f.get('opacity.dim')?.$value).toBe(0.38);
     expect(f.get('shadow.mid')?.$type).toBe('shadow');
+    expect((f.get('shadow.mid')?.$value as any).offsetY).toEqual({ value: 6, unit: 'px' });
+    expect((f.get('shadow.mid')?.$value as any).color).toBe('rgba(15, 34, 56, 0.10)');
   });
 });
