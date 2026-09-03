@@ -38,7 +38,7 @@ needs" rule applies to components, never to primitives.
 | Ramp | Rule | Steps |
 |---|---|---|
 | `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues | `navy` (anchor `#0f2238`), `ice` (blue-grey neutrals, anchor `#e4edf3`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
-| `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
+| `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px, then tuned by eye where a step reads wrong; every tuning is noted next to the value | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
 | `type.leading` | Named line heights | `tight` 1.1 · `snug` 1.3 · `normal` 1.5 · `open` 1.85 |
 | `space` | 4px base | 0 · 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 |
 | `radius` | Named | `none` 0 · `sm` 4 · `md` 10 · `lg` 22 · `pill` 999 |
@@ -58,7 +58,7 @@ is the tier a mode (dark, a second brand) swaps.
 | `color.surface` | `white` | tiles |
 | `font.content` | `font.family.serif` | the thing being learned |
 | `font.chrome` | `font.family.sans` | everything else |
-| `type.label` · `type.chrome` · `type.body` · `type.tile` · `type.reading` · `type.stem` · `type.headword` · `type.score` | `type.size` steps 13 · 13 · 16 · 19 · 57 · 57 · 83 · 143 | The mockups used 14, 20, 21, 54, 58, 88, 150; they are re-fitted to the ramp when built |
+| Type roles, the only names anyone uses: `type.label` · `type.body` · `type.title` · `type.reading` · `type.headline` · `type.display` | `type.size` steps 13 · 16 · 19 · 57 · 83 · 143, each with a `font`, `leading` and `weight` | Roles follow the shape people know from Material and Apple (display, headline, title, body, label), plus `reading` because Lause's unit is a sentence. The mockups used 14, 20, 21, 54, 58, 88, 150; they are re-fitted to the roles when built. Nobody references a step number directly |
 
 **Component tokens** exist only where a component needs its own knob (`bubble.tail`,
 `tile.stack-gap`). They point at semantic or primitive tokens.
