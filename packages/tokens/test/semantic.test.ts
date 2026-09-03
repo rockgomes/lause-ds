@@ -5,7 +5,8 @@ import { buildScales, type ScaleRules } from '../src/scales.js';
 import { buildColors, type Anchors } from '../src/ramps.js';
 
 const read = (p: string) => JSON.parse(readFileSync(new URL(`../../../tokens/${p}`, import.meta.url), 'utf8'));
-const prim: Group = { ...buildScales(read('src/scales.json') as ScaleRules), ...buildColors(read('src/anchors.json') as Anchors) };
+const colors = buildColors(read('src/anchors.json') as Anchors);
+const prim: Group = { ...buildScales(read('src/scales.json') as ScaleRules, colors), ...colors };
 const light: Group = read('semantic.light.tokens.json');
 const dark: Group = read('semantic.dark.tokens.json');
 

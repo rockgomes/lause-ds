@@ -10,8 +10,8 @@
   "space": [0, 2, 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192],
   "radius": { "none": 0, "sm": 4, "md": 10, "lg": 22, "pill": 999 },
   "shadow": {
-    "low": { "color": "rgba(15, 34, 56, 0.10)", "offsetX": 0, "offsetY": 1, "blur": 3, "spread": 0 },
-    "mid": { "color": "rgba(15, 34, 56, 0.10)", "offsetX": 0, "offsetY": 6, "blur": 18, "spread": 0 }
+    "low": { "color": { "hue": "navy", "step": "900", "alpha": 0.10 }, "offsetX": 0, "offsetY": 1, "blur": 3, "spread": 0 },
+    "mid": { "color": { "hue": "navy", "step": "900", "alpha": 0.10 }, "offsetX": 0, "offsetY": 6, "blur": 18, "spread": 0 }
   },
   "font": {
     "serif": ["Young Serif", "Georgia", "serif"],

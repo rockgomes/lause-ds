@@ -12,7 +12,8 @@ function write(p: string, content: string): string { mkdirSync(dirname(p), { rec
 
 export async function build(root: string): Promise<string[]> {
   const src = join(root, 'tokens');
-  const prim: Group = { ...buildScales(readJson<ScaleRules>(join(src, 'src/scales.json'))), ...buildColors(readJson<Anchors>(join(src, 'src/anchors.json'))) };
+  const colors = buildColors(readJson<Anchors>(join(src, 'src/anchors.json')));
+  const prim: Group = { ...buildScales(readJson<ScaleRules>(join(src, 'src/scales.json')), colors), ...colors };
   const light = readJson<Group>(join(src, 'semantic.light.tokens.json'));
   const dark = readJson<Group>(join(src, 'semantic.dark.tokens.json'));
 
