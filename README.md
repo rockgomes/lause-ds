@@ -57,20 +57,23 @@ Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything el
 
 ### Consuming them
 
+`lause-ds` requires Tailwind v4 in the consuming app. In your Tailwind CSS entry (for example
+`app/globals.css`), in this order:
+
 ```css
-@import 'lause-ds/styles.css';
+@import 'tailwindcss';
+@import 'lause-ds/styles.css';            /* tokens + the theme; must live here, not in a TSX file */
+@source '../node_modules/lause-ds/dist';  /* relative to THIS css file; adjust for src/app/globals.css */
 ```
 
-`theme.css` needs `tokens.css` loaded first; `styles.css` does both in order.
-
-Components:
+Then import components normally:
 
 ```tsx
 import { Button, Dial, Tile, TileStack } from 'lause-ds';
-import 'lause-ds/styles.css';
 ```
 
-Tailwind v4 consumers add `@source "../node_modules/lause-ds/dist";` to their CSS so the components' classes are generated, and load Young Serif and Instrument Sans themselves (Google Fonts, or self-hosted).
+The theme replaces Tailwind's default scales (see below). Load Young Serif and Instrument Sans yourself
+(Google Fonts, or self-hosted).
 
 ### The theme replaces Tailwind's defaults
 
