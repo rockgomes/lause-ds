@@ -29,31 +29,43 @@ Two audiences, one artefact.
 
 ## 3. Tokens
 
-Format: W3C Design Tokens Community Group JSON (`*.tokens.json`). Three tiers:
+Format: W3C Design Tokens Community Group JSON (`*.tokens.json`). Three tiers.
 
-- **Primitive**: raw values. `color.ice`, `color.navy`, `color.coral`, `font.serif`, `font.sans`, the size ramp.
-- **Semantic**: meaning. `color.ground`, `color.ink`, `color.dim`, `color.accent`, `color.surface`, `type.content`, `type.chrome`, `radius.pill`, `shadow.tile`.
-- **Component**: only where a component needs its own knob. `tile.padding`, `bubble.tail`.
+**Primitives are full ramps built by a rule.** They are the generic part of the system and
+they are complete from day one, even where no screen uses a step yet. The "only what Lause
+needs" rule applies to components, never to primitives.
 
-Starting values, from the Lause decisions:
+| Ramp | Rule | Steps |
+|---|---|---|
+| `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues | `navy` (anchor `#0f2238`), `ice` (blue-grey neutrals, anchor `#e4edf3`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
+| `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
+| `type.leading` | Named line heights | `tight` 1.1 · `snug` 1.3 · `normal` 1.5 · `open` 1.85 |
+| `space` | 4px base | 0 · 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 |
+| `radius` | Named | `none` 0 · `sm` 4 · `md` 10 · `lg` 22 · `pill` 999 |
+| `shadow` | Two levels, tinted with `navy` | `low` `0 1px 3px` · `mid` `0 6px 18px` at 10% |
+| `font.family` | Two stacks | `serif` Young Serif, Georgia · `sans` Instrument Sans, Helvetica Neue, Arial |
+| `opacity` | Named | `dim` 38% · `faint` 18% |
 
-| Semantic token | Value |
-|---|---|
-| `color.ground` | `#e4edf3` |
-| `color.ink` | `#0f2238` |
-| `color.dim` | `color.ink` at 38% |
-| `color.accent` | `#ff5a36` |
-| `color.surface` | `#ffffff` |
-| `font.content` | Young Serif, Georgia, serif |
-| `font.chrome` | Instrument Sans, Helvetica Neue, Arial, sans-serif |
-| `type.scale` | 13 · 14 · 16 · 20 · 21 · 54 · 58 · 88 · 150 |
-| `radius.pill` | 999px |
-| `radius.card` | 22px |
-| `radius.bubble` | 10px |
-| `shadow.tile` | `0 6px 18px rgba(15,34,56,0.10)` |
+**Semantic tokens give meaning.** They point at a ramp step, never at a raw value. This
+is the tier a mode (dark, a second brand) swaps.
+
+| Semantic | Points at | Note |
+|---|---|---|
+| `color.ground` | `ice.100` | page background |
+| `color.ink` | `navy.900` | text, filled controls |
+| `color.dim` | `navy.500` | secondary text; a solid step, so contrast is checkable. An alpha twin `color.dim-alpha` (`ink` at `opacity.dim`) exists for layering over images |
+| `color.accent` | `coral.500` | the one accent |
+| `color.surface` | `white` | tiles |
+| `font.content` | `font.family.serif` | the thing being learned |
+| `font.chrome` | `font.family.sans` | everything else |
+| `type.label` · `type.chrome` · `type.body` · `type.tile` · `type.reading` · `type.stem` · `type.headword` · `type.score` | `type.size` steps 13 · 13 · 16 · 19 · 57 · 57 · 83 · 143 | The mockups used 14, 20, 21, 54, 58, 88, 150; they are re-fitted to the ramp when built |
+
+**Component tokens** exist only where a component needs its own knob (`bubble.tail`,
+`tile.stack-gap`). They point at semantic or primitive tokens.
 
 Build: tokens compile to CSS custom properties, a Tailwind preset, and a Figma variables
-import. One script, three outputs.
+import. One script, three outputs. The colour ramps are generated, not typed, so changing an
+anchor regenerates the ramp.
 
 ## 4. Components, first release
 
