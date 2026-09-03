@@ -5,6 +5,7 @@
     "dim":         { "$type": "color", "$value": "{color.navy.700}",  "$description": "secondary text; solid so contrast is checkable" },
     "accent":      { "$type": "color", "$value": "{color.coral.600}", "$description": "graphic accent: underlines, current segment, lit edge" },
     "accent-text": { "$type": "color", "$value": "{color.coral.700}", "$description": "accent used as small text" },
+    "accent-on-ink": { "$type": "color", "$value": "{color.coral.500}", "$description": "accent on ink fills; full-strength coral reads on navy" },
     "surface":     { "$type": "color", "$value": "{color.white}",     "$description": "tiles" },
     "on-ink":      { "$type": "color", "$value": "{color.ice.100}",   "$description": "text on ink fills" }
   },

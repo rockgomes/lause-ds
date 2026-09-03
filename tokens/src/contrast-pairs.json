@@ -1,0 +1,10 @@
+[
+  { "fg": "color.ink",         "bg": "color.ground",  "min": 4.5, "use": "body text" },
+  { "fg": "color.dim",         "bg": "color.ground",  "min": 4.5, "use": "secondary text" },
+  { "fg": "color.accent-text", "bg": "color.ground",  "min": 4.5, "use": "small accent text" },
+  { "fg": "color.accent",      "bg": "color.ground",  "min": 3.0, "use": "underlines, segments, edges" },
+  { "fg": "color.ink",         "bg": "color.surface", "min": 4.5, "use": "tile text" },
+  { "fg": "color.dim",         "bg": "color.surface", "min": 4.5, "use": "tile secondary text" },
+  { "fg": "color.on-ink",      "bg": "color.ink",     "min": 4.5, "use": "text on filled buttons" },
+  { "fg": "color.accent-on-ink", "bg": "color.ink",     "min": 3.0, "use": "accent on ink fills" }
+]
