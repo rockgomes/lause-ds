@@ -30,4 +30,7 @@ describe('ramps', () => {
     expect(f.get('color.white')?.$value).toBe('#ffffff');
     expect(f.size).toBe(13);
   });
+  it('throws a named error on an invalid anchor colour', () => {
+    expect(() => buildRamp('#0f223')).toThrow(/invalid anchor colour/);
+  });
 });

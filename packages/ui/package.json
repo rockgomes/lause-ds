@@ -4,5 +4,10 @@
   "private": true,
   "type": "module",
   "description": "Lause design system: tokens and components. Components arrive in Plan 2.",
-  "files": ["src/tokens"]
+  "files": ["src/tokens"],
+  "exports": {
+    "./styles.css": "./src/tokens/index.css",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./theme.css": "./src/tokens/theme.css"
+  }
 }

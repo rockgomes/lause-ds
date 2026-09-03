@@ -1,4 +1,23 @@
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
+  --leading-tight: var(--lause-type-leading-tight);
+  --leading-snug: var(--lause-type-leading-snug);
+  --leading-normal: var(--lause-type-leading-normal);
+  --leading-open: var(--lause-type-leading-open);
+  --spacing-0: var(--lause-space-0);
+  --spacing-2: var(--lause-space-2);
+  --spacing-4: var(--lause-space-4);
+  --spacing-8: var(--lause-space-8);
+  --spacing-12: var(--lause-space-12);
+  --spacing-16: var(--lause-space-16);
+  --spacing-24: var(--lause-space-24);
+  --spacing-32: var(--lause-space-32);
+  --spacing-48: var(--lause-space-48);
+  --spacing-64: var(--lause-space-64);
+  --spacing-96: var(--lause-space-96);
+  --spacing-128: var(--lause-space-128);
+  --spacing-192: var(--lause-space-192);
   --color-ground: var(--lause-color-ground);
   --color-ink: var(--lause-color-ink);
   --color-dim: var(--lause-color-dim);
