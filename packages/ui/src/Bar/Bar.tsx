@@ -12,6 +12,8 @@ export type BarProps = Omit<ComponentProps<'div'>, 'children'> & {
   label: string;
 };
 
+// Segments are aria-hidden: the bar's accessible name carries the counts, so the faint fill
+// (ink at 18%) is decorative and outside the contrast gate by design.
 const fills: Record<BarSegment, string> = {
   retained: 'bg-ink',
   covered: 'bg-accent',

@@ -43,4 +43,14 @@ export const Bar: Story = {
   ),
 };
 
-export const Dark: Story = { globals: { theme: 'dark' } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: (args) => (
+    <div className="flex flex-wrap items-center gap-16">
+      <Button {...args} variant="filled">Edasi</Button>
+      <Button {...args} variant="outline" keycap="←">Tagasi</Button>
+      <Button {...args} variant="dim" keycap={undefined}>Peida tõlked · 3</Button>
+      <Button {...args} disabled>Edasi</Button>
+    </div>
+  ),
+};

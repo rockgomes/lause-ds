@@ -14,6 +14,8 @@ export type ProgressProps = Omit<ComponentProps<'div'>, 'children'> & {
 
 type SegmentState = 'done' | 'current' | 'rest';
 
+// Segments are aria-hidden: the bar's accessible name carries the counts, so the faint fill
+// (ink at 18%) is decorative and outside the contrast gate by design.
 const fills: Record<SegmentState, string> = {
   done: 'bg-ink',
   current: 'bg-accent',

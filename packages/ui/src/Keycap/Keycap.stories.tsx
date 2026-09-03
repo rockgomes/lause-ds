@@ -31,4 +31,12 @@ export const Row: Story = {
   ),
 };
 
-export const Dark: Story = { args: { children: '⌥', held: true }, globals: { theme: 'dark' } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: () => (
+    <p className="flex items-center gap-8 text-body">
+      <Keycap>↵</Keycap>
+      <Keycap held>⌥</Keycap>
+    </p>
+  ),
+};

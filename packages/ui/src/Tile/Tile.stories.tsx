@@ -65,4 +65,14 @@ export const TrueFalse: Story = {
   ),
 };
 
-export const Dark: Story = { args: { state: 'selected' }, globals: { theme: 'dark' } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: (args) => (
+    <div className="flex max-w-[640px] flex-col gap-12">
+      <Tile {...args} state="idle" />
+      <Tile {...args} state="selected" />
+      <Tile {...args} state="filled" />
+      <Tile {...args} state="dimmed" />
+    </div>
+  ),
+};

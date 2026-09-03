@@ -76,4 +76,12 @@ export const Disabled: Story = {
   },
 };
 
-export const Dark: Story = { args: { value: 'korvuti' }, globals: { theme: 'dark' } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: () => (
+    <div className="flex flex-col items-start gap-16">
+      <Dial options={support} value="korvuti" label="Tugi" onChange={fn()} />
+      <Dial options={support} value="tugi" label="Tugi (keelatud)" onChange={fn()} disabled />
+    </div>
+  ),
+};

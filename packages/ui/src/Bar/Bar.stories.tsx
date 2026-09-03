@@ -43,4 +43,4 @@ export const Rows: Story = {
   ),
 };
 
-export const Dark: Story = { globals: { theme: 'dark' } };
+export const Dark: Story = { globals: { theme: 'dark' }, render: Rows.render };

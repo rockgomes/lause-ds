@@ -36,4 +36,13 @@ export const Complete: Story = {
 
 export const Exam: Story = { args: { total: 24, current: 11, label: 'Küsimus 12 / 24' } };
 
-export const Dark: Story = { globals: { theme: 'dark' } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: () => (
+    <div className="flex flex-col gap-16">
+      <Progress total={8} current={0} label="Lause 1 / 8" />
+      <Progress total={8} current={4} label="Lause 5 / 8" />
+      <Progress total={8} current={8} label="Lause 8 / 8 · valmis" />
+    </div>
+  ),
+};
