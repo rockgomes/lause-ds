@@ -25,7 +25,7 @@ export async function build(root: string): Promise<string[]> {
   return [
     write(join(src, 'primitives.tokens.json'), JSON.stringify(prim, null, 2) + '\n'),
     write(join(root, 'packages/ui/src/tokens/tokens.css'), emitTokensCss(prim, light, dark)),
-    write(join(root, 'packages/ui/src/tokens/theme.css'), emitThemeCss(light)),
+    write(join(root, 'packages/ui/src/tokens/theme.css'), emitThemeCss(prim, light)),
     write(join(root, 'figma/variables.json'), JSON.stringify(emitFigmaVariables(prim, light, dark), null, 2) + '\n'),
   ];
 }

@@ -56,7 +56,15 @@ export function emitTokensCss(prim: Group, light: Group, dark: Group): string {
   ].join('\n');
 }
 
-export function emitThemeCss(light: Group): string {
+export function emitThemeCss(prim: Group, light: Group): string {
+  const primLines: string[] = [];
+  for (const [path, t] of flatten(prim)) {
+    if (t.$type === 'dimension' && path.startsWith('space.')) {
+      primLines.push(`  --spacing-${path.slice('space.'.length)}: var(${cssName(path)});`);
+    } else if (t.$type === 'number' && path.startsWith('type.leading.')) {
+      primLines.push(`  --leading-${path.slice('type.leading.'.length)}: var(${cssName(path)});`);
+    }
+  }
   const lines: string[] = [];
   for (const [path, t] of flatten(light)) {
     const [group, ...rest] = path.split('.');
@@ -71,5 +79,5 @@ export function emitThemeCss(light: Group): string {
       lines.push(`  --text-${name}--font-weight: var(${cssName(path)}-weight);`);
     }
   }
-  return ['@theme inline {', ...lines, '}', ''].join('\n');
+  return ['@theme inline {', ...primLines, ...lines, '}', ''].join('\n');
 }

@@ -37,14 +37,18 @@ describe('emit css', () => {
 });
 
 describe('emit theme', () => {
-  const theme = emitThemeCss(light);
+  const theme = emitThemeCss(prim, light);
   it('maps tokens into a Tailwind v4 theme block', () => {
-    expect(theme.startsWith('@theme inline {')).toBe(true);
+    expect(theme).toContain('@theme inline {');
     expect(theme).toContain('--color-ink: var(--lause-color-ink);');
     expect(theme).toContain('--font-content: var(--lause-font-content);');
     expect(theme).toContain('--text-reading: var(--lause-type-reading-size);');
     expect(theme).toContain('--text-reading--line-height: var(--lause-type-reading-leading);');
     expect(theme).toContain('--radius-control: var(--lause-radius-control);');
+  });
+  it('exposes primitive spacing and leading as Tailwind theme values', () => {
+    expect(theme).toContain('--spacing-16: var(--lause-space-16);');
+    expect(theme).toContain('--leading-snug: var(--lause-type-leading-snug);');
   });
 });
 
