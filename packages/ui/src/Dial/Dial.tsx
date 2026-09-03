@@ -1,12 +1,12 @@
 'use client';
 
 import { clsx } from 'clsx';
-import type { KeyboardEvent } from 'react';
+import type { ComponentProps, KeyboardEvent } from 'react';
 import { disabledControl, focusRing, hitTarget } from '../styles.js';
 
 export type DialOption<V extends string> = { value: V; label: string };
 
-export type DialProps<V extends string> = {
+export type DialProps<V extends string> = Omit<ComponentProps<'div'>, 'onChange' | 'children'> & {
   /** Two or three positions. */
   options: readonly DialOption<V>[];
   value: V;
@@ -14,13 +14,14 @@ export type DialProps<V extends string> = {
   /** Accessible name of the group, e.g. "Tugi". */
   label: string;
   disabled?: boolean;
-  className?: string;
 };
 
 const steps: Record<string, number> = Object.assign(Object.create(null), { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 });
 
 /** A segmented control that behaves as a radio group: arrow keys move and select, Home/End jump. */
-export function Dial<V extends string>({ options, value, onChange, label, disabled = false, className }: DialProps<V>) {
+export function Dial<V extends string>({ options, value, onChange, label, disabled = false, className, ...rest }: DialProps<V>) {
+  if (options.length === 0) return null;
+
   const index = Math.max(0, options.findIndex((o) => o.value === value));
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -45,6 +46,7 @@ export function Dial<V extends string>({ options, value, onChange, label, disabl
         'inline-flex rounded-control border-(length:--lause-stroke-thin) border-ink p-2 font-chrome text-label font-semibold',
         className,
       )}
+      {...rest}
     >
       {options.map((option, i) => {
         const selected = i === index;
@@ -54,6 +56,7 @@ export function Dial<V extends string>({ options, value, onChange, label, disabl
             type="button"
             role="radio"
             aria-checked={selected}
+            data-state={selected ? 'selected' : 'idle'}
             tabIndex={selected ? 0 : -1}
             disabled={disabled}
             onClick={() => onChange(option.value)}

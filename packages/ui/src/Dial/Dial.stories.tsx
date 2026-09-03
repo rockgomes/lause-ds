@@ -45,6 +45,7 @@ export const Support: Story = {
     await expect(args.onChange).toHaveBeenLastCalledWith('tugi');
     await expect(radios[1]).toHaveAttribute('aria-checked', 'true');
     await expect(radios[0]).toHaveAttribute('aria-checked', 'false');
+    await expect(radios[1]).toHaveAttribute('data-state', 'selected');
   },
 };
 
