@@ -22,8 +22,8 @@ describe('emit css', () => {
     expect(css).toContain('--lause-type-size-57: 57px;');
     expect(css).toContain('--lause-font-family-serif: "Young Serif", Georgia, serif;');
   });
-  it('emits semantics as var() references, light in :root and dark under data-theme', () => {
-    expect(css).toMatch(/:root \{[^}]*--lause-color-ink: var\(--lause-color-navy-900\);/s);
+  it('emits semantics as var() references, light in the :root/[data-theme="light"] island and dark under data-theme', () => {
+    expect(css).toMatch(/:root, \[data-theme="light"\] \{[^}]*--lause-color-ink: var\(--lause-color-navy-900\);/s);
     expect(css).toMatch(/\[data-theme="dark"\] \{[^}]*--lause-color-ink: var\(--lause-color-ice-100\);/s);
   });
   it('expands typography roles', () => {
