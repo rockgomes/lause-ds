@@ -1,7 +1,7 @@
 # Lause design system — design
 
 **Date:** 2026-09-03
-**Status:** Draft. Two open questions remain at the end.
+**Status:** Settled. Ready for an implementation plan.
 **Origin:** The UI direction "Lause" of the Estonian citizenship exam trainer. Visual rules
 live in that repo at `docs/design/2026-09-03-lause-design-decisions.md`; this system is the
 reusable form of them.
@@ -28,6 +28,8 @@ Two audiences, one artefact.
 | 6 | One dark mode ships in the first release | Proves the semantic layer swaps cleanly; the first thing a system interviewer asks about. The app itself stays light |
 | 7 | Two docs surfaces: a custom site as the front door, built with the system's own components, and a public Storybook as the workshop | The site tells the story and shows one example per component; Storybook shows every state. Each links to the other and never copies the other's job. The site is built last, after components exist |
 | 8 | Changesets plus semver; merging to `main` bumps and publishes to npm; the app pins a version | One sentence per pull request buys a trustworthy changelog, and nothing changes when a second consumer arrives |
+| 9 | The MCP server runs on Netlify Functions, in the same repo and deploy as the docs site | One host, one pipeline, a preview per pull request; fits the git-connected, CI-on-every-push rule |
+| 10 | WCAG AA on every component, checked in CI: a script tests every token contrast pair, every Storybook story runs an axe check, a failing check fails the pull request | Contrast is a gate, not an afterthought; a visible failing check is the proof |
 
 ## 3. Tokens
 
@@ -118,9 +120,6 @@ Agent-ready files that ship regardless of the server: `tokens/*.tokens.json`,
 - A component merges only with its proof screen in the app.
 - Docs in English. App chrome stays in Estonian.
 
-## 8. Open questions, in the order to settle them
+## 8. Open questions
 
-1. Where the MCP server is hosted for the public demo.
-2. Accessibility bar: WCAG AA for every component, checked in CI.
-
-Settled and moved to §2: theming (decision 6), docs (decision 7), versioning (decision 8).
+None. All ten decisions are in §2. The next document is the implementation plan.
