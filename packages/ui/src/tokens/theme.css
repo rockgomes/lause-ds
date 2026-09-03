@@ -1,3 +1,5 @@
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
   --leading-tight: var(--lause-type-leading-tight);
   --leading-snug: var(--lause-type-leading-snug);

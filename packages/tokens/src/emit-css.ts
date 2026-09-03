@@ -79,5 +79,13 @@ export function emitThemeCss(prim: Group, light: Group): string {
       lines.push(`  --text-${name}--font-weight: var(${cssName(path)}-weight);`);
     }
   }
-  return ['@theme inline {', ...primLines, ...lines, '}', ''].join('\n');
+  return [
+    '@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));',
+    '',
+    '@theme inline {',
+    ...primLines,
+    ...lines,
+    '}',
+    '',
+  ].join('\n');
 }

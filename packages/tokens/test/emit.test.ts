@@ -38,6 +38,9 @@ describe('emit css', () => {
 
 describe('emit theme', () => {
   const theme = emitThemeCss(prim, light);
+  it('leads with the dark variant tied to [data-theme], ahead of the theme block', () => {
+    expect(theme.startsWith('@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));\n\n@theme inline {')).toBe(true);
+  });
   it('maps tokens into a Tailwind v4 theme block', () => {
     expect(theme).toContain('@theme inline {');
     expect(theme).toContain('--color-ink: var(--lause-color-ink);');
