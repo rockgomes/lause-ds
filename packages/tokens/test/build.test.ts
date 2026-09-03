@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { mkdtempSync, mkdirSync, cpSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { build } from '../src/build.js';
 
-const repoRoot = new URL('../../../', import.meta.url).pathname;
+const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
 
 describe('build', () => {
   it('writes the four outputs from the sources', async () => {

@@ -1,5 +1,6 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, realpathSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { buildScales, type ScaleRules } from './scales.js';
 import { buildColors, type Anchors } from './ramps.js';
 import { emitTokensCss, emitThemeCss } from './emit-css.js';
@@ -29,7 +30,7 @@ export async function build(root: string): Promise<string[]> {
   ];
 }
 
-if (process.argv[1] && process.argv[1].endsWith('build.ts')) {
-  const root = new URL('../../../', import.meta.url).pathname;
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const root = fileURLToPath(new URL('../../../', import.meta.url));
   build(root).then((files) => console.log('wrote\n  ' + files.join('\n  '))).catch((e) => { console.error(e.message); process.exit(1); });
 }
