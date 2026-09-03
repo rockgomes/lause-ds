@@ -1,0 +1,22 @@
+{
+  "color": {
+    "ground":      { "$type": "color", "$value": "{color.navy.950}",  "$description": "page background" },
+    "ink":         { "$type": "color", "$value": "{color.ice.100}",   "$description": "text, filled controls" },
+    "dim":         { "$type": "color", "$value": "{color.ice.400}",   "$description": "secondary text; solid so contrast is checkable" },
+    "accent":      { "$type": "color", "$value": "{color.coral.500}", "$description": "graphic accent" },
+    "accent-text": { "$type": "color", "$value": "{color.coral.300}", "$description": "accent used as small text" },
+    "surface":     { "$type": "color", "$value": "{color.navy.900}",  "$description": "tiles" },
+    "on-ink":      { "$type": "color", "$value": "{color.navy.950}",  "$description": "text on ink fills" }
+  },
+  "font":   { "content": { "$type": "fontFamily", "$value": "{font.family.serif}" }, "chrome": { "$type": "fontFamily", "$value": "{font.family.sans}" } },
+  "type": {
+    "label":    { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.13}",  "lineHeight": "{type.leading.snug}",   "fontWeight": 600 } },
+    "body":     { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.16}",  "lineHeight": "{type.leading.normal}", "fontWeight": 400 } },
+    "title":    { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.19}",  "lineHeight": "{type.leading.snug}",   "fontWeight": 600 } },
+    "reading":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.57}",  "lineHeight": "{type.leading.open}",   "fontWeight": 400 } },
+    "headline": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.83}",  "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } },
+    "display":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.143}", "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } }
+  },
+  "radius": { "control": { "$type": "dimension", "$value": "{radius.pill}" }, "card": { "$type": "dimension", "$value": "{radius.lg}" }, "bubble": { "$type": "dimension", "$value": "{radius.md}" } },
+  "shadow": { "tile": { "$type": "shadow", "$value": "{shadow.mid}" } }
+}
