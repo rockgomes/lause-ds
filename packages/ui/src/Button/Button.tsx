@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type { ComponentProps } from 'react';
 import { Keycap } from '../Keycap/Keycap.js';
+import { disabledControl, focusRing, hitTarget } from '../styles.js';
 
 export type ButtonVariant = 'filled' | 'outline' | 'dim';
 
@@ -23,10 +24,10 @@ export function Button({ variant = 'filled', keycap, className, children, type =
     <button
       type={type}
       className={clsx(
-        // 44px: WCAG 2.5.8 target size, a rule rather than a token
-        'inline-flex min-h-[44px] items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold',
-        'focus-visible:outline-(length:--lause-stroke-focus) focus-visible:outline-offset-2 focus-visible:outline-accent',
-        'disabled:cursor-not-allowed disabled:opacity-(--lause-opacity-dim)',
+        'inline-flex items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold',
+        hitTarget,
+        focusRing,
+        disabledControl,
         variants[variant],
         className,
       )}
