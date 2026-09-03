@@ -1,5 +1,5 @@
 {
-  "name": "lause-ds",
+  "name": "lause-ds-monorepo",
   "private": true,
   "type": "module",
   "workspaces": [
