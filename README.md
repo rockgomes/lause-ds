@@ -44,7 +44,7 @@ docs/             specs, plans, component rules
 
 ## Status
 
-Foundation and the first six components done: Keycap, Button, Progress, Bar, Dial, Tile. Every story is a test with an axe check. Releases go through changesets. Reading components next (Plan 3).
+Foundation and ten components done: Keycap, Button, Progress, Bar, Dial, Tile, Bubble, Sentence, Nav, Cell, plus the usePeek hook. Every story is a test with an axe check. Figma library next (Plan 4).
 
 ## Using the system
 
