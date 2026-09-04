@@ -24,7 +24,7 @@ describe('emit css', () => {
   });
   it('emits semantics as var() references, light in the :root/[data-theme="light"] island and dark under data-theme', () => {
     expect(css).toMatch(/:root, \[data-theme="light"\] \{[^}]*--lause-color-ink: var\(--lause-color-navy-900\);/s);
-    expect(css).toMatch(/\[data-theme="dark"\] \{[^}]*--lause-color-ink: var\(--lause-color-ice-100\);/s);
+    expect(css).toMatch(/\[data-theme="dark"\] \{[^}]*--lause-color-ink: var\(--lause-color-navy-100\);/s);
   });
   it('expands typography roles', () => {
     expect(css).toContain('--lause-type-reading-size: var(--lause-type-size-57);');
@@ -77,7 +77,7 @@ describe('emit figma', () => {
   it('carries semantic colours as aliases to their primitive, per mode', () => {
     const ink = f.collections[1].variables.find((v) => v.name === 'color/ink')!;
     expect(ink.type).toBe('COLOR');
-    expect(ink.values).toEqual({ Light: { alias: 'color/navy/900' }, Dark: { alias: 'color/ice/100' } });
+    expect(ink.values).toEqual({ Light: { alias: 'color/navy/900' }, Dark: { alias: 'color/navy/100' } });
   });
   it('carries primitive dimensions as literal floats', () => {
     const s = f.collections[0].variables.find((v) => v.name === 'type/size/57')!;

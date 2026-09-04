@@ -60,17 +60,6 @@
   --lause-color-navy-800: #2d4460;
   --lause-color-navy-900: #0f2238;
   --lause-color-navy-950: #091727;
-  --lause-color-ice-50: #f1f6fa;
-  --lause-color-ice-100: #e4edf3;
-  --lause-color-ice-200: #cddde8;
-  --lause-color-ice-300: #b3cbdc;
-  --lause-color-ice-400: #96b6cb;
-  --lause-color-ice-500: #7b9eb4;
-  --lause-color-ice-600: #5e7f95;
-  --lause-color-ice-700: #456274;
-  --lause-color-ice-800: #2d4655;
-  --lause-color-ice-900: #172c38;
-  --lause-color-ice-950: #091821;
   --lause-color-coral-50: #fff2ef;
   --lause-color-coral-100: #ffe4de;
   --lause-color-coral-200: #ffcec2;
@@ -84,7 +73,7 @@
   --lause-color-coral-950: #2f0400;
   --lause-color-white: #ffffff;
   --lause-color-black: #000000;
-  --lause-color-ground: var(--lause-color-ice-100);
+  --lause-color-ground: var(--lause-color-navy-100);
   --lause-color-ink: var(--lause-color-navy-900);
   --lause-color-dim: var(--lause-color-navy-700);
   --lause-color-accent: var(--lause-color-coral-600);
@@ -92,11 +81,11 @@
   --lause-color-accent-on-ink: var(--lause-color-coral-500);
   --lause-color-accent-text-on-ink: var(--lause-color-coral-500);
   --lause-color-surface: var(--lause-color-white);
-  --lause-color-on-ink: var(--lause-color-ice-100);
+  --lause-color-on-ink: var(--lause-color-navy-100);
   --lause-color-ink-hover: var(--lause-color-navy-800);
   --lause-color-ink-active: var(--lause-color-navy-950);
-  --lause-color-ground-hover: var(--lause-color-ice-200);
-  --lause-color-surface-hover: var(--lause-color-ice-50);
+  --lause-color-ground-hover: var(--lause-color-navy-200);
+  --lause-color-surface-hover: var(--lause-color-navy-50);
   --lause-font-content: var(--lause-font-family-serif);
   --lause-font-chrome: var(--lause-font-family-sans);
   --lause-type-label-font: var(--lause-font-family-sans);
@@ -131,16 +120,16 @@
 }
 [data-theme="dark"] {
   --lause-color-ground: var(--lause-color-navy-950);
-  --lause-color-ink: var(--lause-color-ice-100);
-  --lause-color-dim: var(--lause-color-ice-400);
+  --lause-color-ink: var(--lause-color-navy-100);
+  --lause-color-dim: var(--lause-color-navy-400);
   --lause-color-accent: var(--lause-color-coral-500);
   --lause-color-accent-text: var(--lause-color-coral-300);
   --lause-color-accent-on-ink: var(--lause-color-coral-600);
   --lause-color-accent-text-on-ink: var(--lause-color-coral-700);
   --lause-color-surface: var(--lause-color-navy-900);
   --lause-color-on-ink: var(--lause-color-navy-950);
-  --lause-color-ink-hover: var(--lause-color-ice-200);
-  --lause-color-ink-active: var(--lause-color-ice-300);
+  --lause-color-ink-hover: var(--lause-color-navy-200);
+  --lause-color-ink-active: var(--lause-color-navy-300);
   --lause-color-ground-hover: var(--lause-color-navy-900);
   --lause-color-surface-hover: var(--lause-color-navy-800);
   --lause-font-content: var(--lause-font-family-serif);

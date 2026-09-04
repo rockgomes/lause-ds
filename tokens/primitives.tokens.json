@@ -426,52 +426,6 @@
         "$value": "#091727"
       }
     },
-    "ice": {
-      "50": {
-        "$type": "color",
-        "$value": "#f1f6fa"
-      },
-      "100": {
-        "$type": "color",
-        "$value": "#e4edf3"
-      },
-      "200": {
-        "$type": "color",
-        "$value": "#cddde8"
-      },
-      "300": {
-        "$type": "color",
-        "$value": "#b3cbdc"
-      },
-      "400": {
-        "$type": "color",
-        "$value": "#96b6cb"
-      },
-      "500": {
-        "$type": "color",
-        "$value": "#7b9eb4"
-      },
-      "600": {
-        "$type": "color",
-        "$value": "#5e7f95"
-      },
-      "700": {
-        "$type": "color",
-        "$value": "#456274"
-      },
-      "800": {
-        "$type": "color",
-        "$value": "#2d4655"
-      },
-      "900": {
-        "$type": "color",
-        "$value": "#172c38"
-      },
-      "950": {
-        "$type": "color",
-        "$value": "#091821"
-      }
-    },
     "coral": {
       "50": {
         "$type": "color",

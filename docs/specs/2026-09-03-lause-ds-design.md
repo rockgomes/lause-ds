@@ -41,7 +41,7 @@ needs" rule applies to components, never to primitives.
 
 | Ramp | Rule | Steps |
 |---|---|---|
-| `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues; the anchor itself is kept exact at its home step (navy.900, ice.100, coral.500), so lightness at those three steps follows the brand, not the grid | `navy` (anchor `#0f2238`), `ice` (blue-grey neutrals, anchor `#e4edf3`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
+| `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues; the anchor itself is kept exact at its home step (navy.900, coral.500), so lightness at those steps follows the brand, not the grid | `navy` (anchor `#0f2238`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
 | `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px, then tuned by eye where a step reads wrong; every tuning is noted next to the value | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
 | `type.leading` | Named line heights | `tight` 1.1 · `snug` 1.3 · `normal` 1.5 · `open` 1.85 |
 | `type.tracking` | Named letter-spacing | `caps` 0.1em |
@@ -52,23 +52,25 @@ needs" rule applies to components, never to primitives.
 | `font.family` | Two stacks | `serif` Young Serif, Georgia · `sans` Instrument Sans, Helvetica Neue, Arial |
 | `opacity` | Named | `dim` 38% · `faint` 18% |
 
+The blue-grey neutrals were a second ramp (`ice`, anchored at `#e4edf3`) until 2026-09-04; it was merged into `navy` because the two were indistinguishable step for step.
+
 **Semantic tokens give meaning.** They point at a ramp step, never at a raw value. This
 is the tier a mode (dark, a second brand) swaps.
 
 | Semantic | Light | Dark | Note |
 |---|---|---|---|
-| `color.ground` | `ice.100` | `navy.950` | page background |
-| `color.ink` | `navy.900` | `ice.100` | text, filled controls |
-| `color.dim` | `navy.700` | `ice.400` | secondary text; a solid step, so contrast is checkable. Tuned from `navy.500`: 500 and 600 fail 4.5:1 on `ground`; 700 measures 5.47:1 (light), `ice.400` 8.47:1 (dark) |
-| `color.accent` | `coral.600` | `coral.500` | graphic accent (underlines, current segment, lit edge). Tuned from `coral.500` on light: the anchor is 2.62:1 on `ice.100`, below the 3:1 graphic minimum; 600 measures 3.98:1. Dark keeps the anchor at full strength, 5.82:1 on `navy.950` |
+| `color.ground` | `navy.100` | `navy.950` | page background |
+| `color.ink` | `navy.900` | `navy.100` | text, filled controls |
+| `color.dim` | `navy.700` | `navy.400` | secondary text; a solid step, so contrast is checkable. Tuned from `navy.500`: 500 and 600 fail 4.5:1 on `ground`; 700 measures 5.44:1 (light), `navy.400` 8.43:1 (dark) |
+| `color.accent` | `coral.600` | `coral.500` | graphic accent (underlines, current segment, lit edge). Tuned from `coral.500` on light: the anchor is 2.62:1 on `navy.100`, below the 3:1 graphic minimum; 600 measures 3.98:1. Dark keeps the anchor at full strength, 5.82:1 on `navy.950` |
 | `color.accent-text` | `coral.700` | `coral.300` | accent used as small text; 6.02:1 (light), 10.34:1 (dark) |
 | `color.accent-on-ink` | `coral.500` | `coral.600` | accent drawn on `ink` fills. One `accent` cannot pass on both `ground` and `ink` in both modes because ink and ground swap luminance; 5.18:1 (light), 3.98:1 (dark) |
 | `color.accent-text-on-ink` | `coral.500` | `coral.700` | accent as small text on `ink` fills (the bubble's count); 5.18:1 (light), 6.02:1 (dark) |
-| `color.on-ink` | `ice.100` | `navy.950` | text on ink fills; 13.56:1 (light), 15.22:1 (dark) |
-| `color.ink-hover` | `navy.800` | `ice.200` | hover on ink fills; pressed is `color.ink-active` (`navy.950` / `ice.300`) |
-| `color.ink-active` | `navy.950` | `ice.300` | pressed on ink fills |
-| `color.ground-hover` | `ice.200` | `navy.900` | hover fill on outline and dim buttons and dial segments; pressed keeps the fill and turns the text to `ink` |
-| `color.surface-hover` | `ice.50` | `navy.800` | hover fill on tiles; pressed drops the shadow |
+| `color.on-ink` | `navy.100` | `navy.950` | text on ink fills; 13.48:1 (light), 15.13:1 (dark) |
+| `color.ink-hover` | `navy.800` | `navy.200` | hover on ink fills; pressed is `color.ink-active` (`navy.950` / `navy.300`) |
+| `color.ink-active` | `navy.950` | `navy.300` | pressed on ink fills |
+| `color.ground-hover` | `navy.200` | `navy.900` | hover fill on outline and dim buttons and dial segments; pressed keeps the fill and turns the text to `ink` |
+| `color.surface-hover` | `navy.50` | `navy.800` | hover fill on tiles; pressed drops the shadow |
 | `color.surface` | `white` | `navy.900` | tiles |
 | `font.content` | `font.family.serif` | same | the thing being learned |
 | `font.chrome` | `font.family.sans` | same | everything else |

@@ -12,8 +12,6 @@ describe('ramps', () => {
   it('keeps the anchor exact at its nearest step', () => {
     expect(nearestStep('#0f2238')).toBe('900');
     expect(buildRamp('#0f2238')['900']).toBe('#0f2238');
-    expect(nearestStep('#e4edf3')).toBe('100');
-    expect(buildRamp('#e4edf3')['100']).toBe('#e4edf3');
     expect(nearestStep('#ff5a36')).toBe('500');
     expect(buildRamp('#ff5a36')['500']).toBe('#ff5a36');
   });
