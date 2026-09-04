@@ -53,31 +53,32 @@ export function Sentence({ segments, previous, next, support, pinned, counts = {
           const state = peeking ? 'peeked' : isPinned ? 'pinned' : 'idle';
           const bubbleId = `${base}-${seg.id}`;
           return (
-            <button
-              key={seg.id}
-              type="button"
-              aria-pressed={isPinned}
-              aria-describedby={shown ? bubbleId : undefined}
-              data-state={state}
-              data-marked={marked}
-              onClick={() => onToggle(seg.id)}
-              className={clsx(
-                'relative inline cursor-pointer rounded-keycap font-content text-reading font-normal text-ink',
-                focusRing,
-                hoverFade,
-                marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12)',
-                marked && !isPinned && 'decoration-dotted',
-                isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
-                'hover:bg-ground-hover',
-              )}
-            >
-              {seg.text}
+            <span key={seg.id} className="relative inline">
+              <button
+                type="button"
+                aria-pressed={isPinned}
+                aria-describedby={shown ? bubbleId : undefined}
+                data-state={state}
+                data-marked={marked}
+                onClick={() => onToggle(seg.id)}
+                className={clsx(
+                  'inline cursor-pointer rounded-keycap font-content text-reading font-normal text-ink',
+                  focusRing,
+                  hoverFade,
+                  marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12)',
+                  marked && !isPinned && 'decoration-dotted',
+                  isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
+                  'hover:bg-ground-hover',
+                )}
+              >
+                {seg.text}
+              </button>
               {shown ? (
-                <Bubble id={bubbleId} count={counts[seg.id]} note={notes[seg.id]}>
+                <Bubble id={bubbleId} lang="en" count={counts[seg.id]} note={notes[seg.id]}>
                   {seg.gloss}
                 </Bubble>
               ) : null}
-            </button>
+            </span>
           );
         })}
       </p>

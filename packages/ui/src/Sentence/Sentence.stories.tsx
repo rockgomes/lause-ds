@@ -69,6 +69,7 @@ export const Tugi: Story = {
     await expect(note).toHaveTextContent('to stand as a candidate');
     await expect(note).toHaveTextContent('×1');
     await expect(terms[0]).toHaveAttribute('aria-describedby', note.id);
+    await expect(terms[0]).toHaveAccessibleName('kandideerida');
 
     await userEvent.click(terms[0]);
     await expect(terms[0]).toHaveAttribute('aria-pressed', 'false');
