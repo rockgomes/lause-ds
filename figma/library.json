@@ -40,7 +40,12 @@
     "P5.b",
     "P5.c",
     "P5.d",
-    "P5.e"
+    "P5.e",
+    "P6.a",
+    "P6.b",
+    "P6.c",
+    "P6.d",
+    "P6.e"
   ],
   "collections": {
     "Primitives": {
@@ -221,7 +226,40 @@
     "--- ": "3:69",
     ".Building Blocks": "3:70"
   },
-  "components": {},
+  "components": {
+    "Keycap": {
+      "setId": "8:9",
+      "docId": "8:2",
+      "variants": 2,
+      "props": {
+        "key": "key#8:0"
+      }
+    },
+    "Button": {
+      "setId": "9:65",
+      "docId": "9:2",
+      "variants": 15,
+      "props": {
+        "label": "label#9:0",
+        "keycap": "keycap#9:16"
+      }
+    },
+    "Progress": {
+      "componentId": "9:69",
+      "docId": "9:66",
+      "variants": 1
+    },
+    "Bar": {
+      "componentId": "9:81",
+      "docId": "9:78",
+      "variants": 1
+    },
+    "Dial": {
+      "setId": "10:35",
+      "docId": "10:2",
+      "variants": 4
+    }
+  },
   "foundations": {
     "cover": "3:71",
     "colour": "4:2",
@@ -260,5 +298,10 @@
       },
       "ruling": "no peeked axis — the bubble is composed by Sentence"
     }
-  }
+  },
+  "rulings": [
+    "Figma binds opacity as percent: opacity/* emitted ×100 (emitter fixed, values 38/18)",
+    "A variant with both an ink border and a focus ring shows the focus ring only (one stroke set per node)",
+    "Term has no peeked axis; Sentence composes the Bubble"
+  ]
 }
