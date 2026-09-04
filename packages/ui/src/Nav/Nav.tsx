@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
-import { focusRing, hoverFade } from '../styles.js';
+import { focusRing, hitTarget, hoverFade } from '../styles.js';
 
 export type NavItem = {
   id: string;
@@ -41,13 +41,13 @@ export function Nav({ context, items, current, peeking = false, controls, label,
   return (
     <header
       data-state={peeking ? 'peeking' : 'idle'}
-      className={clsx('grid min-h-[44px] grid-cols-[1fr_auto_1fr] items-center gap-24 font-chrome text-label text-ink', className)}
+      className={clsx('grid grid-cols-[1fr_auto_1fr] items-center gap-24 font-chrome text-label text-ink', hitTarget, className)}
       {...rest}
     >
-      <div className="justify-self-start">{context}</div>
-      <nav aria-label={label} className="justify-self-center">
-        {items.length > 0 ? (
-          <ul className="flex items-center gap-24 uppercase tracking-caps">
+      <div className="col-start-1 justify-self-start">{context}</div>
+      {items.length > 0 ? (
+        <nav aria-label={label} className="col-start-2 justify-self-center">
+          <ul lang={peeking ? 'en' : undefined} className="flex items-center gap-24 uppercase tracking-caps">
             {items.map((item) => {
               const isCurrent = item.id === current;
               return (
@@ -65,12 +65,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
                         onNavigate(item.id);
                       }
                     }}
-                    className={clsx(
-                      'inline-flex min-h-[44px] items-center gap-8 rounded-control px-8',
-                      focusRing,
-                      hoverFade,
-                      isCurrent ? 'text-ink' : 'text-dim hover:text-ink',
-                    )}
+                    className={clsx('inline-flex items-center gap-8 rounded-control px-8', hitTarget, focusRing, hoverFade, isCurrent ? 'text-ink' : 'text-dim hover:text-ink')}
                   >
                     {peeking ? item.labelEn : item.label}
                     {item.count !== undefined ? <span className="normal-case tracking-none">{item.count}</span> : null}
@@ -79,9 +74,9 @@ export function Nav({ context, items, current, peeking = false, controls, label,
               );
             })}
           </ul>
-        ) : null}
-      </nav>
-      <div className="flex items-center gap-24 justify-self-end">{controls}</div>
+        </nav>
+      ) : null}
+      <div className="col-start-3 flex items-center gap-24 justify-self-end">{controls}</div>
     </header>
   );
 }

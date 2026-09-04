@@ -47,18 +47,33 @@ export const Reader: Story = {
 export const Peeking: Story = {
   args: { peeking: true },
   play: async ({ canvasElement }) => {
-    const links = within(canvasElement).getAllByRole('link');
+    const canvas = within(canvasElement);
+    const links = canvas.getAllByRole('link');
     await expect(links[0]).toHaveTextContent('Reader');
     await expect(links[0]).not.toHaveTextContent('Lugeja');
     await expect(links[2]).toHaveTextContent('Review');
+    await expect(canvas.getByRole('list')).toHaveAttribute('lang', 'en');
   },
 };
 
 export const Exam: Story = {
   args: { context: 'Eksam · küsimus 12 / 24', items: [], current: undefined, controls: <Button variant="dim">Katkesta eksam</Button> },
   play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).queryByRole('link')).toBeNull();
+    const canvas = within(canvasElement);
+    await expect(canvas.queryByRole('link')).toBeNull();
+    await expect(canvas.queryByRole('navigation')).toBeNull();
   },
 };
 
-export const Dark: Story = { globals: { theme: 'dark' }, args: { peeking: true } };
+export const Dark: Story = {
+  globals: { theme: 'dark' },
+  render: (args) => (
+    <div className="flex flex-col gap-24">
+      <Nav {...args} peeking />
+      {/* A page has one banner landmark; nest the second demo header in a section so it isn't one too. */}
+      <section aria-label="Eksami režiim">
+        <Nav {...args} context="Eksam · küsimus 12 / 24" items={[]} current={undefined} controls={<Button variant="dim">Katkesta eksam</Button>} />
+      </section>
+    </div>
+  ),
+};
