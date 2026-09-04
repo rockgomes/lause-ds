@@ -124,6 +124,15 @@
         "$type": "number",
         "$value": 1.85
       }
+    },
+    "tracking": {
+      "caps": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.1,
+          "unit": "em"
+        }
+      }
     }
   },
   "space": {
@@ -268,6 +277,20 @@
       "$type": "dimension",
       "$value": {
         "value": 2,
+        "unit": "px"
+      }
+    },
+    "mark": {
+      "$type": "dimension",
+      "$value": {
+        "value": 3,
+        "unit": "px"
+      }
+    },
+    "pin": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
         "unit": "px"
       }
     }

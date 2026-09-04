@@ -41,4 +41,10 @@ describe('scales', () => {
     const badRules: ScaleRules = { ...rules, shadow: { mid: { ...rules.shadow.mid, color: { hue: 'nope', step: '900', alpha: 0.1 } } } };
     expect(() => buildScales(badRules, colors)).toThrow(/unknown color step/);
   });
+  it('emits the mark and pin strokes and the caps tracking', () => {
+    const f = flatten(buildScales(rules, colors));
+    expect(f.get('stroke.mark')?.$value).toEqual({ value: 3, unit: 'px' });
+    expect(f.get('stroke.pin')?.$value).toEqual({ value: 4, unit: 'px' });
+    expect(f.get('type.tracking.caps')?.$value).toEqual({ value: 0.1, unit: 'em' });
+  });
 });

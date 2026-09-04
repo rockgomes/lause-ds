@@ -140,6 +140,13 @@
           }
         },
         {
+          "name": "type/tracking/caps",
+          "type": "FLOAT",
+          "values": {
+            "Value": 0.1
+          }
+        },
+        {
           "name": "space/0",
           "type": "FLOAT",
           "values": {
@@ -277,6 +284,20 @@
           "type": "FLOAT",
           "values": {
             "Value": 2
+          }
+        },
+        {
+          "name": "stroke/mark",
+          "type": "FLOAT",
+          "values": {
+            "Value": 3
+          }
+        },
+        {
+          "name": "stroke/pin",
+          "type": "FLOAT",
+          "values": {
+            "Value": 4
           }
         },
         {

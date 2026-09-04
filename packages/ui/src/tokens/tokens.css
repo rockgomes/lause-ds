@@ -19,6 +19,7 @@
   --lause-type-leading-snug: 1.3;
   --lause-type-leading-normal: 1.5;
   --lause-type-leading-open: 1.85;
+  --lause-type-tracking-caps: 0.1em;
   --lause-space-0: 0px;
   --lause-space-2: 2px;
   --lause-space-4: 4px;
@@ -39,6 +40,8 @@
   --lause-radius-pill: 999px;
   --lause-stroke-thin: 1.5px;
   --lause-stroke-focus: 2px;
+  --lause-stroke-mark: 3px;
+  --lause-stroke-pin: 4px;
   --lause-shadow-low: 0px 1px 3px 0px rgba(15, 34, 56, 0.10);
   --lause-shadow-mid: 0px 6px 18px 0px rgba(15, 34, 56, 0.10);
   --lause-font-family-serif: "Young Serif", Georgia, serif;

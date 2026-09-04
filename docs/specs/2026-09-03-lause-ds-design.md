@@ -44,8 +44,10 @@ needs" rule applies to components, never to primitives.
 | `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues; the anchor itself is kept exact at its home step (navy.900, ice.100, coral.500), so lightness at those three steps follows the brand, not the grid | `navy` (anchor `#0f2238`), `ice` (blue-grey neutrals, anchor `#e4edf3`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
 | `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px, then tuned by eye where a step reads wrong; every tuning is noted next to the value | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
 | `type.leading` | Named line heights | `tight` 1.1 · `snug` 1.3 · `normal` 1.5 · `open` 1.85 |
+| `type.tracking` | Named letter-spacing | `caps` 0.1em |
 | `space` | 4px base | 0 · 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 |
 | `radius` | Named | `none` 0 · `sm` 4 · `md` 10 · `lg` 22 · `pill` 999 |
+| `stroke` | Named widths | `thin` 1.5 · `focus` 2 · `mark` 3 · `pin` 4 |
 | `shadow` | Two levels, tinted with navy.900 at 10%, derived from the anchor | `low` `0 1px 3px` · `mid` `0 6px 18px` at 10% |
 | `font.family` | Two stacks | `serif` Young Serif, Georgia · `sans` Instrument Sans, Helvetica Neue, Arial |
 | `opacity` | Named | `dim` 38% · `faint` 18% |
