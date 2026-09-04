@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button } from './Button.js';
-import { tokenRgb } from '../test-utils.js';
+import { tokenRgb, restFocus } from '../test-utils.js';
 
 const meta = {
   title: 'Button',
@@ -17,6 +17,7 @@ export const Filled: Story = {
     await expect(button).toHaveAttribute('type', 'button');
     await userEvent.click(button);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+    restFocus();
   },
 };
 
@@ -29,6 +30,7 @@ export const Hover: Story = {
     await expect(button.className).toContain('enabled:hover:bg-ink-hover');
     await expect(button.className).toContain('enabled:active:bg-ink-active');
     await userEvent.unhover(button);
+    restFocus();
   },
 };
 
@@ -39,6 +41,7 @@ export const DisabledNoHover: Story = {
     await userEvent.hover(button);
     await expect(getComputedStyle(button).backgroundColor).toBe(tokenRgb('--lause-color-ink'));
     await userEvent.unhover(button);
+    restFocus();
   },
 };
 
@@ -53,6 +56,7 @@ export const Disabled: Story = {
     await expect(button).toBeDisabled();
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
+    restFocus();
   },
 };
 

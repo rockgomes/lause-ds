@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Tile, TileStack } from './Tile.js';
+import { restFocus } from '../test-utils.js';
 
 const options = [
   'Riigikogu',
@@ -23,6 +24,7 @@ export const Idle: Story = {
     await expect(tile).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(tile);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+    restFocus();
   },
 };
 
@@ -30,6 +32,7 @@ export const Selected: Story = {
   args: { state: 'selected' },
   play: async ({ canvasElement }) => {
     await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+    restFocus();
   },
 };
 
@@ -41,6 +44,7 @@ export const Hover: Story = {
     await userEvent.hover(tile);
     await expect(tile.className).toContain('enabled:hover:bg-surface-hover');
     await userEvent.unhover(tile);
+    restFocus();
   },
 };
 
@@ -64,6 +68,7 @@ export const Stack: Story = {
     await expect(tiles).toHaveLength(4);
     await userEvent.click(tiles[3]);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+    restFocus();
   },
 };
 
