@@ -34,6 +34,8 @@ export const HoldAlt: Story = {
     await expect(state).toHaveAttribute('data-peeking', 'true');
     await expect(state).toHaveAttribute('data-held', 'true');
     await expect(state).toHaveTextContent('Reader');
+    // Storybook's userEvent is synthetic: it does not dispatch real keyboard events onto
+    // `window`, so releasing the held key needs a manual window-level KeyboardEvent here.
     window.dispatchEvent(new KeyboardEvent('keyup', { key: 'Alt', bubbles: true }));
     await new Promise(requestAnimationFrame);
     await expect(state).toHaveAttribute('data-peeking', 'false');
@@ -65,6 +67,21 @@ export const ClearsOnBlur: Story = {
     await new Promise(requestAnimationFrame);
     await expect(state).toHaveAttribute('data-peeking', 'false');
     window.dispatchEvent(new KeyboardEvent('keyup', { key: 'Alt', bubbles: true }));
+  },
+};
+
+export const LatchSurvivesBlur: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const state = canvas.getByTestId('state');
+    const latch = canvas.getByRole('button', { name: 'Hoia inglise keeles' });
+    await userEvent.click(latch);
+    await expect(state).toHaveAttribute('data-peeking', 'true');
+    window.dispatchEvent(new Event('blur'));
+    await new Promise(requestAnimationFrame);
+    await expect(state).toHaveAttribute('data-peeking', 'true');
+    await userEvent.click(latch);
+    restFocus();
   },
 };
 

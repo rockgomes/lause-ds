@@ -7,6 +7,8 @@ export type UsePeekOptions = {
   latched?: boolean;
   /** The modifier that peeks while held. */
   key?: string;
+  /** Set false to register no listeners and report `held: false`, e.g. while the reader is off-screen. */
+  enabled?: boolean;
 };
 
 export type PeekState = {
@@ -18,14 +20,18 @@ export type PeekState = {
 
 /**
  * The peek gesture: hold the modifier and every translation shows; release and it goes.
- * A latch holds the same state without the key. Both clear when the window loses focus,
- * so the peek can never stick on. The modifier's keydown is cancelled so it cannot move
- * focus to the browser's menu bar.
+ * A latch holds the same state without the key. The held modifier clears when the window
+ * loses focus or is hidden; the latch is the app's and survives blur. The modifier's keydown
+ * is cancelled so it cannot move focus to the browser's menu bar.
  */
-export function usePeek({ latched = false, key = 'Alt' }: UsePeekOptions = {}): PeekState {
+export function usePeek({ latched = false, key = 'Alt', enabled = true }: UsePeekOptions = {}): PeekState {
   const [held, setHeld] = useState(false);
 
   useEffect(() => {
+    if (!enabled) {
+      setHeld(false);
+      return;
+    }
     const down = (e: KeyboardEvent) => {
       if (e.key !== key) return;
       e.preventDefault();
@@ -48,7 +54,7 @@ export function usePeek({ latched = false, key = 'Alt' }: UsePeekOptions = {}): 
       window.removeEventListener('blur', clear);
       document.removeEventListener('visibilitychange', hidden);
     };
-  }, [key]);
+  }, [key, enabled]);
 
   return { peeking: held || latched, held };
 }
