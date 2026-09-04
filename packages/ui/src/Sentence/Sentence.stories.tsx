@@ -14,6 +14,14 @@ const segments: Segment[] = [
   '.',
 ];
 
+const repeatedTermSegments: Segment[] = [
+  'Iga Eesti ',
+  { id: 'kodanik', text: 'kodanik', gloss: 'citizen' },
+  ' vastutab teise Eesti ',
+  { id: 'kodanik', text: 'kodaniku', gloss: 'citizen' },
+  ' ees.',
+];
+
 function Controlled(props: SentenceProps) {
   const [pinned, setPinned] = useState<string[]>([...props.pinned]);
   const [counts, setCounts] = useState<Record<string, number>>({ ...props.counts });
@@ -70,6 +78,8 @@ export const Tugi: Story = {
     await expect(note).toHaveTextContent('×1');
     await expect(terms[0]).toHaveAttribute('aria-describedby', note.id);
     await expect(terms[0]).toHaveAccessibleName('kandideerida');
+    const liveRegion = canvasElement.querySelector('[aria-live]') as HTMLElement;
+    await expect(liveRegion).toHaveTextContent('to stand as a candidate');
 
     await userEvent.click(terms[0]);
     await expect(terms[0]).toHaveAttribute('aria-pressed', 'false');
@@ -101,7 +111,10 @@ export const Peeking: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getAllByRole('note')).toHaveLength(3);
-    for (const t of canvas.getAllByRole('button')) await expect(t).toHaveAttribute('data-state', 'peeked');
+    for (const t of canvas.getAllByRole('button')) {
+      await expect(t).toHaveAttribute('data-peeked', 'true');
+      await expect(t).toHaveAttribute('data-state', 'idle');
+    }
   },
 };
 
@@ -117,15 +130,55 @@ export const EestiKeeles: Story = {
 export const Korvuti: Story = {
   args: {
     support: 'korvuti',
-    english: 'Every Estonian citizen who has the right to vote and has attained twenty-one years of age may stand as a candidate for the Riigikogu.',
-    englishNote: 'mitteametlik tõlge · eestikeelne tekst on autoriteetne',
+    english: {
+      text: 'Every Estonian citizen who has the right to vote and has attained twenty-one years of age may stand as a candidate for the Riigikogu.',
+      note: 'mitteametlik tõlge · eestikeelne tekst on autoriteetne',
+    },
   },
   play: async ({ canvasElement }) => {
     await expect(within(canvasElement).getByText(/mitteametlik tõlge/)).toBeVisible();
   },
 };
 
+export const RepeatedTerm: Story = {
+  args: { segments: repeatedTermSegments },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const terms = canvas.getAllByRole('button');
+    await expect(terms).toHaveLength(2);
+
+    await userEvent.click(terms[0]);
+    await expect(terms[0]).toHaveAttribute('aria-pressed', 'true');
+    await expect(terms[1]).toHaveAttribute('aria-pressed', 'true');
+    const notes = canvas.getAllByRole('note');
+    await expect(notes).toHaveLength(2);
+    await expect(notes[0].id).not.toBe(notes[1].id);
+    restFocus();
+  },
+};
+
+export const Narrow: Story = {
+  args: { pinned: ['kandideerida'] },
+  render: (args) => (
+    <div className="w-[320px]">
+      <Controlled {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const container = canvasElement.querySelector('.w-\\[320px\\]') as HTMLElement;
+    await expect(container.scrollWidth).toBeLessThanOrEqual(320);
+  },
+};
+
 export const Dark: Story = {
   globals: { theme: 'dark' },
-  args: { pinned: ['kandideerida'], counts: { kandideerida: 2 }, support: 'korvuti', english: 'Every Estonian citizen who has the right to vote and has attained twenty-one years of age may stand as a candidate for the Riigikogu.', englishNote: 'mitteametlik tõlge · eestikeelne tekst on autoriteetne' },
+  args: {
+    pinned: ['kandideerida'],
+    counts: { kandideerida: 2 },
+    support: 'korvuti',
+    english: {
+      text: 'Every Estonian citizen who has the right to vote and has attained twenty-one years of age may stand as a candidate for the Riigikogu.',
+      note: 'mitteametlik tõlge · eestikeelne tekst on autoriteetne',
+    },
+  },
 };

@@ -1,15 +1,20 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { useId } from 'react';
+import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
 import { Bubble } from '../Bubble/Bubble.js';
 import { focusRing, hoverFade } from '../styles.js';
 
-export type Term = { id: string; text: string; gloss: string };
+export type Term = {
+  /** Identifies the term for pinning and counting. Occurrences that share an id pin and count together; give each occurrence its own id if they must be independent. */
+  id: string;
+  text: string;
+  gloss: string;
+};
 export type Segment = string | Term;
 export type Support = 'et' | 'tugi' | 'korvuti';
 
-export type SentenceProps = {
+export type SentenceProps = Omit<ComponentProps<'section'>, 'children' | 'onToggle'> & {
   /** The sentence in reading order: plain strings and markable terms. */
   segments: readonly Segment[];
   /** The neighbours, dimmed above and below. */
@@ -23,42 +28,81 @@ export type SentenceProps = {
   counts?: Readonly<Record<string, number>>;
   /** Per-term note shown after the count, e.g. the promotion text at three look-ups. */
   notes?: Readonly<Record<string, string>>;
-  /** While true every gloss shows, pinned or not. */
+  /**
+   * While true every gloss shows, pinned or not.
+   * Announces nothing; the glosses are already in the accessibility tree and the app decides whether to announce the mode.
+   */
   peeking?: boolean;
-  /** The Riigi Teataja English, shown under the sentence in korvuti. */
-  english?: string;
-  /** The fixed line under the English, e.g. the unofficial-translation note. */
-  englishNote?: string;
+  /**
+   * The Riigi Teataja English and the fixed unofficial-translation line, shown under the sentence
+   * in korvuti; the note is never optional because the text is an unofficial translation of
+   * constitutional law.
+   */
+  english?: { text: string; note: string };
   /** Called with the term id when a term is clicked or opened with Enter/Space. */
   onToggle: (termId: string) => void;
   /** Accessible name of the reading region, e.g. "Lause 5 / 8". */
   label: string;
-  className?: string;
 };
 
 const isTerm = (s: Segment): s is Term => typeof s !== 'string';
 
 /** The reading unit: one sentence at reading size, its neighbours dimmed, its terms openable. */
-export function Sentence({ segments, previous, next, support, pinned, counts = {}, notes = {}, peeking = false, english, englishNote, onToggle, label, className }: SentenceProps) {
+export function Sentence({
+  segments,
+  previous,
+  next,
+  support,
+  pinned,
+  counts = {},
+  notes = {},
+  peeking = false,
+  english,
+  onToggle,
+  label,
+  className,
+  ...rest
+}: SentenceProps) {
   const base = useId();
   const marked = support !== 'et';
+  const prevPinnedRef = useRef(pinned);
+  const [announcement, setAnnouncement] = useState('');
+
+  useEffect(() => {
+    const prev = prevPinnedRef.current;
+    const newlyPinned = pinned.filter((id) => !prev.includes(id));
+    if (newlyPinned.length > 0) {
+      const glosses = newlyPinned
+        .map((id) => segments.find((seg): seg is Term => isTerm(seg) && seg.id === id)?.gloss)
+        .filter((gloss): gloss is string => gloss !== undefined);
+      setAnnouncement(glosses.join(', '));
+    }
+    prevPinnedRef.current = pinned;
+  }, [pinned]);
+
   return (
-    <section aria-label={label} data-support={support} className={clsx('flex max-w-[1020px] flex-col gap-24 font-content', className)}>
+    <section
+      aria-label={label}
+      data-support={support}
+      data-state={peeking ? 'peeking' : 'idle'}
+      className={clsx('flex max-w-[1020px] flex-col gap-24 overflow-x-clip font-content', className)}
+      {...rest}
+    >
       {previous ? <p className="text-title font-normal text-dim">{previous}</p> : null}
       <p lang="et" className="text-reading font-normal text-ink">
         {segments.map((seg, i) => {
           if (!isTerm(seg)) return <span key={i}>{seg}</span>;
           const isPinned = pinned.includes(seg.id);
           const shown = isPinned || peeking;
-          const state = peeking ? 'peeked' : isPinned ? 'pinned' : 'idle';
-          const bubbleId = `${base}-${seg.id}`;
+          const bubbleId = `${base}-${i}`;
           return (
-            <span key={seg.id} className="relative inline">
+            <span key={i} className="relative inline">
               <button
                 type="button"
                 aria-pressed={isPinned}
                 aria-describedby={shown ? bubbleId : undefined}
-                data-state={state}
+                data-state={isPinned ? 'pinned' : 'idle'}
+                data-peeked={shown ? 'true' : undefined}
                 data-marked={marked}
                 onClick={() => onToggle(seg.id)}
                 className={clsx(
@@ -84,11 +128,14 @@ export function Sentence({ segments, previous, next, support, pinned, counts = {
       </p>
       {support === 'korvuti' && english ? (
         <div lang="en" className="flex flex-col gap-4 font-chrome">
-          <p className="text-body text-dim">{english}</p>
-          {englishNote ? <p className="text-label text-dim">{englishNote}</p> : null}
+          <p className="text-body text-dim">{english.text}</p>
+          <p className="text-label text-dim">{english.note}</p>
         </div>
       ) : null}
       {next ? <p className="text-title font-normal text-dim">{next}</p> : null}
+      <p aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
     </section>
   );
 }
