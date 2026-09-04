@@ -7,3 +7,4 @@ export { Tile, TileStack, type TileProps, type TileState, type TileStackProps } 
 export { Bubble, type BubbleProps } from './Bubble/Bubble.js';
 export { Sentence, type SentenceProps, type Segment, type Term, type Support } from './Sentence/Sentence.js';
 export { usePeek, type UsePeekOptions, type PeekState } from './usePeek/usePeek.js';
+export { Nav, type NavProps, type NavItem } from './Nav/Nav.js';
