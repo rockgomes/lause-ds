@@ -6,7 +6,7 @@ import { restFocus } from '../test-utils.js';
 const meta = {
   title: 'Cell',
   component: Cell,
-  args: { title: 'Igaüks', subtitle: 'tohib piirata', keycap: '1', onClick: fn() },
+  args: { subject: 'Igaüks', verdict: 'tohib piirata', keycap: '1', onClick: fn() },
 } satisfies Meta<typeof Cell>;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -21,17 +21,29 @@ export const Idle: Story = {
   },
 };
 
-export const Selected: Story = { args: { state: 'selected', subtitle: 'ei tohi piirata', keycap: '2' } };
-export const Filled: Story = { args: { state: 'filled' } };
-export const Dimmed: Story = { args: { state: 'dimmed' } };
+export const Selected: Story = { args: { state: 'selected', verdict: 'ei tohi piirata', keycap: '2' } };
+
+export const Filled: Story = {
+  args: { state: 'filled' },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+  },
+};
+
+export const Dimmed: Story = {
+  args: { state: 'dimmed' },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+  },
+};
 
 export const Grid: Story = {
   render: (args) => (
     <CellGrid rows={['Igaüks', 'Eesti kodanik']} columns={['Tohib piirata', 'Ei tohi piirata · § 130']} label="Õigused">
-      <Cell {...args} title="Igaüks" subtitle="tohib piirata" keycap="1" />
-      <Cell {...args} title="Igaüks" subtitle="ei tohi piirata" keycap="2" state="selected" />
-      <Cell {...args} title="Eesti kodanik" subtitle="tohib piirata" keycap="3" />
-      <Cell {...args} title="Eesti kodanik" subtitle="ei tohi piirata" keycap="4" />
+      <Cell {...args} subject="Igaüks" verdict="tohib piirata" keycap="1" />
+      <Cell {...args} subject="Igaüks" verdict="ei tohi piirata" keycap="2" state="selected" />
+      <Cell {...args} subject="Eesti kodanik" verdict="tohib piirata" keycap="3" />
+      <Cell {...args} subject="Eesti kodanik" verdict="ei tohi piirata" keycap="4" />
     </CellGrid>
   ),
   play: async ({ canvasElement }) => {
@@ -46,10 +58,10 @@ export const Dark: Story = {
   globals: { theme: 'dark' },
   render: (args) => (
     <CellGrid rows={['Igaüks', 'Eesti kodanik']} columns={['Tohib piirata', 'Ei tohi piirata · § 130']} label="Õigused">
-      <Cell {...args} title="Igaüks" subtitle="tohib piirata" keycap="1" />
-      <Cell {...args} title="Igaüks" subtitle="ei tohi piirata" keycap="2" state="selected" />
-      <Cell {...args} title="Eesti kodanik" subtitle="tohib piirata" keycap="3" state="filled" />
-      <Cell {...args} title="Eesti kodanik" subtitle="ei tohi piirata" keycap="4" state="dimmed" />
+      <Cell {...args} subject="Igaüks" verdict="tohib piirata" keycap="1" />
+      <Cell {...args} subject="Igaüks" verdict="ei tohi piirata" keycap="2" state="selected" />
+      <Cell {...args} subject="Eesti kodanik" verdict="tohib piirata" keycap="3" state="filled" />
+      <Cell {...args} subject="Eesti kodanik" verdict="ei tohi piirata" keycap="4" state="dimmed" />
     </CellGrid>
   ),
 };

@@ -37,7 +37,7 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 - `Bubble` — a translation bubble above a term: the gloss, a look-up count, and a promotion note.
 - `Sentence` — the reading unit: neighbours dimmed, terms as focusable buttons, marks and pins by dial level, English under in kõrvuti.
 - `Nav` — context, caps navigation that swaps to English while peeking, and controls; empty items in exam mode.
-- `Cell` / `CellGrid` — the 2×2 drill as a table, with row and column headers.
+- `Cell` / `CellGrid` — the 2×2 drill as a table, with row and column headers; shares Tile's idle/selected/filled/dimmed states.
 - `usePeek` — the peek gesture: held modifier or a latch, cleared on blur.
 
 ## Licence — MIT

@@ -3,9 +3,9 @@
 import { clsx } from 'clsx';
 import type { ComponentProps } from 'react';
 import { Keycap } from '../Keycap/Keycap.js';
-import { disabledControl, focusRing, hitTarget, hoverFade } from '../styles.js';
+import { disabledControl, focusRing, hitTarget, hoverFade, type SurfaceState } from '../styles.js';
 
-export type TileState = 'idle' | 'selected' | 'filled' | 'dimmed';
+export type TileState = SurfaceState;
 
 export type TileProps = ComponentProps<'button'> & {
   /** idle: available. selected: chosen, accent ring. filled: written in, ink. dimmed: no longer relevant. */
@@ -29,7 +29,8 @@ export function Tile({ state = 'idle', keycap, className, children, type = 'butt
     <button
       type={type}
       data-state={state}
-      aria-pressed={state === 'selected'}
+      aria-pressed={state === 'selected' || state === 'filled'}
+      aria-disabled={state === 'dimmed' || undefined}
       className={clsx(
         'flex w-full items-center gap-16 rounded-control px-24 py-12 text-left font-content text-title font-normal',
         hitTarget,
