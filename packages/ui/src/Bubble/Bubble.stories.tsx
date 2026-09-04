@@ -40,7 +40,6 @@ export const Small: Story = { args: { size: 'sm', children: 'Reader' } };
 
 export const Dark: Story = {
   globals: { theme: 'dark' },
-  parameters: { a11y: { disable: true } },
   render: () => (
     <div className="flex flex-col gap-32">
       <Word bubble={<Bubble count={1}>to stand as a candidate</Bubble>}>kandideerida</Word>

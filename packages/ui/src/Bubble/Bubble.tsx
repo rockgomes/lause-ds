@@ -34,7 +34,7 @@ export function Bubble({ children, count, note, size = 'md', className, ...rest 
     >
       {children}
       {count !== undefined ? (
-        <span className="ml-8 not-italic font-semibold text-label text-accent-on-ink">
+        <span className="ml-8 not-italic font-semibold text-label text-accent-text-on-ink">
           ×{count}
           {note ? ` ${note}` : null}
         </span>
