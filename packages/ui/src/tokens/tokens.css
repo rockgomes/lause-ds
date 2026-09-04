@@ -89,6 +89,7 @@
   --lause-color-accent: var(--lause-color-coral-600);
   --lause-color-accent-text: var(--lause-color-coral-700);
   --lause-color-accent-on-ink: var(--lause-color-coral-500);
+  --lause-color-accent-text-on-ink: var(--lause-color-coral-500);
   --lause-color-surface: var(--lause-color-white);
   --lause-color-on-ink: var(--lause-color-ice-100);
   --lause-color-ink-hover: var(--lause-color-navy-800);
@@ -134,6 +135,7 @@
   --lause-color-accent: var(--lause-color-coral-500);
   --lause-color-accent-text: var(--lause-color-coral-300);
   --lause-color-accent-on-ink: var(--lause-color-coral-600);
+  --lause-color-accent-text-on-ink: var(--lause-color-coral-700);
   --lause-color-surface: var(--lause-color-navy-900);
   --lause-color-on-ink: var(--lause-color-navy-950);
   --lause-color-ink-hover: var(--lause-color-ice-200);

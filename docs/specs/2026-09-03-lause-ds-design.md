@@ -63,6 +63,7 @@ is the tier a mode (dark, a second brand) swaps.
 | `color.accent` | `coral.600` | `coral.500` | graphic accent (underlines, current segment, lit edge). Tuned from `coral.500` on light: the anchor is 2.62:1 on `ice.100`, below the 3:1 graphic minimum; 600 measures 3.98:1. Dark keeps the anchor at full strength, 5.82:1 on `navy.950` |
 | `color.accent-text` | `coral.700` | `coral.300` | accent used as small text; 6.02:1 (light), 10.34:1 (dark) |
 | `color.accent-on-ink` | `coral.500` | `coral.600` | accent drawn on `ink` fills. One `accent` cannot pass on both `ground` and `ink` in both modes because ink and ground swap luminance; 5.18:1 (light), 3.98:1 (dark) |
+| `color.accent-text-on-ink` | `coral.500` | `coral.700` | accent as small text on `ink` fills (the bubble's count); 5.18:1 (light), 6.02:1 (dark) |
 | `color.on-ink` | `ice.100` | `navy.950` | text on ink fills; 13.56:1 (light), 15.22:1 (dark) |
 | `color.ink-hover` | `navy.800` | `ice.200` | hover on ink fills; pressed is `color.ink-active` (`navy.950` / `ice.300`) |
 | `color.ink-active` | `navy.950` | `ice.300` | pressed on ink fills |

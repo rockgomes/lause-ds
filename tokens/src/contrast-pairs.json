@@ -7,6 +7,7 @@
   { "fg": "color.dim",         "bg": "color.surface", "min": 4.5, "use": "tile secondary text" },
   { "fg": "color.on-ink",      "bg": "color.ink",     "min": 4.5, "use": "text on filled buttons" },
   { "fg": "color.accent-on-ink", "bg": "color.ink",     "min": 3.0, "use": "accent on ink fills" },
+  { "fg": "color.accent-text-on-ink", "bg": "color.ink",     "min": 4.5, "use": "accent text on ink fills (bubble counts)" },
   { "fg": "color.accent",      "bg": "color.surface", "min": 3.0, "use": "accent on tiles" },
   { "fg": "color.accent-text", "bg": "color.surface", "min": 4.5, "use": "small accent text on tiles" },
   { "fg": "color.ink", "bg": "color.ground-hover", "min": 4.5, "use": "text on hovered ground controls" },

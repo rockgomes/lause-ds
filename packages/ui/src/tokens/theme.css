@@ -31,6 +31,7 @@
   --color-accent: var(--lause-color-accent);
   --color-accent-text: var(--lause-color-accent-text);
   --color-accent-on-ink: var(--lause-color-accent-on-ink);
+  --color-accent-text-on-ink: var(--lause-color-accent-text-on-ink);
   --color-surface: var(--lause-color-surface);
   --color-on-ink: var(--lause-color-on-ink);
   --color-ink-hover: var(--lause-color-ink-hover);

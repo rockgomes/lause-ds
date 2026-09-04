@@ -669,6 +669,18 @@
           }
         },
         {
+          "name": "color/accent-text-on-ink",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/coral/500"
+            },
+            "Dark": {
+              "alias": "color/coral/700"
+            }
+          }
+        },
+        {
           "name": "color/surface",
           "type": "COLOR",
           "values": {
