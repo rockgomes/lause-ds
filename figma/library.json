@@ -17,7 +17,7 @@
     ],
     "reuse": "none — community kits only; incompatible APIs and token models"
   },
-  "phase": "phase2",
+  "phase": "phase3-blocks",
   "completedSteps": [
     "P1.a",
     "P1.b",
@@ -34,7 +34,13 @@
     "P4.b",
     "P4.c",
     "P4.d",
-    "P4.e"
+    "P4.e",
+    "P4.f",
+    "P5.a",
+    "P5.b",
+    "P5.c",
+    "P5.d",
+    "P5.e"
   ],
   "collections": {
     "Primitives": {
@@ -221,5 +227,38 @@
     "colour": "4:2",
     "type": "4:201",
     "space": "4:234"
+  },
+  "buildingBlocks": {
+    ".Building Blocks/Segment": {
+      "setId": "7:8",
+      "variants": 3
+    },
+    ".Building Blocks/Bar segment": {
+      "setId": "7:9",
+      "variants": 3
+    },
+    ".Building Blocks/Dial segment": {
+      "setId": "7:26",
+      "variants": 8,
+      "props": {
+        "label": "label#7:0"
+      }
+    },
+    ".Building Blocks/Nav item": {
+      "setId": "7:35",
+      "variants": 4,
+      "props": {
+        "label": "label#7:14",
+        "labelEn": "labelEn#7:19"
+      }
+    },
+    ".Building Blocks/Term": {
+      "setId": "7:48",
+      "variants": 4,
+      "props": {
+        "text": "text#7:24"
+      },
+      "ruling": "no peeked axis — the bubble is composed by Sentence"
+    }
   }
 }
