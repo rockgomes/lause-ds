@@ -29,14 +29,14 @@ export const Pinned: Story = {
     const note = within(canvasElement).getByRole('note');
     await expect(note).toHaveTextContent('to stand as a candidate');
     await expect(note).toHaveTextContent('×1');
+    const count = note.querySelector('[aria-hidden]');
+    await expect(count).toHaveAttribute('aria-hidden', 'true');
   },
 };
 
 export const Promoted: Story = { args: { children: 'with the right to vote', count: 3, note: '→ kordamisse' } };
 
 export const NoCount: Story = { args: { count: undefined } };
-
-export const Small: Story = { args: { size: 'sm', children: 'Reader' } };
 
 export const Dark: Story = {
   globals: { theme: 'dark' },

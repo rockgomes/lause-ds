@@ -10,22 +10,18 @@ export type BubbleProps = Omit<ComponentProps<'span'>, 'children'> & {
   count?: number;
   /** A short note after the count, e.g. the app's promotion text. */
   note?: string;
-  /** sm: the chrome-label size, for peeked nav items. md: the reading size. */
-  size?: 'md' | 'sm';
 };
 
 /**
  * A translation bubble that sits above the word it belongs to. Render it inside an element with
  * `position: relative`; it centres itself over that element and draws a tail down to it.
  */
-export function Bubble({ children, count, note, size = 'md', className, ...rest }: BubbleProps) {
+export function Bubble({ children, count, note, className, ...rest }: BubbleProps) {
   return (
     <span
       role="note"
-      data-size={size}
       className={clsx(
-        'pointer-events-none absolute bottom-full left-1/2 mb-8 -translate-x-1/2 whitespace-nowrap rounded-bubble bg-ink font-chrome italic text-on-ink',
-        size === 'md' ? 'px-12 py-4 text-title font-normal' : 'px-8 py-2 text-label font-normal',
+        'pointer-events-none absolute bottom-full left-1/2 mb-8 max-w-[min(320px,90vw)] -translate-x-1/2 whitespace-normal text-balance rounded-bubble bg-ink px-12 py-4 font-chrome italic text-title font-normal text-on-ink',
         // the tail
         "after:absolute after:left-1/2 after:top-full after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-ink after:content-['']",
         className,
@@ -34,7 +30,7 @@ export function Bubble({ children, count, note, size = 'md', className, ...rest 
     >
       {children}
       {count !== undefined ? (
-        <span className="ml-8 not-italic font-semibold text-label text-accent-text-on-ink">
+        <span aria-hidden="true" className="ml-8 not-italic font-semibold text-label text-accent-text-on-ink">
           ×{count}
           {note ? ` ${note}` : null}
         </span>
