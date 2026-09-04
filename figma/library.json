@@ -17,7 +17,7 @@
     ],
     "reuse": "none — community kits only; incompatible APIs and token models"
   },
-  "phase": "phase1-vars",
+  "phase": "phase1-styles",
   "completedSteps": [
     "P1.a",
     "P1.b",
@@ -25,7 +25,10 @@
     "P1.d",
     "P2.a",
     "P2.b",
-    "P2.c"
+    "P2.c",
+    "P2.d",
+    "P3.a",
+    "P3.b"
   ],
   "collections": {
     "Primitives": {
@@ -173,8 +176,19 @@
     "shadow/tile": "VariableID:3:45"
   },
   "styles": {
-    "text": {},
-    "effect": {}
+    "text": {
+      "Label": "S:1171451e8fe3a9b4337917028c9c4220f8ffb006,",
+      "Body": "S:9111b5621f8b47e3826e43d7ec10c890d76ed57c,",
+      "Title": "S:e4b555f093f691e2228fd76a27ef32895793e073,",
+      "Reading": "S:7c18122888f5db9d77d19ca83b8eee748eddc6ab,",
+      "Headline": "S:b20617f73aaef25cf0c3b577444ea5701b95717e,",
+      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,"
+    },
+    "effect": {
+      "shadow/low": "S:38ae0dd5e2943318af2c6ccdfd9d0a6e12035fa0,",
+      "shadow/mid": "S:e1bf5bf0258989c7ba6b36558a3fcb0332e7e1d1,",
+      "shadow/tile": "S:b7d166b5aed09c2eca71c513b32e05aba0d9b5c4,"
+    }
   },
   "pages": {
     "Page 1": "0:1"
