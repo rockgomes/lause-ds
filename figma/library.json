@@ -17,7 +17,7 @@
     ],
     "reuse": "none — community kits only; incompatible APIs and token models"
   },
-  "phase": "phase3-done",
+  "phase": "phase4",
   "completedSteps": [
     "P1.a",
     "P1.b",
@@ -51,7 +51,10 @@
     "P7.a",
     "P7.b",
     "P7.c",
-    "P8.c"
+    "P8.c",
+    "P8.a",
+    "P8.b-fallback",
+    "P8.d"
   ],
   "collections": {
     "Primitives": {
@@ -228,7 +231,9 @@
       "variants": 2,
       "props": {
         "key": "key#8:0"
-      }
+      },
+      "source": "packages/ui/src/Keycap/Keycap.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Button": {
       "setId": "9:65",
@@ -237,22 +242,30 @@
       "props": {
         "label": "label#9:0",
         "keycap": "keycap#9:16"
-      }
+      },
+      "source": "packages/ui/src/Button/Button.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Progress": {
       "componentId": "9:69",
       "docId": "9:66",
-      "variants": 1
+      "variants": 1,
+      "source": "packages/ui/src/Progress/Progress.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Bar": {
       "componentId": "9:81",
       "docId": "9:78",
-      "variants": 1
+      "variants": 1,
+      "source": "packages/ui/src/Bar/Bar.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Dial": {
       "setId": "10:35",
       "docId": "10:2",
-      "variants": 4
+      "variants": 4,
+      "source": "packages/ui/src/Dial/Dial.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Tile": {
       "setId": "11:69",
@@ -262,7 +275,9 @@
         "label": "label#11:0",
         "keycap": "keycap#11:17"
       },
-      "tileStackFrame": "16:301"
+      "tileStackFrame": "16:301",
+      "source": "packages/ui/src/Tile/Tile.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Bubble": {
       "componentId": "12:5",
@@ -274,7 +289,9 @@
         "countText": "countText#12:2",
         "note": "note#12:3",
         "noteText": "noteText#12:4"
-      }
+      },
+      "source": "packages/ui/src/Bubble/Bubble.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Sentence": {
       "setId": "14:322",
@@ -283,7 +300,9 @@
       "props": {
         "previous": "previous",
         "next": "next"
-      }
+      },
+      "source": "packages/ui/src/Sentence/Sentence.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Nav": {
       "setId": "15:71",
@@ -291,7 +310,9 @@
       "variants": 3,
       "props": {
         "context": "context#15:0"
-      }
+      },
+      "source": "packages/ui/src/Nav/Nav.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Cell": {
       "setId": "16:101",
@@ -302,7 +323,9 @@
         "verdict": "verdict#16:17",
         "keycap": "keycap#16:34"
       },
-      "cellGridFrame": "16:102"
+      "cellGridFrame": "16:102",
+      "source": "packages/ui/src/Cell/Cell.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     }
   },
   "foundations": {
@@ -349,11 +372,13 @@
     "A variant with both an ink border and a focus ring shows the focus ring only (one stroke set per node)",
     "Term has no peeked axis; Sentence composes the Bubble",
     "ice ramp merged into navy (Rock, 2026-09-04): 11 ice variables removed from Figma, 13 colour semantics re-pointed, Colour page updated",
-    "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context"
+    "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context",
+    "Code Connect blocked by plan tier (Pro). Fallback: documentationLinks to the GitHub source on every set + the setId→source map in this ledger."
   ],
   "audits": {
     "unboundFillsOrStrokes": 0,
     "unnamedNodes": 0,
     "pagesAudited": 11
-  }
+  },
+  "published": true
 }

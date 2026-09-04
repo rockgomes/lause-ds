@@ -53,5 +53,9 @@ After a token change: `npm run build:tokens`, then re-run the Task 2 import scri
 name and update values in place; a removed primitive must be deleted by its ledger id after the
 semantics that pointed at it are re-pointed.
 
+Code Connect needs an Organization or Enterprise Figma seat; on the Pro plan the mapping lives
+here instead: every component set carries a documentation link to its source file, and
+`library.json` maps each set id to `packages/ui/src/<Name>/<Name>.tsx`.
+
 Two Figma-specific conversions live in the emitter, not in the tokens: opacity is emitted as a
 percentage, and a typography role's line height is emitted in px.
