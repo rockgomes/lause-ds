@@ -1,0 +1,14 @@
+{
+  "fileKey": "Fi9CrQ0KzJdpCuwNcWbZKF",
+  "fileUrl": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+  "planKey": "team::847873602547393130",
+  "fonts": { "Young Serif": ["Regular"], "Instrument Sans": ["Regular", "SemiBold"] },
+  "discovery": { "librariesAddedToFile": ["Rock's Team Colors"], "reuse": "none — community kits only; incompatible APIs and token models" },
+  "phase": "phase0",
+  "completedSteps": ["P1.a", "P1.b", "P1.c"],
+  "collections": {},
+  "variables": {},
+  "styles": { "text": {}, "effect": {} },
+  "pages": { "Page 1": "0:1" },
+  "components": {}
+}
