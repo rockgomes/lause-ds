@@ -17,7 +17,7 @@
     ],
     "reuse": "none — community kits only; incompatible APIs and token models"
   },
-  "phase": "phase3-blocks",
+  "phase": "phase3-done",
   "completedSteps": [
     "P1.a",
     "P1.b",
@@ -45,7 +45,13 @@
     "P6.b",
     "P6.c",
     "P6.d",
-    "P6.e"
+    "P6.e",
+    "P6.f",
+    "P6.g",
+    "P7.a",
+    "P7.b",
+    "P7.c",
+    "P8.c"
   ],
   "collections": {
     "Primitives": {
@@ -123,17 +129,6 @@
     "color/navy/800": "VariableID:2:61",
     "color/navy/900": "VariableID:2:62",
     "color/navy/950": "VariableID:2:63",
-    "color/ice/50": "VariableID:2:64",
-    "color/ice/100": "VariableID:2:65",
-    "color/ice/200": "VariableID:2:66",
-    "color/ice/300": "VariableID:2:67",
-    "color/ice/400": "VariableID:2:68",
-    "color/ice/500": "VariableID:2:69",
-    "color/ice/600": "VariableID:2:70",
-    "color/ice/700": "VariableID:2:71",
-    "color/ice/800": "VariableID:2:72",
-    "color/ice/900": "VariableID:2:73",
-    "color/ice/950": "VariableID:2:74",
     "color/coral/50": "VariableID:2:75",
     "color/coral/100": "VariableID:2:76",
     "color/coral/200": "VariableID:2:77",
@@ -258,6 +253,56 @@
       "setId": "10:35",
       "docId": "10:2",
       "variants": 4
+    },
+    "Tile": {
+      "setId": "11:69",
+      "docId": "11:2",
+      "variants": 16,
+      "props": {
+        "label": "label#11:0",
+        "keycap": "keycap#11:17"
+      },
+      "tileStackFrame": "16:301"
+    },
+    "Bubble": {
+      "componentId": "12:5",
+      "docId": "12:2",
+      "variants": 1,
+      "props": {
+        "gloss": "gloss#12:0",
+        "count": "count#12:1",
+        "countText": "countText#12:2",
+        "note": "note#12:3",
+        "noteText": "noteText#12:4"
+      }
+    },
+    "Sentence": {
+      "setId": "14:322",
+      "docId": "13:2",
+      "variants": 6,
+      "props": {
+        "previous": "previous",
+        "next": "next"
+      }
+    },
+    "Nav": {
+      "setId": "15:71",
+      "docId": "15:2",
+      "variants": 3,
+      "props": {
+        "context": "context#15:0"
+      }
+    },
+    "Cell": {
+      "setId": "16:101",
+      "docId": "16:2",
+      "variants": 16,
+      "props": {
+        "subject": "subject#16:0",
+        "verdict": "verdict#16:17",
+        "keycap": "keycap#16:34"
+      },
+      "cellGridFrame": "16:102"
     }
   },
   "foundations": {
@@ -302,6 +347,13 @@
   "rulings": [
     "Figma binds opacity as percent: opacity/* emitted ×100 (emitter fixed, values 38/18)",
     "A variant with both an ink border and a focus ring shows the focus ring only (one stroke set per node)",
-    "Term has no peeked axis; Sentence composes the Bubble"
-  ]
+    "Term has no peeked axis; Sentence composes the Bubble",
+    "ice ramp merged into navy (Rock, 2026-09-04): 11 ice variables removed from Figma, 13 colour semantics re-pointed, Colour page updated",
+    "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context"
+  ],
+  "audits": {
+    "unboundFillsOrStrokes": 0,
+    "unnamedNodes": 0,
+    "pagesAudited": 11
+  }
 }
