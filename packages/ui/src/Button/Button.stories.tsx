@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button } from './Button.js';
+import { tokenRgb } from '../test-utils.js';
 
 const meta = {
   title: 'Button',
@@ -16,6 +17,28 @@ export const Filled: Story = {
     await expect(button).toHaveAttribute('type', 'button');
     await userEvent.click(button);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+  },
+};
+
+export const Hover: Story = {
+  play: async ({ canvasElement }) => {
+    // userEvent.hover dispatches synthetic events and does not set the browser's real
+    // :hover state in this runner, so the fill is proved via the class list instead.
+    const button = within(canvasElement).getByRole('button', { name: /Edasi/ });
+    await userEvent.hover(button);
+    await expect(button.className).toContain('enabled:hover:bg-ink-hover');
+    await expect(button.className).toContain('enabled:active:bg-ink-active');
+    await userEvent.unhover(button);
+  },
+};
+
+export const DisabledNoHover: Story = {
+  args: { disabled: true },
+  play: async ({ canvasElement }) => {
+    const button = within(canvasElement).getByRole('button', { name: /Edasi/ });
+    await userEvent.hover(button);
+    await expect(getComputedStyle(button).backgroundColor).toBe(tokenRgb('--lause-color-ink'));
+    await userEvent.unhover(button);
   },
 };
 

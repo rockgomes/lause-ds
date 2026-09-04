@@ -49,6 +49,17 @@ export const Support: Story = {
   },
 };
 
+export const Hover: Story = {
+  play: async ({ canvasElement }) => {
+    // userEvent.hover dispatches synthetic events and does not set the browser's real
+    // :hover state in this runner, so the fill is proved via the class list instead.
+    const radios = within(canvasElement).getAllByRole('radio');
+    await userEvent.hover(radios[1]);
+    await expect(radios[1].className).toContain('enabled:hover:bg-ground-hover');
+    await userEvent.unhover(radios[1]);
+  },
+};
+
 export const Keyboard: Story = {
   play: async ({ canvasElement, args }) => {
     const radios = within(canvasElement).getAllByRole('radio');

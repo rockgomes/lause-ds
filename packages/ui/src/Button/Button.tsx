@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import type { ComponentProps } from 'react';
 import { Keycap } from '../Keycap/Keycap.js';
-import { disabledControl, focusRing, hitTarget } from '../styles.js';
+import { disabledControl, focusRing, hitTarget, hoverFade } from '../styles.js';
 
 export type ButtonVariant = 'filled' | 'outline' | 'dim';
 
@@ -15,9 +15,10 @@ export type ButtonProps = ComponentProps<'button'> & {
 };
 
 const variants: Record<ButtonVariant, string> = {
-  filled: 'bg-ink text-on-ink',
-  outline: 'border-(length:--lause-stroke-thin) border-ink text-ink',
-  dim: 'text-dim',
+  filled: 'bg-ink text-on-ink enabled:hover:bg-ink-hover enabled:active:bg-ink-active',
+  outline:
+    'border-(length:--lause-stroke-thin) border-ink text-ink enabled:hover:bg-ground-hover enabled:active:bg-ground-hover',
+  dim: 'text-dim enabled:hover:bg-ground-hover enabled:active:bg-ground-hover enabled:active:text-ink',
 };
 
 /** A pill button. Every control in Lause shows its key, so pass `keycap` whenever there is one. */
@@ -30,6 +31,7 @@ export function Button({ variant = 'filled', keycap, className, children, type =
         hitTarget,
         focusRing,
         disabledControl,
+        hoverFade,
         variants[variant],
         className,
       )}

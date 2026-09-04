@@ -33,6 +33,17 @@ export const Selected: Story = {
   },
 };
 
+export const Hover: Story = {
+  play: async ({ canvasElement }) => {
+    // userEvent.hover dispatches synthetic events and does not set the browser's real
+    // :hover state in this runner, so the fill is proved via the class list instead.
+    const tile = within(canvasElement).getByRole('button', { name: /Vabariigi President/ });
+    await userEvent.hover(tile);
+    await expect(tile.className).toContain('enabled:hover:bg-surface-hover');
+    await userEvent.unhover(tile);
+  },
+};
+
 export const Filled: Story = { args: { state: 'filled' } };
 
 export const Dimmed: Story = { args: { state: 'dimmed' } };

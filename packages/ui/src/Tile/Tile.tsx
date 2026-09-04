@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import type { ComponentProps } from 'react';
 import { Keycap } from '../Keycap/Keycap.js';
-import { disabledControl, focusRing, hitTarget } from '../styles.js';
+import { disabledControl, focusRing, hitTarget, hoverFade } from '../styles.js';
 
 export type TileState = 'idle' | 'selected' | 'filled' | 'dimmed';
 
@@ -15,10 +15,12 @@ export type TileProps = ComponentProps<'button'> & {
 };
 
 const states: Record<TileState, string> = {
-  idle: 'bg-surface text-ink shadow-tile',
-  selected: 'bg-surface text-ink shadow-tile ring-(length:--lause-stroke-focus) ring-accent',
-  filled: 'bg-ink text-on-ink',
-  dimmed: 'bg-surface text-dim shadow-tile',
+  idle: 'bg-surface text-ink shadow-tile enabled:hover:bg-surface-hover enabled:active:bg-surface-hover enabled:active:shadow-none',
+  selected:
+    'bg-surface text-ink shadow-tile ring-(length:--lause-stroke-focus) ring-accent enabled:hover:bg-surface-hover enabled:active:bg-surface-hover enabled:active:shadow-none',
+  filled: 'bg-ink text-on-ink enabled:hover:bg-ink-hover enabled:active:bg-ink-active',
+  dimmed:
+    'bg-surface text-dim shadow-tile enabled:hover:bg-surface-hover enabled:active:bg-surface-hover enabled:active:shadow-none',
 };
 
 /** An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item. */
@@ -33,6 +35,7 @@ export function Tile({ state = 'idle', keycap, className, children, type = 'butt
         hitTarget,
         focusRing,
         disabledControl,
+        hoverFade,
         states[state],
         className,
       )}
