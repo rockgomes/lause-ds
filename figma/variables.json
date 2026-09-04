@@ -339,14 +339,14 @@
           "name": "opacity/dim",
           "type": "FLOAT",
           "values": {
-            "Value": 0.38
+            "Value": 38
           }
         },
         {
           "name": "opacity/faint",
           "type": "FLOAT",
           "values": {
-            "Value": 0.18
+            "Value": 18
           }
         },
         {
@@ -424,83 +424,6 @@
           "type": "COLOR",
           "values": {
             "Value": "#091727"
-          }
-        },
-        {
-          "name": "color/ice/50",
-          "type": "COLOR",
-          "values": {
-            "Value": "#f1f6fa"
-          }
-        },
-        {
-          "name": "color/ice/100",
-          "type": "COLOR",
-          "values": {
-            "Value": "#e4edf3"
-          }
-        },
-        {
-          "name": "color/ice/200",
-          "type": "COLOR",
-          "values": {
-            "Value": "#cddde8"
-          }
-        },
-        {
-          "name": "color/ice/300",
-          "type": "COLOR",
-          "values": {
-            "Value": "#b3cbdc"
-          }
-        },
-        {
-          "name": "color/ice/400",
-          "type": "COLOR",
-          "values": {
-            "Value": "#96b6cb"
-          }
-        },
-        {
-          "name": "color/ice/500",
-          "type": "COLOR",
-          "values": {
-            "Value": "#7b9eb4"
-          }
-        },
-        {
-          "name": "color/ice/600",
-          "type": "COLOR",
-          "values": {
-            "Value": "#5e7f95"
-          }
-        },
-        {
-          "name": "color/ice/700",
-          "type": "COLOR",
-          "values": {
-            "Value": "#456274"
-          }
-        },
-        {
-          "name": "color/ice/800",
-          "type": "COLOR",
-          "values": {
-            "Value": "#2d4655"
-          }
-        },
-        {
-          "name": "color/ice/900",
-          "type": "COLOR",
-          "values": {
-            "Value": "#172c38"
-          }
-        },
-        {
-          "name": "color/ice/950",
-          "type": "COLOR",
-          "values": {
-            "Value": "#091821"
           }
         },
         {
@@ -608,7 +531,7 @@
           "type": "COLOR",
           "values": {
             "Light": {
-              "alias": "color/ice/100"
+              "alias": "color/navy/100"
             },
             "Dark": {
               "alias": "color/navy/950"
@@ -623,7 +546,7 @@
               "alias": "color/navy/900"
             },
             "Dark": {
-              "alias": "color/ice/100"
+              "alias": "color/navy/100"
             }
           }
         },
@@ -635,7 +558,7 @@
               "alias": "color/navy/700"
             },
             "Dark": {
-              "alias": "color/ice/400"
+              "alias": "color/navy/400"
             }
           }
         },
@@ -704,7 +627,7 @@
           "type": "COLOR",
           "values": {
             "Light": {
-              "alias": "color/ice/100"
+              "alias": "color/navy/100"
             },
             "Dark": {
               "alias": "color/navy/950"
@@ -719,7 +642,7 @@
               "alias": "color/navy/800"
             },
             "Dark": {
-              "alias": "color/ice/200"
+              "alias": "color/navy/200"
             }
           }
         },
@@ -731,7 +654,7 @@
               "alias": "color/navy/950"
             },
             "Dark": {
-              "alias": "color/ice/300"
+              "alias": "color/navy/300"
             }
           }
         },
@@ -740,7 +663,7 @@
           "type": "COLOR",
           "values": {
             "Light": {
-              "alias": "color/ice/200"
+              "alias": "color/navy/200"
             },
             "Dark": {
               "alias": "color/navy/900"
@@ -752,7 +675,7 @@
           "type": "COLOR",
           "values": {
             "Light": {
-              "alias": "color/ice/50"
+              "alias": "color/navy/50"
             },
             "Dark": {
               "alias": "color/navy/800"

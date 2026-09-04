@@ -38,7 +38,10 @@ export function emitFigmaVariables(prim: Group, light: Group, dark: Group): Figm
   const primitives: FigmaVariable[] = [];
   for (const [path, t] of flatten(prim)) {
     const fv = figmaValue(t);
-    if (fv) primitives.push({ name: figmaName(path), type: fv.type, values: { Value: fv.value } });
+    if (!fv) continue;
+    // Figma binds opacity as a percentage (0–100); the token is a ratio (0–1).
+    const value = path.startsWith('opacity.') && typeof fv.value === 'number' ? Math.round(fv.value * 100) : fv.value;
+    primitives.push({ name: figmaName(path), type: fv.type, values: { Value: value } });
   }
   const semantic: FigmaVariable[] = [];
   const darkMap = flatten(dark);

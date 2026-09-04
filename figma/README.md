@@ -21,6 +21,8 @@ Two collections:
 - Dimensions (`type/size/*`, `space/*`, `radius/*`): px, as a float.
 - `type/leading/*`: unitless ratios (`1.1`–`1.85`). These are **not** for binding to a Figma
   line-height field — Figma line height is pixels, not a ratio.
+- `opacity/*`: percentages (`38`, `18`), because a Figma opacity binding reads the number as a
+  percent; the CSS token is the ratio (`0.38`, `0.18`).
 - `type/tracking/caps`: an em ratio (`0.1`), not px — bind it as a percentage of the font size
   or compute px per role, do not bind the raw number.
 - `type/<role>/lineHeight`: a computed px float (`round(fontSize × leading)`), meant to be
@@ -35,3 +37,25 @@ Names use `/` as the path separator (`color/navy/900`, `type/body/lineHeight`), 
 Figma's variable-group convention. An importer resolves each `{ "alias": "<name>" }` to the
 target variable's id by that name. Building Figma variables from this file, and wiring that
 resolution, is Plan 3's job — this package only emits the JSON.
+
+## Library
+
+The Lause library file: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (Rock's Team). Built by
+Plan 4 through the Figma MCP from this file and the component definitions.
+
+`library.json` is the state ledger: file key, collection and mode ids, every variable id by
+name, style ids, page ids, component set ids and property keys, the rulings made while building,
+and the audit results. It makes the build resumable and lets Plan 5's manifest join Figma ids to
+code.
+
+After a token change: `npm run build:tokens`, then re-run the Task 2 import scripts from the plan
+(`docs/superpowers/plans/2026-09-04-figma-library.md`) against the file — they are idempotent by
+name and update values in place; a removed primitive must be deleted by its ledger id after the
+semantics that pointed at it are re-pointed.
+
+Code Connect needs an Organization or Enterprise Figma seat; on the Pro plan the mapping lives
+here instead: every component set carries a documentation link to its source file, and
+`library.json` maps each set id to `packages/ui/src/<Name>/<Name>.tsx`.
+
+Two Figma-specific conversions live in the emitter, not in the tokens: opacity is emitted as a
+percentage, and a typography role's line height is emitted in px.

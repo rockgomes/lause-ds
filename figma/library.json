@@ -1,0 +1,384 @@
+{
+  "fileKey": "Fi9CrQ0KzJdpCuwNcWbZKF",
+  "fileUrl": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+  "planKey": "team::847873602547393130",
+  "fonts": {
+    "Young Serif": [
+      "Regular"
+    ],
+    "Instrument Sans": [
+      "Regular",
+      "SemiBold"
+    ]
+  },
+  "discovery": {
+    "librariesAddedToFile": [
+      "Rock's Team Colors"
+    ],
+    "reuse": "none — community kits only; incompatible APIs and token models"
+  },
+  "phase": "phase4",
+  "completedSteps": [
+    "P1.a",
+    "P1.b",
+    "P1.c",
+    "P1.d",
+    "P2.a",
+    "P2.b",
+    "P2.c",
+    "P2.d",
+    "P3.a",
+    "P3.b",
+    "P3.c",
+    "P4.a",
+    "P4.b",
+    "P4.c",
+    "P4.d",
+    "P4.e",
+    "P4.f",
+    "P5.a",
+    "P5.b",
+    "P5.c",
+    "P5.d",
+    "P5.e",
+    "P6.a",
+    "P6.b",
+    "P6.c",
+    "P6.d",
+    "P6.e",
+    "P6.f",
+    "P6.g",
+    "P7.a",
+    "P7.b",
+    "P7.c",
+    "P8.c",
+    "P8.a",
+    "P8.b-fallback",
+    "P8.d"
+  ],
+  "collections": {
+    "Primitives": {
+      "id": "VariableCollectionId:2:2",
+      "modes": {
+        "Value": "2:0"
+      }
+    },
+    "Semantic": {
+      "id": "VariableCollectionId:2:3",
+      "modes": {
+        "Light": "2:1",
+        "Dark": "2:2"
+      }
+    }
+  },
+  "variables": {
+    "type/size/11": "VariableID:2:4",
+    "type/size/13": "VariableID:2:5",
+    "type/size/16": "VariableID:2:6",
+    "type/size/19": "VariableID:2:7",
+    "type/size/23": "VariableID:2:8",
+    "type/size/28": "VariableID:2:9",
+    "type/size/33": "VariableID:2:10",
+    "type/size/40": "VariableID:2:11",
+    "type/size/48": "VariableID:2:12",
+    "type/size/57": "VariableID:2:13",
+    "type/size/69": "VariableID:2:14",
+    "type/size/83": "VariableID:2:15",
+    "type/size/99": "VariableID:2:16",
+    "type/size/119": "VariableID:2:17",
+    "type/size/143": "VariableID:2:18",
+    "type/leading/tight": "VariableID:2:19",
+    "type/leading/snug": "VariableID:2:20",
+    "type/leading/normal": "VariableID:2:21",
+    "type/leading/open": "VariableID:2:22",
+    "type/tracking/none": "VariableID:2:23",
+    "type/tracking/caps": "VariableID:2:24",
+    "space/0": "VariableID:2:25",
+    "space/2": "VariableID:2:26",
+    "space/4": "VariableID:2:27",
+    "space/8": "VariableID:2:28",
+    "space/12": "VariableID:2:29",
+    "space/16": "VariableID:2:30",
+    "space/24": "VariableID:2:31",
+    "space/32": "VariableID:2:32",
+    "space/48": "VariableID:2:33",
+    "space/64": "VariableID:2:34",
+    "space/96": "VariableID:2:35",
+    "space/128": "VariableID:2:36",
+    "space/192": "VariableID:2:37",
+    "radius/none": "VariableID:2:38",
+    "radius/sm": "VariableID:2:39",
+    "radius/md": "VariableID:2:40",
+    "radius/lg": "VariableID:2:41",
+    "radius/pill": "VariableID:2:42",
+    "stroke/thin": "VariableID:2:43",
+    "stroke/focus": "VariableID:2:44",
+    "stroke/mark": "VariableID:2:45",
+    "stroke/pin": "VariableID:2:46",
+    "shadow/low": "VariableID:2:47",
+    "shadow/mid": "VariableID:2:48",
+    "font/family/serif": "VariableID:2:49",
+    "font/family/sans": "VariableID:2:50",
+    "opacity/dim": "VariableID:2:51",
+    "opacity/faint": "VariableID:2:52",
+    "color/navy/50": "VariableID:2:53",
+    "color/navy/100": "VariableID:2:54",
+    "color/navy/200": "VariableID:2:55",
+    "color/navy/300": "VariableID:2:56",
+    "color/navy/400": "VariableID:2:57",
+    "color/navy/500": "VariableID:2:58",
+    "color/navy/600": "VariableID:2:59",
+    "color/navy/700": "VariableID:2:60",
+    "color/navy/800": "VariableID:2:61",
+    "color/navy/900": "VariableID:2:62",
+    "color/navy/950": "VariableID:2:63",
+    "color/coral/50": "VariableID:2:75",
+    "color/coral/100": "VariableID:2:76",
+    "color/coral/200": "VariableID:2:77",
+    "color/coral/300": "VariableID:2:78",
+    "color/coral/400": "VariableID:2:79",
+    "color/coral/500": "VariableID:2:80",
+    "color/coral/600": "VariableID:2:81",
+    "color/coral/700": "VariableID:2:82",
+    "color/coral/800": "VariableID:2:83",
+    "color/coral/900": "VariableID:2:84",
+    "color/coral/950": "VariableID:2:85",
+    "color/white": "VariableID:2:86",
+    "color/black": "VariableID:2:87",
+    "color/ground": "VariableID:3:2",
+    "color/ink": "VariableID:3:3",
+    "color/dim": "VariableID:3:4",
+    "color/accent": "VariableID:3:5",
+    "color/accent-text": "VariableID:3:6",
+    "color/accent-on-ink": "VariableID:3:7",
+    "color/accent-text-on-ink": "VariableID:3:8",
+    "color/surface": "VariableID:3:9",
+    "color/on-ink": "VariableID:3:10",
+    "color/ink-hover": "VariableID:3:11",
+    "color/ink-active": "VariableID:3:12",
+    "color/ground-hover": "VariableID:3:13",
+    "color/surface-hover": "VariableID:3:14",
+    "font/content": "VariableID:3:15",
+    "font/chrome": "VariableID:3:16",
+    "type/label/fontFamily": "VariableID:3:17",
+    "type/label/fontSize": "VariableID:3:18",
+    "type/label/lineHeight": "VariableID:3:19",
+    "type/label/fontWeight": "VariableID:3:20",
+    "type/body/fontFamily": "VariableID:3:21",
+    "type/body/fontSize": "VariableID:3:22",
+    "type/body/lineHeight": "VariableID:3:23",
+    "type/body/fontWeight": "VariableID:3:24",
+    "type/title/fontFamily": "VariableID:3:25",
+    "type/title/fontSize": "VariableID:3:26",
+    "type/title/lineHeight": "VariableID:3:27",
+    "type/title/fontWeight": "VariableID:3:28",
+    "type/reading/fontFamily": "VariableID:3:29",
+    "type/reading/fontSize": "VariableID:3:30",
+    "type/reading/lineHeight": "VariableID:3:31",
+    "type/reading/fontWeight": "VariableID:3:32",
+    "type/headline/fontFamily": "VariableID:3:33",
+    "type/headline/fontSize": "VariableID:3:34",
+    "type/headline/lineHeight": "VariableID:3:35",
+    "type/headline/fontWeight": "VariableID:3:36",
+    "type/display/fontFamily": "VariableID:3:37",
+    "type/display/fontSize": "VariableID:3:38",
+    "type/display/lineHeight": "VariableID:3:39",
+    "type/display/fontWeight": "VariableID:3:40",
+    "radius/control": "VariableID:3:41",
+    "radius/card": "VariableID:3:42",
+    "radius/bubble": "VariableID:3:43",
+    "radius/keycap": "VariableID:3:44",
+    "shadow/tile": "VariableID:3:45"
+  },
+  "styles": {
+    "text": {
+      "Label": "S:1171451e8fe3a9b4337917028c9c4220f8ffb006,",
+      "Body": "S:9111b5621f8b47e3826e43d7ec10c890d76ed57c,",
+      "Title": "S:e4b555f093f691e2228fd76a27ef32895793e073,",
+      "Reading": "S:7c18122888f5db9d77d19ca83b8eee748eddc6ab,",
+      "Headline": "S:b20617f73aaef25cf0c3b577444ea5701b95717e,",
+      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,"
+    },
+    "effect": {
+      "shadow/low": "S:38ae0dd5e2943318af2c6ccdfd9d0a6e12035fa0,",
+      "shadow/mid": "S:e1bf5bf0258989c7ba6b36558a3fcb0332e7e1d1,",
+      "shadow/tile": "S:b7d166b5aed09c2eca71c513b32e05aba0d9b5c4,"
+    }
+  },
+  "pages": {
+    "Cover": "0:1",
+    "Foundations · Colour": "3:55",
+    "Foundations · Type": "3:56",
+    "Foundations · Space": "3:57",
+    "---": "3:58",
+    "Keycap": "3:59",
+    "Button": "3:60",
+    "Progress": "3:61",
+    "Bar": "3:62",
+    "Dial": "3:63",
+    "Tile": "3:64",
+    "Bubble": "3:65",
+    "Sentence": "3:66",
+    "Nav": "3:67",
+    "Cell": "3:68",
+    "--- ": "3:69",
+    ".Building Blocks": "3:70"
+  },
+  "components": {
+    "Keycap": {
+      "setId": "8:9",
+      "docId": "8:2",
+      "variants": 2,
+      "props": {
+        "key": "key#8:0"
+      },
+      "source": "packages/ui/src/Keycap/Keycap.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Button": {
+      "setId": "9:65",
+      "docId": "9:2",
+      "variants": 15,
+      "props": {
+        "label": "label#9:0",
+        "keycap": "keycap#9:16"
+      },
+      "source": "packages/ui/src/Button/Button.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Progress": {
+      "componentId": "9:69",
+      "docId": "9:66",
+      "variants": 1,
+      "source": "packages/ui/src/Progress/Progress.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Bar": {
+      "componentId": "9:81",
+      "docId": "9:78",
+      "variants": 1,
+      "source": "packages/ui/src/Bar/Bar.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Dial": {
+      "setId": "10:35",
+      "docId": "10:2",
+      "variants": 4,
+      "source": "packages/ui/src/Dial/Dial.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Tile": {
+      "setId": "11:69",
+      "docId": "11:2",
+      "variants": 16,
+      "props": {
+        "label": "label#11:0",
+        "keycap": "keycap#11:17"
+      },
+      "tileStackFrame": "16:301",
+      "source": "packages/ui/src/Tile/Tile.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Bubble": {
+      "componentId": "12:5",
+      "docId": "12:2",
+      "variants": 1,
+      "props": {
+        "gloss": "gloss#12:0",
+        "count": "count#12:1",
+        "countText": "countText#12:2",
+        "note": "note#12:3",
+        "noteText": "noteText#12:4"
+      },
+      "source": "packages/ui/src/Bubble/Bubble.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Sentence": {
+      "setId": "14:322",
+      "docId": "13:2",
+      "variants": 6,
+      "props": {
+        "previous": "previous",
+        "next": "next"
+      },
+      "source": "packages/ui/src/Sentence/Sentence.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Nav": {
+      "setId": "15:71",
+      "docId": "15:2",
+      "variants": 3,
+      "props": {
+        "context": "context#15:0"
+      },
+      "source": "packages/ui/src/Nav/Nav.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Cell": {
+      "setId": "16:101",
+      "docId": "16:2",
+      "variants": 16,
+      "props": {
+        "subject": "subject#16:0",
+        "verdict": "verdict#16:17",
+        "keycap": "keycap#16:34"
+      },
+      "cellGridFrame": "16:102",
+      "source": "packages/ui/src/Cell/Cell.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    }
+  },
+  "foundations": {
+    "cover": "3:71",
+    "colour": "4:2",
+    "type": "4:201",
+    "space": "4:234"
+  },
+  "buildingBlocks": {
+    ".Building Blocks/Segment": {
+      "setId": "7:8",
+      "variants": 3
+    },
+    ".Building Blocks/Bar segment": {
+      "setId": "7:9",
+      "variants": 3
+    },
+    ".Building Blocks/Dial segment": {
+      "setId": "7:26",
+      "variants": 8,
+      "props": {
+        "label": "label#7:0"
+      }
+    },
+    ".Building Blocks/Nav item": {
+      "setId": "7:35",
+      "variants": 4,
+      "props": {
+        "label": "label#7:14",
+        "labelEn": "labelEn#7:19"
+      }
+    },
+    ".Building Blocks/Term": {
+      "setId": "7:48",
+      "variants": 4,
+      "props": {
+        "text": "text#7:24"
+      },
+      "ruling": "no peeked axis — the bubble is composed by Sentence"
+    }
+  },
+  "rulings": [
+    "Figma binds opacity as percent: opacity/* emitted ×100 (emitter fixed, values 38/18)",
+    "A variant with both an ink border and a focus ring shows the focus ring only (one stroke set per node)",
+    "Term has no peeked axis; Sentence composes the Bubble",
+    "ice ramp merged into navy (Rock, 2026-09-04): 11 ice variables removed from Figma, 13 colour semantics re-pointed, Colour page updated",
+    "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context",
+    "Code Connect blocked by plan tier (Pro). Fallback: documentationLinks to the GitHub source on every set + the setId→source map in this ledger."
+  ],
+  "audits": {
+    "unboundFillsOrStrokes": 0,
+    "unnamedNodes": 0,
+    "pagesAudited": 11
+  },
+  "published": true
+}
