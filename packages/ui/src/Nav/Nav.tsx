@@ -47,7 +47,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
       <div className="justify-self-start">{context}</div>
       <nav aria-label={label} className="justify-self-center">
         {items.length > 0 ? (
-          <ul className="flex items-center gap-24 uppercase tracking-(--lause-type-tracking-caps)">
+          <ul className="flex items-center gap-24 uppercase tracking-caps">
             {items.map((item) => {
               const isCurrent = item.id === current;
               return (
@@ -73,7 +73,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
                     )}
                   >
                     {peeking ? item.labelEn : item.label}
-                    {item.count !== undefined ? <span className="normal-case tracking-normal">{item.count}</span> : null}
+                    {item.count !== undefined ? <span className="normal-case tracking-none">{item.count}</span> : null}
                   </a>
                 </li>
               );

@@ -71,7 +71,7 @@ export function CellGrid({ rows, columns, label, children, className }: CellGrid
         <tr>
           <td />
           {columns.map((c) => (
-            <th key={c} scope="col" className="text-label uppercase tracking-(--lause-type-tracking-caps) text-dim">
+            <th key={c} scope="col" className="text-label uppercase tracking-caps text-dim">
               {c}
             </th>
           ))}
@@ -80,7 +80,7 @@ export function CellGrid({ rows, columns, label, children, className }: CellGrid
       <tbody>
         {rows.map((r, i) => (
           <tr key={r}>
-            <th scope="row" className="text-left text-label uppercase tracking-(--lause-type-tracking-caps) text-dim">
+            <th scope="row" className="text-left text-label uppercase tracking-caps text-dim">
               {r}
             </th>
             <td>{cells[i * 2]}</td>

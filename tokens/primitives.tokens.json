@@ -126,6 +126,13 @@
       }
     },
     "tracking": {
+      "none": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "em"
+        }
+      },
       "caps": {
         "$type": "dimension",
         "$value": {
