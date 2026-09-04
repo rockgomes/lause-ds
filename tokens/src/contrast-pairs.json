@@ -8,5 +8,13 @@
   { "fg": "color.on-ink",      "bg": "color.ink",     "min": 4.5, "use": "text on filled buttons" },
   { "fg": "color.accent-on-ink", "bg": "color.ink",     "min": 3.0, "use": "accent on ink fills" },
   { "fg": "color.accent",      "bg": "color.surface", "min": 3.0, "use": "accent on tiles" },
-  { "fg": "color.accent-text", "bg": "color.surface", "min": 4.5, "use": "small accent text on tiles" }
+  { "fg": "color.accent-text", "bg": "color.surface", "min": 4.5, "use": "small accent text on tiles" },
+  { "fg": "color.ink", "bg": "color.ground-hover", "min": 4.5, "use": "text on hovered ground controls" },
+  { "fg": "color.dim", "bg": "color.ground-hover", "min": 4.5, "use": "dim text on hovered ground controls" },
+  { "fg": "color.accent", "bg": "color.ground-hover", "min": 3.0, "use": "accent on hovered ground controls" },
+  { "fg": "color.on-ink", "bg": "color.ink-hover", "min": 4.5, "use": "text on hovered ink fills" },
+  { "fg": "color.on-ink", "bg": "color.ink-active", "min": 4.5, "use": "text on pressed ink fills" },
+  { "fg": "color.ink", "bg": "color.surface-hover", "min": 4.5, "use": "text on hovered tiles" },
+  { "fg": "color.dim", "bg": "color.surface-hover", "min": 4.5, "use": "dim text on hovered tiles" },
+  { "fg": "color.accent", "bg": "color.surface-hover", "min": 3.0, "use": "accent on hovered tiles" }
 ]

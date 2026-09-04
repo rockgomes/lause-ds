@@ -62,6 +62,10 @@ is the tier a mode (dark, a second brand) swaps.
 | `color.accent-text` | `coral.700` | `coral.300` | accent used as small text; 6.02:1 (light), 10.34:1 (dark) |
 | `color.accent-on-ink` | `coral.500` | `coral.600` | accent drawn on `ink` fills. One `accent` cannot pass on both `ground` and `ink` in both modes because ink and ground swap luminance; 5.18:1 (light), 3.98:1 (dark) |
 | `color.on-ink` | `ice.100` | `navy.950` | text on ink fills; 13.56:1 (light), 15.22:1 (dark) |
+| `color.ink-hover` | `navy.800` | `ice.200` | hover on ink fills; pressed is `color.ink-active` (`navy.950` / `ice.300`) |
+| `color.ink-active` | `navy.950` | `ice.300` | pressed on ink fills |
+| `color.ground-hover` | `ice.200` | `navy.900` | hover fill on outline and dim buttons and dial segments; pressed keeps the fill and turns the text to `ink` |
+| `color.surface-hover` | `ice.50` | `navy.800` | hover fill on tiles; pressed drops the shadow |
 | `color.surface` | `white` | `navy.900` | tiles |
 | `font.content` | `font.family.serif` | same | the thing being learned |
 | `font.chrome` | `font.family.sans` | same | everything else |

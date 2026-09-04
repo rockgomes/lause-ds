@@ -33,6 +33,10 @@
   --color-accent-on-ink: var(--lause-color-accent-on-ink);
   --color-surface: var(--lause-color-surface);
   --color-on-ink: var(--lause-color-on-ink);
+  --color-ink-hover: var(--lause-color-ink-hover);
+  --color-ink-active: var(--lause-color-ink-active);
+  --color-ground-hover: var(--lause-color-ground-hover);
+  --color-surface-hover: var(--lause-color-surface-hover);
   --font-content: var(--lause-font-content);
   --font-chrome: var(--lause-font-chrome);
   --text-label: var(--lause-type-label-size);

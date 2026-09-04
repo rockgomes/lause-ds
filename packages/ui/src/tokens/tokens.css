@@ -88,6 +88,10 @@
   --lause-color-accent-on-ink: var(--lause-color-coral-500);
   --lause-color-surface: var(--lause-color-white);
   --lause-color-on-ink: var(--lause-color-ice-100);
+  --lause-color-ink-hover: var(--lause-color-navy-800);
+  --lause-color-ink-active: var(--lause-color-navy-950);
+  --lause-color-ground-hover: var(--lause-color-ice-200);
+  --lause-color-surface-hover: var(--lause-color-ice-50);
   --lause-font-content: var(--lause-font-family-serif);
   --lause-font-chrome: var(--lause-font-family-sans);
   --lause-type-label-font: var(--lause-font-family-sans);
@@ -129,6 +133,10 @@
   --lause-color-accent-on-ink: var(--lause-color-coral-600);
   --lause-color-surface: var(--lause-color-navy-900);
   --lause-color-on-ink: var(--lause-color-navy-950);
+  --lause-color-ink-hover: var(--lause-color-ice-200);
+  --lause-color-ink-active: var(--lause-color-ice-300);
+  --lause-color-ground-hover: var(--lause-color-navy-900);
+  --lause-color-surface-hover: var(--lause-color-navy-800);
   --lause-font-content: var(--lause-font-family-serif);
   --lause-font-chrome: var(--lause-font-family-sans);
   --lause-type-label-font: var(--lause-font-family-sans);

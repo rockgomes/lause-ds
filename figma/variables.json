@@ -672,6 +672,54 @@
           }
         },
         {
+          "name": "color/ink-hover",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/navy/800"
+            },
+            "Dark": {
+              "alias": "color/ice/200"
+            }
+          }
+        },
+        {
+          "name": "color/ink-active",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/navy/950"
+            },
+            "Dark": {
+              "alias": "color/ice/300"
+            }
+          }
+        },
+        {
+          "name": "color/ground-hover",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/ice/200"
+            },
+            "Dark": {
+              "alias": "color/navy/900"
+            }
+          }
+        },
+        {
+          "name": "color/surface-hover",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/ice/50"
+            },
+            "Dark": {
+              "alias": "color/navy/800"
+            }
+          }
+        },
+        {
           "name": "font/content",
           "type": "STRING",
           "values": {

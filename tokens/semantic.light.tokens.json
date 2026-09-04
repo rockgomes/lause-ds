@@ -7,7 +7,11 @@
     "accent-text": { "$type": "color", "$value": "{color.coral.700}", "$description": "accent used as small text" },
     "accent-on-ink": { "$type": "color", "$value": "{color.coral.500}", "$description": "accent on ink fills; full-strength coral reads on navy" },
     "surface":     { "$type": "color", "$value": "{color.white}",     "$description": "tiles" },
-    "on-ink":      { "$type": "color", "$value": "{color.ice.100}",   "$description": "text on ink fills" }
+    "on-ink":      { "$type": "color", "$value": "{color.ice.100}",   "$description": "text on ink fills" },
+    "ink-hover":   { "$type": "color", "$value": "{color.navy.800}",  "$description": "hover on ink fills" },
+    "ink-active":  { "$type": "color", "$value": "{color.navy.950}",  "$description": "pressed on ink fills" },
+    "ground-hover": { "$type": "color", "$value": "{color.ice.200}",  "$description": "hover fill on ground-level controls" },
+    "surface-hover": { "$type": "color", "$value": "{color.ice.50}",  "$description": "hover fill on tiles" }
   },
   "font": {
     "content": { "$type": "fontFamily", "$value": "{font.family.serif}" },
