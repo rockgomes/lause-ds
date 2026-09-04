@@ -37,3 +37,21 @@ Names use `/` as the path separator (`color/navy/900`, `type/body/lineHeight`), 
 Figma's variable-group convention. An importer resolves each `{ "alias": "<name>" }` to the
 target variable's id by that name. Building Figma variables from this file, and wiring that
 resolution, is Plan 3's job — this package only emits the JSON.
+
+## Library
+
+The Lause library file: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (Rock's Team). Built by
+Plan 4 through the Figma MCP from this file and the component definitions.
+
+`library.json` is the state ledger: file key, collection and mode ids, every variable id by
+name, style ids, page ids, component set ids and property keys, the rulings made while building,
+and the audit results. It makes the build resumable and lets Plan 5's manifest join Figma ids to
+code.
+
+After a token change: `npm run build:tokens`, then re-run the Task 2 import scripts from the plan
+(`docs/superpowers/plans/2026-09-04-figma-library.md`) against the file — they are idempotent by
+name and update values in place; a removed primitive must be deleted by its ledger id after the
+semantics that pointed at it are re-pointed.
+
+Two Figma-specific conversions live in the emitter, not in the tokens: opacity is emitted as a
+percentage, and a typography role's line height is emitted in px.

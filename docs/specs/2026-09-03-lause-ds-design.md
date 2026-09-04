@@ -105,6 +105,8 @@ that needs them.
 
 ## 5. Figma
 
+The library file: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (built by Plan 4; ledger in `figma/library.json`).
+
 One library file, "Lause". Variables imported from `tokens/`, never typed by hand.
 Components named exactly as in code, props named as in code. Code Connect maps each
 Figma component to its React file. Built through the Figma MCP from the token and
