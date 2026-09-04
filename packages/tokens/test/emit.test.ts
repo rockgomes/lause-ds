@@ -67,6 +67,10 @@ describe('emit theme', () => {
 
 describe('emit figma', () => {
   const f = emitFigmaVariables(prim, light, dark);
+  it('emits opacity as a percentage, the scale Figma binds', () => {
+    const o = f.collections[0].variables.find((v) => v.name === 'opacity/faint')!;
+    expect(o).toEqual({ name: 'opacity/faint', type: 'FLOAT', values: { Value: 18 } });
+  });
   it('has two collections with the right modes', () => {
     expect(f.collections.map((c) => [c.name, c.modes])).toEqual([['Primitives', ['Value']], ['Semantic', ['Light', 'Dark']]]);
   });

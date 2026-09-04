@@ -21,6 +21,8 @@ Two collections:
 - Dimensions (`type/size/*`, `space/*`, `radius/*`): px, as a float.
 - `type/leading/*`: unitless ratios (`1.1`–`1.85`). These are **not** for binding to a Figma
   line-height field — Figma line height is pixels, not a ratio.
+- `opacity/*`: percentages (`38`, `18`), because a Figma opacity binding reads the number as a
+  percent; the CSS token is the ratio (`0.38`, `0.18`).
 - `type/tracking/caps`: an em ratio (`0.1`), not px — bind it as a percentage of the font size
   or compute px per role, do not bind the raw number.
 - `type/<role>/lineHeight`: a computed px float (`round(fontSize × leading)`), meant to be

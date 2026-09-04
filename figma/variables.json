@@ -339,14 +339,14 @@
           "name": "opacity/dim",
           "type": "FLOAT",
           "values": {
-            "Value": 0.38
+            "Value": 38
           }
         },
         {
           "name": "opacity/faint",
           "type": "FLOAT",
           "values": {
-            "Value": 0.18
+            "Value": 18
           }
         },
         {
