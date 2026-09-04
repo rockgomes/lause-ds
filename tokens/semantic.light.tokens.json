@@ -24,7 +24,8 @@
   "radius": {
     "control": { "$type": "dimension", "$value": "{radius.pill}" },
     "card":    { "$type": "dimension", "$value": "{radius.lg}" },
-    "bubble":  { "$type": "dimension", "$value": "{radius.md}" }
+    "bubble":  { "$type": "dimension", "$value": "{radius.md}" },
+    "keycap":  { "$type": "dimension", "$value": "{radius.sm}", "$description": "keyboard hints" }
   },
   "shadow": {
     "tile": { "$type": "shadow", "$value": "{shadow.mid}" }

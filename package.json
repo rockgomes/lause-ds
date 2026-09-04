@@ -8,9 +8,14 @@
   "scripts": {
     "test": "vitest run",
     "build:tokens": "npm run build --workspace @lause-ds/tokens",
-    "typecheck": "tsc -b packages/tokens"
+    "build:ui": "npm run build --workspace lause-ds",
+    "storybook": "npm run storybook --workspace lause-ds",
+    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui",
+    "changeset": "changeset",
+    "release": "npm run build:tokens && npm run build:ui && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.1",
     "@types/culori": "^4.0.1",
     "@types/node": "^26.4.1",
     "tsx": "4.23.13",

@@ -1,6 +1,13 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
+  --spacing: initial;
+  --color-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --leading-*: initial;
   --leading-tight: var(--lause-type-leading-tight);
   --leading-snug: var(--lause-type-leading-snug);
   --leading-normal: var(--lause-type-leading-normal);
@@ -49,5 +56,6 @@
   --radius-control: var(--lause-radius-control);
   --radius-card: var(--lause-radius-card);
   --radius-bubble: var(--lause-radius-bubble);
+  --radius-keycap: var(--lause-radius-keycap);
   --shadow-tile: var(--lause-shadow-tile);
 }

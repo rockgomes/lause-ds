@@ -1,0 +1,43 @@
+name: release
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  pull-requests: write
+concurrency: release-${{ github.ref }}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      HAS_NPM_TOKEN: ${{ secrets.NPM_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run typecheck
+      - run: npm run build:tokens
+      - run: npm run build:ui
+      - run: npm test
+      - name: version or publish
+        if: env.HAS_NPM_TOKEN == 'true'
+        uses: changesets/action@v1
+        with:
+          version: npx changeset version
+          publish: npm run release
+          commit: "chore: version packages"
+          title: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: no npm token yet
+        if: env.HAS_NPM_TOKEN != 'true'
+        run: echo "NPM_TOKEN is not set; skipping version and publish. Add the secret in the repo settings to enable releases."

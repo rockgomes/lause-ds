@@ -28,12 +28,12 @@ Written in full in [docs/specs/2026-09-03-lause-ds-design.md](docs/specs/2026-09
 ## Layout
 
 ```
-tokens/         W3C design-token JSON — the single source
-packages/tokens the token build tool (private)
-packages/ui     React + Tailwind components, one folder per component
-packages/mcp    the MCP server; reads tokens/ and packages/ui
-figma/          Code Connect mappings and export scripts
-docs/           specs, decisions, component rules
+tokens/           W3C design-token JSON — the single source
+packages/tokens   the token build tool (private)
+packages/ui       lause-ds: React + Tailwind components, one folder per component, stories beside them
+packages/mcp      the MCP server; reads tokens/ and packages/ui (Plan 5)
+figma/            variables export, Code Connect mappings (Plan 4)
+docs/             specs, plans, component rules
 ```
 
 ## Working rules
@@ -44,9 +44,9 @@ docs/           specs, decisions, component rules
 
 ## Status
 
-Foundation done: tokens build, light and dark modes, contrast checked in CI. Components next (Plan 2).
+Foundation and the first six components done: Keycap, Button, Progress, Bar, Dial, Tile. Every story is a test with an axe check. Releases go through changesets. Reading components next (Plan 3).
 
-## Using the tokens today
+## Using the system
 
 ```bash
 npm run build:tokens   # regenerates tokens/primitives.tokens.json, packages/ui/src/tokens/*.css, figma/variables.json
@@ -57,8 +57,34 @@ Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything el
 
 ### Consuming them
 
+`lause-ds` requires Tailwind v4 in the consuming app. In your Tailwind CSS entry (for example
+`app/globals.css`), in this order:
+
 ```css
-@import 'lause-ds/styles.css';
+@import 'tailwindcss';
+@import 'lause-ds/styles.css';            /* tokens + the theme; must live here, not in a TSX file */
+@source '../node_modules/lause-ds/dist';  /* relative to THIS css file; adjust for src/app/globals.css */
 ```
 
-`theme.css` needs `tokens.css` loaded first; `styles.css` does both in order.
+Then import components normally:
+
+```tsx
+import { Button, Dial, Tile, TileStack } from 'lause-ds';
+```
+
+The theme replaces Tailwind's default scales (see below). Load Young Serif and Instrument Sans yourself
+(Google Fonts, or self-hosted).
+
+### The theme replaces Tailwind's defaults
+
+`lause-ds/styles.css` closes Tailwind's default colour, spacing, type, font, radius, shadow and leading
+scales. `p-4` is 4px from the token scale; `p-11` and `bg-red-500` do not exist. Arbitrary values
+(`min-h-[44px]`) still work. Font weights, breakpoints and easings stay open.
+
+## The workshop
+
+```bash
+npm run storybook   # every component, every state, light and dark, with the a11y panel
+npm test            # runs every story in Chromium: play functions, then axe; a violation fails
+npx changeset       # every pull request that changes lause-ds declares its bump here
+```
