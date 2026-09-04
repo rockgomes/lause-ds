@@ -48,9 +48,19 @@ export const Hover: Story = {
   },
 };
 
-export const Filled: Story = { args: { state: 'filled' } };
+export const Filled: Story = {
+  args: { state: 'filled' },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+  },
+};
 
-export const Dimmed: Story = { args: { state: 'dimmed' } };
+export const Dimmed: Story = {
+  args: { state: 'dimmed' },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+  },
+};
 
 export const Stack: Story = {
   render: (args) => (

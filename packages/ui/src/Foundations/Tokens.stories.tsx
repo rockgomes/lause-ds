@@ -1,7 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, within } from 'storybook/test';
 
-const colours = ['ground', 'ink', 'dim', 'accent', 'accent-text', 'accent-on-ink', 'surface', 'on-ink'] as const;
+const colours = [
+  'ground',
+  'ink',
+  'dim',
+  'accent',
+  'accent-text',
+  'accent-on-ink',
+  'surface',
+  'on-ink',
+  'ink-hover',
+  'ink-active',
+  'ground-hover',
+  'surface-hover',
+  'accent-text-on-ink',
+] as const;
 const roles = [
   { name: 'label', cls: 'text-label font-chrome' },
   { name: 'body', cls: 'text-body font-chrome' },

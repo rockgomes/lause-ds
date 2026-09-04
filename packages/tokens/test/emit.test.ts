@@ -59,6 +59,10 @@ describe('emit theme', () => {
     expect(theme).toContain('--spacing-16: var(--lause-space-16);');
     expect(theme).toContain('--leading-snug: var(--lause-type-leading-snug);');
   });
+  it('closes the default tracking scale and exposes tracking as a Tailwind theme value', () => {
+    expect(theme).toContain('--tracking-*: initial;');
+    expect(theme).toContain('--tracking-caps: var(--lause-type-tracking-caps);');
+  });
 });
 
 describe('emit figma', () => {

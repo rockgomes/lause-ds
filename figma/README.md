@@ -21,6 +21,8 @@ Two collections:
 - Dimensions (`type/size/*`, `space/*`, `radius/*`): px, as a float.
 - `type/leading/*`: unitless ratios (`1.1`–`1.85`). These are **not** for binding to a Figma
   line-height field — Figma line height is pixels, not a ratio.
+- `type/tracking/caps`: an em ratio (`0.1`), not px — bind it as a percentage of the font size
+  or compute px per role, do not bind the raw number.
 - `type/<role>/lineHeight`: a computed px float (`round(fontSize × leading)`), meant to be
   bound to a text style's line height directly.
 - Shadows (`shadow/*`, `shadow/tile`): one CSS-shorthand string per mode

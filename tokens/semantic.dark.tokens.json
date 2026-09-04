@@ -6,6 +6,7 @@
     "accent":      { "$type": "color", "$value": "{color.coral.500}", "$description": "graphic accent" },
     "accent-text": { "$type": "color", "$value": "{color.coral.300}", "$description": "accent used as small text" },
     "accent-on-ink": { "$type": "color", "$value": "{color.coral.600}", "$description": "accent on ink fills; ink is light in dark mode so the accent steps down" },
+    "accent-text-on-ink": { "$type": "color", "$value": "{color.coral.700}", "$description": "accent used as small text on ink fills; ink is light in dark mode so the accent steps down" },
     "surface":     { "$type": "color", "$value": "{color.navy.900}",  "$description": "tiles" },
     "on-ink":      { "$type": "color", "$value": "{color.navy.950}",  "$description": "text on ink fills" },
     "ink-hover":   { "$type": "color", "$value": "{color.ice.200}",   "$description": "hover on ink fills" },

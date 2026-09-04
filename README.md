@@ -44,7 +44,7 @@ docs/             specs, plans, component rules
 
 ## Status
 
-Foundation and the first six components done: Keycap, Button, Progress, Bar, Dial, Tile. Every story is a test with an axe check. Releases go through changesets. Reading components next (Plan 3).
+Foundation and ten components done: Keycap, Button, Progress, Bar, Dial, Tile, Bubble, Sentence, Nav, Cell, plus the usePeek hook. Every story is a test with an axe check. Figma library next (Plan 4).
 
 ## Using the system
 
@@ -77,8 +77,8 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 
 ### The theme replaces Tailwind's defaults
 
-`lause-ds/styles.css` closes Tailwind's default colour, spacing, type, font, radius, shadow and leading
-scales. `p-4` is 4px from the token scale; `p-11` and `bg-red-500` do not exist. Arbitrary values
+`lause-ds/styles.css` closes Tailwind's default colour, spacing, type, font, radius, shadow, leading and
+tracking scales. `p-4` is 4px from the token scale; `p-11` and `bg-red-500` do not exist. Arbitrary values
 (`min-h-[44px]`) still work. Font weights, breakpoints and easings stay open.
 
 ## The workshop

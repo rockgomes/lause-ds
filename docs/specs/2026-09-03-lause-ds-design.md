@@ -44,8 +44,10 @@ needs" rule applies to components, never to primitives.
 | `color.*` | One ramp per hue, 11 steps `50`–`950`, generated in OKLCH from a brand anchor so lightness is even across hues; the anchor itself is kept exact at its home step (navy.900, ice.100, coral.500), so lightness at those three steps follows the brand, not the grid | `navy` (anchor `#0f2238`), `ice` (blue-grey neutrals, anchor `#e4edf3`), `coral` (anchor `#ff5a36`); plus `white`, `black` |
 | `type.size` | Modular scale, base 16px, ratio 1.2 (minor third), rounded to whole px, then tuned by eye where a step reads wrong; every tuning is noted next to the value | 11 · 13 · 16 · 19 · 23 · 28 · 33 · 40 · 48 · 57 · 69 · 83 · 99 · 119 · 143 |
 | `type.leading` | Named line heights | `tight` 1.1 · `snug` 1.3 · `normal` 1.5 · `open` 1.85 |
+| `type.tracking` | Named letter-spacing | `caps` 0.1em |
 | `space` | 4px base | 0 · 2 · 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 |
 | `radius` | Named | `none` 0 · `sm` 4 · `md` 10 · `lg` 22 · `pill` 999 |
+| `stroke` | Named widths | `thin` 1.5 · `focus` 2 · `mark` 3 · `pin` 4 |
 | `shadow` | Two levels, tinted with navy.900 at 10%, derived from the anchor | `low` `0 1px 3px` · `mid` `0 6px 18px` at 10% |
 | `font.family` | Two stacks | `serif` Young Serif, Georgia · `sans` Instrument Sans, Helvetica Neue, Arial |
 | `opacity` | Named | `dim` 38% · `faint` 18% |
@@ -61,6 +63,7 @@ is the tier a mode (dark, a second brand) swaps.
 | `color.accent` | `coral.600` | `coral.500` | graphic accent (underlines, current segment, lit edge). Tuned from `coral.500` on light: the anchor is 2.62:1 on `ice.100`, below the 3:1 graphic minimum; 600 measures 3.98:1. Dark keeps the anchor at full strength, 5.82:1 on `navy.950` |
 | `color.accent-text` | `coral.700` | `coral.300` | accent used as small text; 6.02:1 (light), 10.34:1 (dark) |
 | `color.accent-on-ink` | `coral.500` | `coral.600` | accent drawn on `ink` fills. One `accent` cannot pass on both `ground` and `ink` in both modes because ink and ground swap luminance; 5.18:1 (light), 3.98:1 (dark) |
+| `color.accent-text-on-ink` | `coral.500` | `coral.700` | accent as small text on `ink` fills (the bubble's count); 5.18:1 (light), 6.02:1 (dark) |
 | `color.on-ink` | `ice.100` | `navy.950` | text on ink fills; 13.56:1 (light), 15.22:1 (dark) |
 | `color.ink-hover` | `navy.800` | `ice.200` | hover on ink fills; pressed is `color.ink-active` (`navy.950` / `ice.300`) |
 | `color.ink-active` | `navy.950` | `ice.300` | pressed on ink fills |

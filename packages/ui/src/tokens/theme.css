@@ -8,10 +8,13 @@
   --radius-*: initial;
   --shadow-*: initial;
   --leading-*: initial;
+  --tracking-*: initial;
   --leading-tight: var(--lause-type-leading-tight);
   --leading-snug: var(--lause-type-leading-snug);
   --leading-normal: var(--lause-type-leading-normal);
   --leading-open: var(--lause-type-leading-open);
+  --tracking-none: var(--lause-type-tracking-none);
+  --tracking-caps: var(--lause-type-tracking-caps);
   --spacing-0: var(--lause-space-0);
   --spacing-2: var(--lause-space-2);
   --spacing-4: var(--lause-space-4);
@@ -31,6 +34,7 @@
   --color-accent: var(--lause-color-accent);
   --color-accent-text: var(--lause-color-accent-text);
   --color-accent-on-ink: var(--lause-color-accent-on-ink);
+  --color-accent-text-on-ink: var(--lause-color-accent-text-on-ink);
   --color-surface: var(--lause-color-surface);
   --color-on-ink: var(--lause-color-on-ink);
   --color-ink-hover: var(--lause-color-ink-hover);

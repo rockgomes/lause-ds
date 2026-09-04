@@ -140,6 +140,20 @@
           }
         },
         {
+          "name": "type/tracking/none",
+          "type": "FLOAT",
+          "values": {
+            "Value": 0
+          }
+        },
+        {
+          "name": "type/tracking/caps",
+          "type": "FLOAT",
+          "values": {
+            "Value": 0.1
+          }
+        },
+        {
           "name": "space/0",
           "type": "FLOAT",
           "values": {
@@ -277,6 +291,20 @@
           "type": "FLOAT",
           "values": {
             "Value": 2
+          }
+        },
+        {
+          "name": "stroke/mark",
+          "type": "FLOAT",
+          "values": {
+            "Value": 3
+          }
+        },
+        {
+          "name": "stroke/pin",
+          "type": "FLOAT",
+          "values": {
+            "Value": 4
           }
         },
         {
@@ -644,6 +672,18 @@
             },
             "Dark": {
               "alias": "color/coral/600"
+            }
+          }
+        },
+        {
+          "name": "color/accent-text-on-ink",
+          "type": "COLOR",
+          "values": {
+            "Light": {
+              "alias": "color/coral/500"
+            },
+            "Dark": {
+              "alias": "color/coral/700"
             }
           }
         },

@@ -4,3 +4,8 @@ export { Progress, type ProgressProps } from './Progress/Progress.js';
 export { Bar, type BarProps, type BarSegment } from './Bar/Bar.js';
 export { Dial, type DialOption, type DialProps } from './Dial/Dial.js';
 export { Tile, TileStack, type TileProps, type TileState, type TileStackProps } from './Tile/Tile.js';
+export { Bubble, type BubbleProps } from './Bubble/Bubble.js';
+export { Sentence, type SentenceProps, type Segment, type Term, type Support } from './Sentence/Sentence.js';
+export { usePeek, type UsePeekOptions, type PeekState } from './usePeek/usePeek.js';
+export { Nav, type NavProps, type NavItem } from './Nav/Nav.js';
+export { Cell, CellGrid, type CellProps, type CellState, type CellGridProps } from './Cell/Cell.js';

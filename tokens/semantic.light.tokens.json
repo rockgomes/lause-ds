@@ -6,6 +6,7 @@
     "accent":      { "$type": "color", "$value": "{color.coral.600}", "$description": "graphic accent: underlines, current segment, lit edge" },
     "accent-text": { "$type": "color", "$value": "{color.coral.700}", "$description": "accent used as small text" },
     "accent-on-ink": { "$type": "color", "$value": "{color.coral.500}", "$description": "accent on ink fills; full-strength coral reads on navy" },
+    "accent-text-on-ink": { "$type": "color", "$value": "{color.coral.500}", "$description": "accent used as small text on ink fills" },
     "surface":     { "$type": "color", "$value": "{color.white}",     "$description": "tiles" },
     "on-ink":      { "$type": "color", "$value": "{color.ice.100}",   "$description": "text on ink fills" },
     "ink-hover":   { "$type": "color", "$value": "{color.navy.800}",  "$description": "hover on ink fills" },

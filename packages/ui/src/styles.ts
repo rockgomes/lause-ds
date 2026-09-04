@@ -1,3 +1,5 @@
+/** idle: available. selected: chosen, accent ring. filled: written in, ink. dimmed: no longer relevant. Shared by Tile and Cell. */
+export type SurfaceState = 'idle' | 'selected' | 'filled' | 'dimmed';
 /** Focus ring and disabled treatment shared by every interactive component. */
 export const focusRing = 'focus-visible:outline-(length:--lause-stroke-focus) focus-visible:outline-offset-2 focus-visible:outline-accent';
 export const disabledControl = 'disabled:cursor-not-allowed disabled:opacity-(--lause-opacity-dim)';

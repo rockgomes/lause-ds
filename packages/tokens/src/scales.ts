@@ -5,6 +5,7 @@ export type ShadowColor = { hue: string; step: string; alpha: number };
 export type ScaleRules = {
   type: { base: number; ratio: number; stepsDown: number; stepsUp: number; tuned: Record<string, { value: number; note: string }> };
   leading: Record<string, number>;
+  tracking: Record<string, number>;
   space: number[];
   radius: Record<string, number>;
   stroke: Record<string, number>;
@@ -14,6 +15,7 @@ export type ScaleRules = {
 };
 
 const px = (value: number, $description?: string): Token => ({ $type: 'dimension', $value: { value, unit: 'px' }, ...($description ? { $description } : {}) });
+const em = (v: number): Token => ({ $type: 'dimension', $value: { value: v, unit: 'em' } });
 const dim = (value: number) => ({ value, unit: 'px' });
 
 export function typeSizes(t: ScaleRules['type']): number[] {
@@ -42,11 +44,12 @@ export function buildScales(rules: ScaleRules, colors: Group): Group {
     size[String(s)] = tuned ? px(tuned.value, tuned.note) : px(s);
   }
   const leading: Group = Object.fromEntries(Object.entries(rules.leading).map(([k, v]) => [k, { $type: 'number', $value: v }]));
+  const tracking: Group = Object.fromEntries(Object.entries(rules.tracking).map(([k, v]) => [k, em(v)]));
   const space: Group = Object.fromEntries(rules.space.map((v) => [String(v), px(v)]));
   const radius: Group = Object.fromEntries(Object.entries(rules.radius).map(([k, v]) => [k, px(v)]));
   const stroke: Group = Object.fromEntries(Object.entries(rules.stroke).map(([k, v]) => [k, px(v)]));
   const shadow: Group = Object.fromEntries(Object.entries(rules.shadow).map(([k, v]) => [k, { $type: 'shadow', $value: { color: shadowTint(v.color, colors), offsetX: dim(v.offsetX), offsetY: dim(v.offsetY), blur: dim(v.blur), spread: dim(v.spread) } }]));
   const family: Group = Object.fromEntries(Object.entries(rules.font).map(([k, v]) => [k, { $type: 'fontFamily', $value: v }]));
   const opacity: Group = Object.fromEntries(Object.entries(rules.opacity).map(([k, v]) => [k, { $type: 'number', $value: v }]));
-  return { type: { size, leading }, space, radius, stroke, shadow, font: { family }, opacity };
+  return { type: { size, leading, tracking }, space, radius, stroke, shadow, font: { family }, opacity };
 }

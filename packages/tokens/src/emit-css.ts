@@ -63,6 +63,8 @@ export function emitThemeCss(prim: Group, light: Group): string {
       primLines.push(`  --spacing-${path.slice('space.'.length)}: var(${cssName(path)});`);
     } else if (t.$type === 'number' && path.startsWith('type.leading.')) {
       primLines.push(`  --leading-${path.slice('type.leading.'.length)}: var(${cssName(path)});`);
+    } else if (t.$type === 'dimension' && path.startsWith('type.tracking.')) {
+      primLines.push(`  --tracking-${path.slice('type.tracking.'.length)}: var(${cssName(path)});`);
     }
   }
   const lines: string[] = [];
@@ -90,6 +92,7 @@ export function emitThemeCss(prim: Group, light: Group): string {
     '  --radius-*: initial;',
     '  --shadow-*: initial;',
     '  --leading-*: initial;',
+    '  --tracking-*: initial;',
     ...primLines,
     ...lines,
     '}',
