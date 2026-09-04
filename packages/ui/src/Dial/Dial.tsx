@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 import type { ComponentProps, KeyboardEvent } from 'react';
-import { focusRing, hitTarget } from '../styles.js';
+import { focusRing, hitTarget, hoverFade } from '../styles.js';
 
 export type DialOption<V extends string> = { value: V; label: string };
 
@@ -65,8 +65,11 @@ export function Dial<V extends string>({ options, value, onChange, label, disabl
               'rounded-control px-12',
               hitTarget,
               focusRing,
+              hoverFade,
               'disabled:cursor-not-allowed',
-              selected ? 'bg-ink text-on-ink' : 'text-dim',
+              selected
+                ? 'bg-ink text-on-ink enabled:hover:bg-ink-hover enabled:active:bg-ink-active'
+                : 'text-dim enabled:hover:bg-ground-hover enabled:active:bg-ground-hover enabled:active:text-ink',
             )}
           >
             {option.label}

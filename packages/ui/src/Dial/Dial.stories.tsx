@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Dial, type DialProps } from './Dial.js';
+import { restFocus } from '../test-utils.js';
 
 type Support = 'et' | 'tugi' | 'korvuti';
 const support = [
@@ -46,6 +47,19 @@ export const Support: Story = {
     await expect(radios[1]).toHaveAttribute('aria-checked', 'true');
     await expect(radios[0]).toHaveAttribute('aria-checked', 'false');
     await expect(radios[1]).toHaveAttribute('data-state', 'selected');
+    restFocus();
+  },
+};
+
+export const Hover: Story = {
+  play: async ({ canvasElement }) => {
+    // userEvent.hover dispatches synthetic events and does not set the browser's real
+    // :hover state in this runner, so the fill is proved via the class list instead.
+    const radios = within(canvasElement).getAllByRole('radio');
+    await userEvent.hover(radios[1]);
+    await expect(radios[1].className).toContain('enabled:hover:bg-ground-hover');
+    await userEvent.unhover(radios[1]);
+    restFocus();
   },
 };
 
@@ -60,6 +74,7 @@ export const Keyboard: Story = {
     await expect(args.onChange).toHaveBeenLastCalledWith('korvuti');
     await userEvent.keyboard('{ArrowRight}');
     await expect(args.onChange).toHaveBeenLastCalledWith('et');
+    restFocus();
   },
 };
 
@@ -73,6 +88,7 @@ export const Disabled: Story = {
     const radios = within(canvasElement).getAllByRole('radio');
     await userEvent.click(radios[2]);
     await expect(args.onChange).not.toHaveBeenCalled();
+    restFocus();
   },
 };
 

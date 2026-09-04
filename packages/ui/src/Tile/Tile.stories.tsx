@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Tile, TileStack } from './Tile.js';
+import { restFocus } from '../test-utils.js';
 
 const options = [
   'Riigikogu',
@@ -23,6 +24,7 @@ export const Idle: Story = {
     await expect(tile).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(tile);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+    restFocus();
   },
 };
 
@@ -30,6 +32,19 @@ export const Selected: Story = {
   args: { state: 'selected' },
   play: async ({ canvasElement }) => {
     await expect(within(canvasElement).getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+    restFocus();
+  },
+};
+
+export const Hover: Story = {
+  play: async ({ canvasElement }) => {
+    // userEvent.hover dispatches synthetic events and does not set the browser's real
+    // :hover state in this runner, so the fill is proved via the class list instead.
+    const tile = within(canvasElement).getByRole('button', { name: /Vabariigi President/ });
+    await userEvent.hover(tile);
+    await expect(tile.className).toContain('enabled:hover:bg-surface-hover');
+    await userEvent.unhover(tile);
+    restFocus();
   },
 };
 
@@ -53,6 +68,7 @@ export const Stack: Story = {
     await expect(tiles).toHaveLength(4);
     await userEvent.click(tiles[3]);
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+    restFocus();
   },
 };
 
