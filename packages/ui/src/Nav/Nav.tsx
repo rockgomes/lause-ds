@@ -28,7 +28,11 @@ export type NavProps = Omit<ComponentProps<'header'>, 'children'> & {
   controls?: ReactNode;
   /** Accessible name of the navigation. */
   label: string;
-  /** Called with the item id on click, before the link navigates. */
+  /**
+   * Supply this when the app owns routing. A plain left-click then calls it with the item id and
+   * suppresses the browser's own navigation; modifier and middle clicks still open the link.
+   * Leave it out and the links navigate by themselves.
+   */
   onNavigate?: (id: string) => void;
 };
 
