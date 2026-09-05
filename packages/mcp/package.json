@@ -6,7 +6,10 @@
   "license": "MIT",
   "repository": { "type": "git", "url": "git+https://github.com/rockgomes/lause-ds.git", "directory": "packages/mcp" },
   "bin": { "lause-ds-mcp": "./dist/stdio.js" },
-  "exports": { ".": { "types": "./dist/server.d.ts", "default": "./dist/server.js" } },
+  "exports": {
+    ".": { "types": "./dist/server.d.ts", "default": "./dist/server.js" },
+    "./data": { "types": "./dist/data.d.ts", "default": "./dist/data.js" }
+  },
   "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/copy-data.mjs",
