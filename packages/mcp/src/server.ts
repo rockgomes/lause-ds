@@ -1,12 +1,9 @@
-import { createRequire } from 'node:module';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import type { Data } from './data.js';
 import { checkUsage } from './check-usage.js';
 import { getComponent, listComponents, listTokens } from './tools.js';
-
-const require = createRequire(import.meta.url);
-const PKG_VERSION = (require('../package.json') as { version: string }).version;
+import { VERSION } from './version.js';
 
 function json(value: unknown) {
   return { content: [{ type: 'text' as const, text: JSON.stringify(value) }] };
@@ -18,7 +15,7 @@ function errorText(text: string) {
 
 /** The Lause design system as an MCP server: tokens, components, and (Task 4) a usage check. */
 export function buildServer(data: Data): McpServer {
-  const server = new McpServer({ name: 'lause-ds', version: PKG_VERSION });
+  const server = new McpServer({ name: 'lause-ds', version: VERSION });
 
   server.registerTool(
     'list_tokens',
