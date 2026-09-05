@@ -12,12 +12,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-      # --legacy-peer-deps: netlify-cli's @netlify/build pulls in an
-      # opentelemetry chain pinned to ~1.8.0, while vitest's optional peer on
-      # @opentelemetry/api wants ^1.9.0. Both are satisfied at runtime; only
-      # npm's strict peer resolution objects, and a legacy-peer-deps install
-      # is what produced this lockfile.
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run typecheck
       - run: npm run build:ui
