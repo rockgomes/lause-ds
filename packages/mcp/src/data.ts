@@ -68,18 +68,41 @@ export type Bundle = {
 };
 
 /**
- * Finds the monorepo root by walking up from this module's location until a
- * directory holding a `package.json` with a `"workspaces"` key is found.
- * Falls back to `<dir of this file>/data` — the layout `copy-data.mjs`
- * produces for the published package, where there is no workspace root to
- * find.
+ * The file every valid root has to hold, in either layout: the monorepo root
+ * and the published package's `data` directory both carry `tokens/`.
  */
-export function findRoot(): string {
-  const startDir = dirname(fileURLToPath(import.meta.url));
+const ROOT_MARKER = ['tokens', 'primitives.tokens.json'] as const;
+
+function hasTokens(dir: string): boolean {
+  return existsSync(join(dir, ...ROOT_MARKER));
+}
+
+/**
+ * The directory `loadData` reads the design system out of.
+ *
+ * The published layout is checked first: `copy-data.mjs` writes every data
+ * file under `<dist>/data`, so if that directory holds the tokens it is the
+ * root — no walking up. This matters in a consumer that itself uses npm
+ * workspaces: walking up from `node_modules/lause-ds-mcp/dist` would find
+ * *their* `package.json` with a `workspaces` key and hand back a root that
+ * has no `tokens/` in it, and `loadData` would throw ENOENT.
+ *
+ * Only then does it walk up looking for a `package.json` with a
+ * `"workspaces"` key — this repo's own layout — and a candidate is accepted
+ * only when it also holds `tokens/primitives.tokens.json`, for the same
+ * reason. Falls back to `<startDir>/data`.
+ *
+ * `startDir` defaults to this module's own directory; it is a parameter so
+ * the tests can point it at a fixture tree.
+ */
+export function findRoot(startDir: string = dirname(fileURLToPath(import.meta.url))): string {
+  const published = join(startDir, 'data');
+  if (hasTokens(published)) return published;
+
   let dir = startDir;
   for (;;) {
     const pkgPath = join(dir, 'package.json');
-    if (existsSync(pkgPath)) {
+    if (existsSync(pkgPath) && hasTokens(dir)) {
       try {
         const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as Record<string, unknown>;
         if (pkg && typeof pkg === 'object' && 'workspaces' in pkg) return dir;
@@ -91,7 +114,7 @@ export function findRoot(): string {
     if (parent === dir) break; // reached the filesystem root without a match
     dir = parent;
   }
-  return join(startDir, 'data');
+  return published;
 }
 
 function readJSON(path: string): unknown {

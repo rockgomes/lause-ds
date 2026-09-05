@@ -172,8 +172,12 @@ function readTextOrPlaceholder(path: string): string {
  * directly; otherwise the source and story files are read from `root`,
  * which is how stdio and tests still work. Either way, a missing source or
  * story file yields the placeholder string rather than throwing.
+ *
+ * `root` is optional and `findRoot()` is called only when the bundle misses,
+ * so the hosted function — which always hits the bundle — never touches the
+ * filesystem, not even to discover a root it would not read from.
  */
-export function getComponent(data: Data, name: string, root: string = findRoot()): GetComponentResult {
+export function getComponent(data: Data, name: string, root?: string): GetComponentResult {
   const component = data.manifest.components.find((c) => c.name === name);
   if (!component) {
     const known = data.manifest.components.map((c) => c.name).join(', ');
@@ -181,9 +185,13 @@ export function getComponent(data: Data, name: string, root: string = findRoot()
   }
   const dirName = basename(dirname(component.source));
   const bundled = data.sources?.[dirName];
-  const sourceText = bundled ? (bundled.source ?? NOT_AVAILABLE) : readTextOrPlaceholder(join(root, component.source));
-  const storiesText = bundled
-    ? (bundled.stories ?? NOT_AVAILABLE)
-    : readTextOrPlaceholder(join(root, storiesPathFor(component.source)));
-  return { ...component, sourceText, storiesText };
+  if (bundled) {
+    return { ...component, sourceText: bundled.source ?? NOT_AVAILABLE, storiesText: bundled.stories ?? NOT_AVAILABLE };
+  }
+  const dir = root ?? findRoot();
+  return {
+    ...component,
+    sourceText: readTextOrPlaceholder(join(dir, component.source)),
+    storiesText: readTextOrPlaceholder(join(dir, storiesPathFor(component.source))),
+  };
 }

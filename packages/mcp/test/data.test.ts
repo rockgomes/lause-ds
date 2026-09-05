@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { describe, it, expect, afterAll } from 'vitest';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { dataFromBundle, findRoot, loadData, resolveToken, type Bundle } from '../src/data.js';
 import { getComponent } from '../src/tools.js';
@@ -87,5 +88,34 @@ describe('data', () => {
   });
   it('resolves a font stack to a comma-joined family list', () => {
     expect(resolveToken(data, 'font.content', 'light')).toBe('Young Serif, Georgia, serif');
+  });
+});
+
+describe('findRoot inside a consumer that uses npm workspaces', () => {
+  const repoRoot = findRoot();
+  const consumer = mkdtempSync(join(tmpdir(), 'lause-ds-consumer-'));
+  const dist = join(consumer, 'node_modules', 'lause-ds-mcp', 'dist');
+
+  // The consumer's own workspace root — exactly what the old walk-up found,
+  // and it has no tokens/ of its own.
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ name: 'consumer', workspaces: ['packages/*'] }));
+  mkdirSync(join(dist, 'data', 'tokens'), { recursive: true });
+  for (const file of ['primitives.tokens.json', 'semantic.light.tokens.json', 'semantic.dark.tokens.json']) {
+    cpSync(join(repoRoot, 'tokens', file), join(dist, 'data', 'tokens', file));
+  }
+  mkdirSync(join(dist, 'data', 'figma'), { recursive: true });
+  cpSync(join(repoRoot, 'figma', 'library.json'), join(dist, 'data', 'figma', 'library.json'));
+
+  afterAll(() => {
+    rmSync(consumer, { recursive: true, force: true });
+  });
+
+  it('returns the package data directory, not the consumer workspace root', () => {
+    expect(findRoot(dist)).toBe(join(dist, 'data'));
+  });
+
+  it('loads the tokens from there', () => {
+    const data = loadData(findRoot(dist));
+    expect(Object.keys(data.light.color)).toContain('ink');
   });
 });
