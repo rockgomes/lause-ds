@@ -1,0 +1,117 @@
+import { describe, it, expect } from 'vitest';
+import handler, { config } from '../../../netlify/functions/mcp.ts';
+
+const PROTOCOL_VERSION = '2025-06-18';
+
+function request(body: unknown, extraHeaders: Record<string, string> = {}): Request {
+  return new Request('http://localhost/mcp', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      accept: 'application/json, text/event-stream',
+      ...extraHeaders,
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+describe('netlify mcp function', () => {
+  it('exposes the four tools over an initialize + tools/list exchange', async () => {
+    const initResponse = await handler(
+      request({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: PROTOCOL_VERSION,
+          capabilities: {},
+          clientInfo: { name: 'http-test-client', version: '0.0.0' },
+        },
+      }),
+      {} as never,
+    );
+    expect(initResponse.status).toBe(200);
+    expect(initResponse.headers.get('access-control-allow-origin')).toBe('*');
+    const initBody = (await initResponse.json()) as { result: { protocolVersion: string } };
+    expect(initBody.result.protocolVersion).toBe(PROTOCOL_VERSION);
+
+    const listResponse = await handler(
+      request(
+        { jsonrpc: '2.0', id: 2, method: 'tools/list' },
+        { 'mcp-protocol-version': PROTOCOL_VERSION },
+      ),
+      {} as never,
+    );
+    expect(listResponse.status).toBe(200);
+    expect(listResponse.headers.get('access-control-allow-origin')).toBe('*');
+    const listBody = (await listResponse.json()) as { result: { tools: Array<{ name: string }> } };
+    expect(listBody.result.tools).toHaveLength(4);
+    expect(listBody.result.tools.map((tool) => tool.name).sort()).toEqual([
+      'check_usage',
+      'get_component',
+      'list_components',
+      'list_tokens',
+    ]);
+  });
+
+  it('calls get_component through the bundle, with no filesystem involved', async () => {
+    const response = await handler(
+      request(
+        {
+          jsonrpc: '2.0',
+          id: 3,
+          method: 'tools/call',
+          params: { name: 'get_component', arguments: { name: 'Button' } },
+        },
+        { 'mcp-protocol-version': PROTOCOL_VERSION },
+      ),
+      {} as never,
+    );
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { result: { content: Array<{ type: string; text: string }> } };
+    expect(body.result.content[0]?.text).toContain('export function Button');
+  });
+
+  it('answers OPTIONS with 204 and the CORS headers', async () => {
+    const response = await handler(new Request('http://localhost/mcp', { method: 'OPTIONS' }), {} as never);
+    expect(response.status).toBe(204);
+    expect(response.headers.get('access-control-allow-origin')).toBe('*');
+    expect(response.headers.get('access-control-allow-methods')).toContain('POST');
+  });
+
+  it('rejects GET with 405', async () => {
+    const response = await handler(new Request('http://localhost/mcp', { method: 'GET' }), {} as never);
+    expect(response.status).toBe(405);
+  });
+
+  it('answers a request body that fails to read without leaking a stack', async () => {
+    const body = new ReadableStream({
+      pull(controller) {
+        controller.error(new Error('boom'));
+      },
+    });
+    const failing = new Request('http://localhost/mcp', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+        'mcp-protocol-version': PROTOCOL_VERSION,
+      },
+      body,
+      duplex: 'half',
+    } as RequestInit & { duplex: 'half' });
+
+    // The transport catches this one itself and answers 400; what matters here
+    // is that it still comes back with the CORS headers and without a stack.
+    const response = await handler(failing, {} as never);
+    const text = await response.text();
+    expect(response.status).toBe(400);
+    expect(response.headers.get('access-control-allow-origin')).toBe('*');
+    expect(response.headers.get('access-control-max-age')).toBe('86400');
+    expect(text).not.toMatch(/boom|node_modules|at .*\.ts:/);
+  });
+
+  it('routes at /mcp', () => {
+    expect(config.path).toBe('/mcp');
+  });
+});

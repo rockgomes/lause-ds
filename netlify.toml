@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build:tokens && npm run build:manifest && npm run build:ui && npm run build:mcp && npm run build:site"
+  publish = "site"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

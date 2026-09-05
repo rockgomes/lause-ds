@@ -14,10 +14,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - run: npm run build:tokens
+      - run: npm run build:manifest
+      - run: npm run build:mcp
       - run: npm run typecheck
       - run: npm run build:ui
       - run: npm run build-storybook --workspace lause-ds
-      - run: npm run build:tokens
       - name: fail if generated files drifted
-        run: git add -A tokens packages/ui/src/tokens figma && git diff --cached --exit-code -- tokens packages/ui/src/tokens figma
+        run: git add -A tokens packages/ui/src/tokens figma components.manifest.json llms.txt && git diff --cached --exit-code -- tokens packages/ui/src/tokens figma components.manifest.json llms.txt
       - run: npm test

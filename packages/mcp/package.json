@@ -1,0 +1,27 @@
+{
+  "name": "lause-ds-mcp",
+  "version": "0.0.0",
+  "description": "The Lause design system as an MCP server: tokens, components, usage rules, and a usage check.",
+  "type": "module",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/rockgomes/lause-ds.git", "directory": "packages/mcp" },
+  "bin": { "lause-ds-mcp": "./dist/stdio.js" },
+  "exports": {
+    ".": { "types": "./dist/server.d.ts", "default": "./dist/server.js" },
+    "./data": { "types": "./dist/data.d.ts", "default": "./dist/data.js" },
+    "./data/bundle.json": "./dist/data/bundle.json"
+  },
+  "files": ["dist", "!dist/manifest.*"],
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "prepack": "npm run build",
+    "build": "tsc -p tsconfig.json && node scripts/copy-data.mjs",
+    "build:manifest": "tsx src/manifest.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "zod": "4.5.4"
+  },
+  "publishConfig": { "access": "public" }
+}

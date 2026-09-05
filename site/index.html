@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lause design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --ground: #e3ecf7;
+    --ink: #0f2238;
+    --dim: #446081;
+    --accent: #d93405;
+    --surface: #ffffff;
+    --serif: "Young Serif", Georgia, serif;
+    --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  main {
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    border-radius: 22px;
+    padding: 48px clamp(24px, 6vw, 56px);
+    box-shadow: 0px 6px 18px 0px rgba(15, 34, 56, 0.1);
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(33px, 6vw, 48px);
+    line-height: 1.1;
+    margin: 0 0 20px;
+  }
+
+  p.lede {
+    color: var(--dim);
+    font-size: 19px;
+    margin: 0 0 36px;
+  }
+
+  p.lede code {
+    background: var(--ground);
+    color: var(--ink);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  ul.links {
+    list-style: none;
+    margin: 0 0 36px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .link-card {
+    display: block;
+    border: 1.5px solid var(--ground);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .link-card:hover {
+    border-color: var(--accent);
+    background: var(--ground);
+  }
+
+  .link-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+  }
+
+  .link-card .label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .link-card .detail {
+    display: block;
+    color: var(--dim);
+    font-size: 13px;
+  }
+
+  .link-card pre {
+    margin: 8px 0 0;
+    background: var(--ink);
+    color: var(--ground);
+    padding: 12px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .footnote {
+    margin: 0;
+    color: var(--dim);
+    font-size: 13px;
+    border-top: 1.5px solid var(--ground);
+    padding-top: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .link-card {
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Lause</p>
+    <h1>Lause design system</h1>
+    <p class="lede">
+      Tokens, components, and usage rules for the Lause design system, built from one real
+      product and made readable by machines. Tools, agents, and people can all read the same
+      source through the links below.
+    </p>
+    <ul class="links">
+      <li>
+        <a class="link-card" href="https://github.com/rockgomes/lause-ds">
+          <span class="label">Repository</span>
+          <span class="detail">github.com/rockgomes/lause-ds — tokens, components, and the MCP server source</span>
+        </a>
+      </li>
+      <li>
+        <a class="link-card" href="/mcp">
+          <span class="label">MCP server</span>
+          <span class="detail">Streamable HTTP, no auth. Add it to Claude Code:</span>
+          <pre>claude mcp add --transport http lause https://shiny-frangipane-78fc08.netlify.app/mcp</pre>
+        </a>
+      </li>
+      <li>
+        <a class="link-card" href="/llms.txt">
+          <span class="label">llms.txt</span>
+          <span class="detail">A plain-text map of the system for any LLM that reads it directly</span>
+        </a>
+      </li>
+    </ul>
+    <p class="footnote">Storybook and docs arrive with Plan 6.</p>
+  </main>
+</body>
+</html>

@@ -22,8 +22,12 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run typecheck
+      # Same order as ci.yml: the generated token files, the manifest and the
+      # MCP dist all have to exist before typecheck and the tests run.
       - run: npm run build:tokens
+      - run: npm run build:manifest
+      - run: npm run build:mcp
+      - run: npm run typecheck
       - run: npm run build:ui
       - run: npm test
       - name: version or publish

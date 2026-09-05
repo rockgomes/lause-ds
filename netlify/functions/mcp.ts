@@ -1,0 +1,85 @@
+import type { Config, Context } from '@netlify/functions';
+import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
+import { buildServer } from 'lause-ds-mcp';
+import { dataFromBundle, type Bundle } from 'lause-ds-mcp/data';
+import bundle from 'lause-ds-mcp/data/bundle.json' with { type: 'json' };
+
+// Loaded once at module scope from the bundle esbuild inlines at build time —
+// every request reuses the same in-memory data, only the MCP server and
+// transport are built fresh per request (see below). No filesystem
+// discovery: inside the deployed function bundle there is no monorepo root
+// for `findRoot()` to find, and `loadData` has nothing to read off disk.
+//
+// The `as Bundle` is needed because TS infers a JSON import's type from its
+// literal content (e.g. `manifest.components[].kind` widens to `string`, not
+// the `'component' | 'hook'` union `Bundle` declares) rather than from the
+// module's own shape.
+const data = dataFromBundle(bundle as Bundle);
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, MCP-Protocol-Version',
+  'Access-Control-Max-Age': '86400',
+};
+
+function withCors(response: Response): Response {
+  for (const [key, value] of Object.entries(CORS_HEADERS)) {
+    response.headers.set(key, value);
+  }
+  return response;
+}
+
+/**
+ * The Lause design system MCP server, hosted as a Netlify Function. No auth —
+ * every tool here is read-only reference data (tokens, components, usage
+ * rules), so there is nothing to gate.
+ */
+export default async (req: Request, _context: Context): Promise<Response> => {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS_HEADERS });
+
+  // Reject anything but POST before it reaches the transport: a GET would
+  // make it open an SSE stream that never closes, which a serverless
+  // function can't serve.
+  if (req.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405, headers: CORS_HEADERS });
+  }
+
+  // Fresh server + transport per request — the transport is stateless
+  // (sessionIdGenerator: undefined) and explicitly forbids reuse across
+  // requests, and a serverless function has no durable place to keep one
+  // instance alive between invocations anyway.
+  let server: ReturnType<typeof buildServer> | undefined;
+  let transport: WebStandardStreamableHTTPServerTransport | undefined;
+
+  try {
+    server = buildServer(data);
+    transport = new WebStandardStreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+      enableJsonResponse: true,
+    });
+    await server.connect(transport);
+    const response = await transport.handleRequest(req);
+    return withCors(response);
+  } catch {
+    // Anything that escapes the transport — a body that fails to read, a bug
+    // in a tool — becomes one JSON-RPC internal error. The message is fixed:
+    // a stack trace would tell a stranger about the inside of this function.
+    return withCors(
+      new Response(JSON.stringify({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal error' }, id: null }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+  } finally {
+    // One server and transport per request, so both are closed per request —
+    // otherwise every invocation leaks the pair it built.
+    await transport?.close();
+    await server?.close();
+  }
+};
+
+export const config: Config = {
+  path: '/mcp',
+  rateLimit: { windowSize: 60, windowLimit: 120, aggregateBy: ['ip'] },
+};
