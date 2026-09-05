@@ -42,6 +42,29 @@ export type Data = {
   manifest: Manifest;
   llms: string;
   figma: Ledger;
+  /** The bundled theme.css text, when loaded via `dataFromBundle`. */
+  themeCss?: string;
+  /** Bundled component source/story text, keyed by directory name, when loaded via `dataFromBundle`. */
+  sources?: Record<string, { source: string | null; stories: string | null }>;
+};
+
+/**
+ * The exact shape `copy-data.mjs` writes to `dist/data/bundle.json`: every
+ * file `loadData`/`getComponent`/`checkUsage` would otherwise read off disk,
+ * inlined as parsed JSON or raw text so esbuild can bundle it into the
+ * hosted Netlify function, which has neither a monorepo root nor these files
+ * on disk at runtime. A field is `null` when its source file was missing at
+ * build time — the same case `copy-data.mjs` already warns about.
+ */
+export type Bundle = {
+  primitives: Group | null;
+  light: Group | null;
+  dark: Group | null;
+  manifest: Manifest | null;
+  llms: string | null;
+  figma: Ledger | null;
+  themeCss: string | null;
+  sources: Record<string, { source: string | null; stories: string | null }>;
 };
 
 /**
@@ -95,6 +118,30 @@ export function loadData(root: string = findRoot()): Data {
   const llms = existsSync(llmsPath) ? readFileSync(llmsPath, 'utf8') : '';
   const figma = readJSON(join(root, 'figma/library.json')) as Ledger;
   return { primitives, light, dark, manifest, llms, figma };
+}
+
+/**
+ * Builds the same `Data` shape `loadData` returns, but from an in-memory
+ * `Bundle` instead of the filesystem — this is what the hosted Netlify
+ * function uses, since its esbuild bundle has no monorepo root to call
+ * `loadData(findRoot())` against. `themeCss` and `sources` ride along as the
+ * two bundle-only fields `getComponent` and `checkUsage` prefer when present.
+ */
+export function dataFromBundle(bundle: Bundle): Data {
+  if (!bundle.primitives) throw new Error('bundle missing primitives tokens');
+  if (!bundle.light) throw new Error('bundle missing light semantic tokens');
+  if (!bundle.dark) throw new Error('bundle missing dark semantic tokens');
+  if (!bundle.figma) throw new Error('bundle missing figma ledger');
+  return {
+    primitives: bundle.primitives,
+    light: bundle.light,
+    dark: bundle.dark,
+    manifest: bundle.manifest ?? { components: [], rules: [] },
+    llms: bundle.llms ?? '',
+    figma: bundle.figma,
+    themeCss: bundle.themeCss ?? undefined,
+    sources: bundle.sources,
+  };
 }
 
 function isToken(v: unknown): v is Token {

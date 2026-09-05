@@ -54,6 +54,24 @@ describe('netlify mcp function', () => {
     ]);
   });
 
+  it('calls get_component through the bundle, with no filesystem involved', async () => {
+    const response = await handler(
+      request(
+        {
+          jsonrpc: '2.0',
+          id: 3,
+          method: 'tools/call',
+          params: { name: 'get_component', arguments: { name: 'Button' } },
+        },
+        { 'mcp-protocol-version': PROTOCOL_VERSION },
+      ),
+      {} as never,
+    );
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { result: { content: Array<{ type: string; text: string }> } };
+    expect(body.result.content[0]?.text).toContain('export function Button');
+  });
+
   it('answers OPTIONS with 204 and the CORS headers', async () => {
     const response = await handler(new Request('http://localhost/mcp', { method: 'OPTIONS' }), {} as never);
     expect(response.status).toBe(204);

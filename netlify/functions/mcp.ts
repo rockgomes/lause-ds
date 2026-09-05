@@ -1,16 +1,25 @@
 import type { Config, Context } from '@netlify/functions';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { buildServer } from 'lause-ds-mcp';
-import { findRoot, loadData } from 'lause-ds-mcp/data';
+import { dataFromBundle, type Bundle } from 'lause-ds-mcp/data';
+import bundle from 'lause-ds-mcp/data/bundle.json' with { type: 'json' };
 
-// Loaded once at module scope — every request reuses the same in-memory data,
-// only the MCP server and transport are built fresh per request (see below).
-const data = loadData(findRoot());
+// Loaded once at module scope from the bundle esbuild inlines at build time —
+// every request reuses the same in-memory data, only the MCP server and
+// transport are built fresh per request (see below). No filesystem
+// discovery: inside the deployed function bundle there is no monorepo root
+// for `findRoot()` to find, and `loadData` has nothing to read off disk.
+//
+// The `as Bundle` is needed because TS infers a JSON import's type from its
+// literal content (e.g. `manifest.components[].kind` widens to `string`, not
+// the `'component' | 'hook'` union `Bundle` declares) rather than from the
+// module's own shape.
+const data = dataFromBundle(bundle as Bundle);
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Authorization, Content-Type, Mcp-Session-Id',
+  'Access-Control-Allow-Headers': 'Content-Type, MCP-Protocol-Version',
 };
 
 function withCors(response: Response): Response {

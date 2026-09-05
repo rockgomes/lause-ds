@@ -5,13 +5,3 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-  included_files = [
-    "tokens/**",
-    "components.manifest.json",
-    "llms.txt",
-    "figma/library.json",
-    "packages/ui/src/tokens/theme.css",
-    "packages/ui/src/**/*.tsx",
-    "packages/ui/src/**/*.ts",
-    "packages/mcp/package.json"
-  ]

@@ -37,12 +37,16 @@ type ThemeSet = {
 };
 
 /**
- * Locates theme.css: the monorepo source (`packages/ui/src/tokens/theme.css`
- * under the workspace root) or, for the published package layout where
- * `findRoot()` falls back to `<package dir>/data`, the bundled copy
- * `copy-data.mjs` places at the same relative path under that data dir.
+ * The closed-theme source CSS. Prefers `data.themeCss` — the hosted Netlify
+ * function's bundled text (see `dataFromBundle`), which has no filesystem to
+ * fall back to. Otherwise reads the monorepo source
+ * (`packages/ui/src/tokens/theme.css` under the workspace root) or, for the
+ * published package layout where `findRoot()` falls back to
+ * `<package dir>/data`, the bundled copy `copy-data.mjs` places at the same
+ * relative path under that data dir.
  */
-function loadThemeCss(): string {
+function loadThemeCss(data: Data): string {
+  if (data.themeCss !== undefined) return data.themeCss;
   const root = findRoot();
   const path = join(root, 'packages/ui/src/tokens/theme.css');
   return existsSync(path) ? readFileSync(path, 'utf8') : '';
@@ -103,8 +107,8 @@ function parseThemeSet(css: string): ThemeSet {
 
 let cachedThemeSet: ThemeSet | null = null;
 
-function getThemeSet(): ThemeSet {
-  if (!cachedThemeSet) cachedThemeSet = parseThemeSet(loadThemeCss());
+function getThemeSet(data: Data): ThemeSet {
+  if (!cachedThemeSet) cachedThemeSet = parseThemeSet(loadThemeCss(data));
   return cachedThemeSet;
 }
 
@@ -532,7 +536,7 @@ function findFocusMissing(code: string, rawLines: string[], data: Data): Finding
 // ---------------------------------------------------------------------------
 
 export function checkUsage(data: Data, code: string): { findings: Finding[] } {
-  const theme = getThemeSet();
+  const theme = getThemeSet(data);
   const findings: Finding[] = [];
   const rawLines = code.split('\n');
   const strippedLines = stripComments(code).split('\n');
