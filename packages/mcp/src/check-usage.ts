@@ -238,6 +238,7 @@ function fontContextsOnLine(stripped: string, classStrings: string[]): string[] 
 
 const COLOR_PREFIXES = ['bg-', 'border-', 'ring-', 'outline-', 'decoration-', 'fill-', 'stroke-'];
 const SPACING_PREFIXES = [
+  'border-spacing-',
   'min-w-',
   'min-h-',
   'max-w-',
@@ -272,6 +273,9 @@ const SPACING_PREFIXES = [
   'left-',
 ].sort((a, b) => b.length - a.length);
 
+/** The side segment of a per-side border utility: `border-t-ink`, `border-b-2`. */
+const BORDER_SIDE_RE = /^(?:b|t|l|r|x|y|s|e)-/;
+
 const SIZE_KEYWORDS = new Set(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl']);
 
 /**
@@ -285,6 +289,7 @@ const SIZE_KEYWORDS = new Set(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4x
 const KEYWORD_SUFFIX: Record<string, RegExp> = {
   'text-': /^(?:balance|pretty|wrap|nowrap|ellipsis|clip|left|center|right|justify|start|end)$/,
   'border-': /^(?:b|t|l|r|x|y|s|e|solid|dashed|dotted|double|none|collapse|separate)$/,
+  'decoration-': /^(?:solid|dashed|dotted|double|wavy|none|auto|from-font)$/,
   'bg-': /^(?:gradient-.*|linear-.*|radial-.*|conic-.*|cover|contain|auto|center|top|bottom|left|right|none|no-repeat|repeat.*|fixed|local|scroll|clip-.*|origin-.*)$/,
   'font-': /^(?:thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/,
 };
@@ -339,10 +344,16 @@ const STATIC_ALLOWLIST = new Set([
 
 type ClassFinding = { rule: 'off-theme-utility' | 'stem-without-role' | 'raw-size'; util: string };
 
+// A variant segment: `sm:`, `hover:`, `enabled:`, `[&>*]:`. Written as a
+// prefix match rather than a split on ':' so the colon inside an arbitrary
+// value — `decoration-(length:--lause-stroke-mark)` — is left alone.
+const VARIANT_RE = /^(?:\[[^\]]*\]|[\w.@/-]+):/;
+
 /** Strips a leading `sm:`/`hover:`/`enabled:active:` variant chain and a leading `-` (negative utility). */
 function baseUtility(rawToken: string): string {
-  const afterVariants = rawToken.split(':').pop() ?? rawToken;
-  return afterVariants.startsWith('-') ? afterVariants.slice(1) : afterVariants;
+  let token = rawToken;
+  for (let m = VARIANT_RE.exec(token); m; m = VARIANT_RE.exec(token)) token = token.slice(m[0].length);
+  return token.startsWith('-') ? token.slice(1) : token;
 }
 
 // A raw arbitrary length: a bare number + px/rem/em, e.g. `500px`, `2.5rem`.
@@ -390,21 +401,25 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
     return { rule: 'off-theme-utility', util: token };
   }
 
-  for (const prefix of COLOR_PREFIXES) {
-    if (token.startsWith(prefix)) {
-      const rest = token.slice(prefix.length);
-      if (/^\d+$/.test(rest)) return null; // a width/thickness utility (border-2), not a colour
-      if (isKeywordSuffix(prefix, rest)) return null;
-      if (theme.color.has(rest)) return null;
-      return { rule: 'off-theme-utility', util: token };
-    }
-  }
-
+  // Spacing first: `border-spacing-12` is a spacing utility that happens to
+  // start with the border prefix.
   for (const prefix of SPACING_PREFIXES) {
     if (token.startsWith(prefix)) {
       const rest = token.slice(prefix.length);
       if (SPACING_KEYWORD_RE.test(rest)) return null;
       if (theme.spacing.has(rest)) return null;
+      return { rule: 'off-theme-utility', util: token };
+    }
+  }
+
+  for (const prefix of COLOR_PREFIXES) {
+    if (token.startsWith(prefix)) {
+      let rest = token.slice(prefix.length);
+      // `border-t-ink` is the top border's colour: judge what follows the side.
+      if (prefix === 'border-' && BORDER_SIDE_RE.test(rest)) rest = rest.slice(2);
+      if (/^\d+$/.test(rest)) return null; // a width/thickness utility (border-2), not a colour
+      if (isKeywordSuffix(prefix, rest)) return null;
+      if (theme.color.has(rest)) return null;
       return { rule: 'off-theme-utility', util: token };
     }
   }

@@ -209,6 +209,18 @@ describe('checkUsage', () => {
     noFinding(`<div className="bg-gradient-to-r bg-cover bg-center bg-no-repeat">x</div>`);
   });
 
+  it('does not flag a per-side border colour or width', () => {
+    noFinding(`<div className="border-t-ink after:border-t-ink border-b-2 border-spacing-12">x</div>`);
+  });
+
+  it('does not flag text-decoration styles', () => {
+    noFinding(`<span className="underline decoration-accent decoration-dotted decoration-solid">x</span>`);
+  });
+
+  it('does not mistake the colon of an arbitrary value for a variant', () => {
+    noFinding(`<span className="decoration-(length:--lause-stroke-mark) border-(length:--lause-stroke-thin)">x</span>`);
+  });
+
   it('does not flag font weights, which stay open', () => {
     noFinding(`<p className="font-light font-extrabold font-thin">Hi</p>`);
   });
