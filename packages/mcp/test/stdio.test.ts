@@ -1,20 +1,18 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
 const packageRoot = fileURLToPath(new URL('..', import.meta.url));
-const repoRoot = fileURLToPath(new URL('../../..', import.meta.url));
 const distStdio = `${packageRoot}dist/stdio.js`;
 
+// The build itself runs once in the project's globalSetup (test/global-setup.ts).
 beforeAll(() => {
-  execSync('npm run build:mcp', { cwd: repoRoot, stdio: 'ignore' });
   if (!existsSync(distStdio)) {
     throw new Error(`Expected ${distStdio} to exist after npm run build:mcp`);
   }
-}, 120_000);
+});
 
 describe('stdio entry', () => {
   it('serves list_components with 13 entries over stdio', async () => {
