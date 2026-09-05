@@ -116,10 +116,74 @@ function getThemeSet(data: Data): ThemeSet {
 // Comment stripping (line numbers and length are preserved)
 // ---------------------------------------------------------------------------
 
+/** The index of the closing quote of the literal opening at `open`, or the end of the text. */
+function skipString(text: string, open: number): number {
+  const quote = text[open];
+  let i = open + 1;
+  while (i < text.length) {
+    const ch = text[i];
+    if (ch === '\\') {
+      i += 2;
+      continue;
+    }
+    if (ch === quote) return i;
+    // A plain quote never spans a line — an apostrophe in JSX prose
+    // ("don't") is not the start of a string literal.
+    if (ch === '\n' && quote !== '`') return open;
+    i++;
+  }
+  return quote === '`' ? text.length : open;
+}
+
+/**
+ * Blanks out comments, preserving every line number and every offset: a
+ * comment becomes spaces, newlines stay.
+ *
+ * The `//` pass is string-aware — it skips over `"…"`, `'…'` and `` `…` ``
+ * literals the way `tokenizeTags` does, so the `//` in
+ * `href="https://example.com"` no longer blanks the rest of the line — and it
+ * refuses a `//` written straight after a `:` or a `\` (a bare URL, and the
+ * `\/\/` of a regex literal like `/https?:\/\//`).
+ */
 function stripComments(code: string): string {
-  let out = code.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
-  out = out.replace(/\/\/.*$/gm, (m) => ' '.repeat(m.length));
-  return out;
+  const out = code.split('');
+  const blank = (from: number, to: number) => {
+    for (let k = from; k < to; k++) if (out[k] !== '\n') out[k] = ' ';
+  };
+  let i = 0;
+  while (i < code.length) {
+    const ch = code[i];
+    if (ch === '"' || ch === "'" || ch === '`') {
+      const close = skipString(code, i);
+      if (close > i) {
+        i = close + 1;
+        continue;
+      }
+      i++; // not a literal after all (an unterminated quote, e.g. an apostrophe in prose)
+      continue;
+    }
+    if (ch === '/' && code[i + 1] === '*') {
+      const end = code.indexOf('*/', i + 2);
+      const stop = end === -1 ? code.length : end + 2;
+      blank(i, stop);
+      i = stop;
+      continue;
+    }
+    if (ch === '/' && code[i + 1] === '/') {
+      const previous = code[i - 1];
+      if (previous === ':' || previous === '\\') {
+        i += 2;
+        continue;
+      }
+      let end = code.indexOf('\n', i);
+      if (end === -1) end = code.length;
+      blank(i, end);
+      i = end;
+      continue;
+    }
+    i++;
+  }
+  return out.join('');
 }
 
 // ---------------------------------------------------------------------------
@@ -145,12 +209,11 @@ const FONT_SIZE_RE = /font-size\s*:/;
  * attribute value, a `style` attribute (string or object form), a
  * `font-family:` CSS declaration, or a `fontFamily:` JS style key — never in
  * ordinary JSX text or an unrelated string literal ("Georgia is a country.").
- * Each match run is line-scoped, matching the rest of this file's per-line
- * architecture.
+ * Each match run is line-scoped; the class strings of that line are passed
+ * in, since those are extracted once for the whole document.
  */
-function fontContextsOnLine(stripped: string): string[] {
-  const contexts: string[] = [];
-  contexts.push(...extractClassStringsFromLine(stripped));
+function fontContextsOnLine(stripped: string, classStrings: string[]): string[] {
+  const contexts: string[] = [...classStrings];
 
   let m: RegExpExecArray | null;
 
@@ -210,7 +273,28 @@ const SPACING_PREFIXES = [
 ].sort((a, b) => b.length - a.length);
 
 const SIZE_KEYWORDS = new Set(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl']);
-const TEXT_ALIGN_KEYWORDS = new Set(['left', 'center', 'right', 'justify']);
+
+/**
+ * Suffixes that share a closed namespace's prefix but name a CSS keyword
+ * rather than a themeable value — `mx-auto` is not a spacing key, `border-b`
+ * is not a colour, `text-balance` is not a type role, `font-light` is a
+ * weight (weights stay open, see the README) and `bg-cover` is a background
+ * size. None of them can be replaced by a token, so none of them is a
+ * finding.
+ */
+const KEYWORD_SUFFIX: Record<string, RegExp> = {
+  'text-': /^(?:balance|pretty|wrap|nowrap|ellipsis|clip|left|center|right|justify|start|end)$/,
+  'border-': /^(?:b|t|l|r|x|y|s|e|solid|dashed|dotted|double|none|collapse|separate)$/,
+  'bg-': /^(?:gradient-.*|linear-.*|radial-.*|conic-.*|cover|contain|auto|center|top|bottom|left|right|none|no-repeat|repeat.*|fixed|local|scroll|clip-.*|origin-.*)$/,
+  'font-': /^(?:thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/,
+};
+
+/** The spacing namespace's own keywords: sizing words and fractions (`w-1/2`). */
+const SPACING_KEYWORD_RE = /^(?:auto|fit|min|max|full|screen|px|dvh|svh|lvh|\d+\/\d+)$/;
+
+function isKeywordSuffix(prefix: string, rest: string): boolean {
+  return KEYWORD_SUFFIX[prefix]?.test(rest) ?? false;
+}
 
 /**
  * Static utilities that use a closed-namespace prefix but name a keyword, not
@@ -299,7 +383,7 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
 
   if (token.startsWith('text-')) {
     const rest = token.slice('text-'.length);
-    if (TEXT_ALIGN_KEYWORDS.has(rest)) return null;
+    if (isKeywordSuffix('text-', rest)) return null;
     if (theme.textRoles.has(rest)) return null;
     if (SIZE_KEYWORDS.has(rest)) return { rule: 'stem-without-role', util: token };
     if (theme.color.has(rest)) return null;
@@ -310,6 +394,7 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
     if (token.startsWith(prefix)) {
       const rest = token.slice(prefix.length);
       if (/^\d+$/.test(rest)) return null; // a width/thickness utility (border-2), not a colour
+      if (isKeywordSuffix(prefix, rest)) return null;
       if (theme.color.has(rest)) return null;
       return { rule: 'off-theme-utility', util: token };
     }
@@ -318,6 +403,7 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
   for (const prefix of SPACING_PREFIXES) {
     if (token.startsWith(prefix)) {
       const rest = token.slice(prefix.length);
+      if (SPACING_KEYWORD_RE.test(rest)) return null;
       if (theme.spacing.has(rest)) return null;
       return { rule: 'off-theme-utility', util: token };
     }
@@ -325,6 +411,7 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
 
   if (token.startsWith('font-')) {
     const rest = token.slice('font-'.length);
+    if (isKeywordSuffix('font-', rest)) return null;
     return theme.font.has(rest) ? null : { rule: 'off-theme-utility', util: token };
   }
   if (token.startsWith('rounded-')) {
@@ -347,29 +434,92 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
   return null; // not a closed-namespace utility (flex, grid-cols-3, items-center, …)
 }
 
-/** Every class string on a line: `className="…"`/`class="…"` (any quote style) plus `clsx(...)` string literals. */
-function extractClassStringsFromLine(line: string): string[] {
-  const out: string[] = [];
-  const attrRe =
-    /(?:className|class)\s*=\s*(?:"([^"]*)"|'([^']*)'|\{`([^`]*)`\}|\{"([^"]*)"\}|\{'([^']*)'\})/g;
-  let m: RegExpExecArray | null;
-  while ((m = attrRe.exec(line))) {
-    out.push(m[1] ?? m[2] ?? m[3] ?? m[4] ?? m[5] ?? '');
+/** A class string with the absolute offset of its first character in the document. */
+type ClassString = { value: string; index: number };
+
+const CLASS_ATTR_RE =
+  /(?:className|class)\s*=\s*(?:"([^"]*)"|'([^']*)'|\{`([^`]*)`\}|\{"([^"]*)"\}|\{'([^']*)'\})/g;
+
+/** The class-name helpers whose string arguments are class strings. */
+const HELPER_CALL_RE = /\b(?:clsx|cn|twMerge|classNames|cva|cx)\s*\(/g;
+
+/** The index of the `)` closing the `(` at `open`, skipping string literals; -1 when unbalanced. */
+function matchingParen(text: string, open: number): number {
+  let depth = 0;
+  for (let i = open; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"' || ch === "'" || ch === '`') {
+      const close = skipString(text, i);
+      if (close > i) i = close;
+      continue;
+    }
+    if (ch === '(') depth++;
+    else if (ch === ')') {
+      depth--;
+      if (depth === 0) return i;
+    }
   }
-  const clsxRe = /clsx\(([^)]*)\)/g;
-  while ((m = clsxRe.exec(line))) {
-    const litRe = /"([^"]*)"|'([^']*)'|`([^`]*)`/g;
-    let lm: RegExpExecArray | null;
-    while ((lm = litRe.exec(m[1]))) out.push(lm[1] ?? lm[2] ?? lm[3] ?? '');
+  return -1;
+}
+
+/** Every string literal between `from` and `to`, with the offset of its content. */
+function stringLiteralsIn(text: string, from: number, to: number): ClassString[] {
+  const out: ClassString[] = [];
+  for (let i = from; i < to; i++) {
+    const ch = text[i];
+    if (ch !== '"' && ch !== "'" && ch !== '`') continue;
+    const close = skipString(text, i);
+    if (close <= i) continue;
+    out.push({ value: text.slice(i + 1, close), index: i + 1 });
+    i = close;
   }
   return out;
 }
 
-function tokensOf(classString: string): string[] {
-  return classString
-    .replace(/\$\{[^}]*\}/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean);
+/**
+ * Every class string in the document: a `className`/`class` attribute value
+ * (any quote style), and every string literal passed to a class-name helper
+ * (`clsx`, `cn`, `twMerge`, `classNames`, `cva`, `cx`) found by balanced,
+ * quote-aware parenthesis matching. The whole document, not a line at a time
+ * — prettier wraps a long `clsx(...)` call over several lines, and each
+ * string keeps its own offset so its findings land on its own line.
+ */
+function extractClassStrings(text: string): ClassString[] {
+  const out: ClassString[] = [];
+  let m: RegExpExecArray | null;
+
+  CLASS_ATTR_RE.lastIndex = 0;
+  while ((m = CLASS_ATTR_RE.exec(text))) {
+    const value = m[1] ?? m[2] ?? m[3] ?? m[4] ?? m[5] ?? '';
+    const relative = m[0].indexOf(value, m[0].indexOf('=') + 1);
+    out.push({ value, index: m.index + (relative === -1 ? 0 : relative) });
+  }
+
+  HELPER_CALL_RE.lastIndex = 0;
+  while ((m = HELPER_CALL_RE.exec(text))) {
+    const open = HELPER_CALL_RE.lastIndex - 1;
+    const close = matchingParen(text, open);
+    if (close === -1) continue;
+    out.push(...stringLiteralsIn(text, open + 1, close));
+    // Literals of a nested helper call are already collected above.
+    HELPER_CALL_RE.lastIndex = close;
+  }
+
+  out.sort((a, b) => a.index - b.index);
+  return out;
+}
+
+/** A class token with the absolute offset it was written at. */
+type ClassToken = { value: string; index: number };
+
+/** The whitespace-separated tokens of a class string; `${…}` interpolations are blanked out. */
+function tokensOf(classString: ClassString): ClassToken[] {
+  const value = classString.value.replace(/\$\{[^}]*\}/g, (m) => ' '.repeat(m.length));
+  const out: ClassToken[] = [];
+  const re = /\S+/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(value))) out.push({ value: m[0], index: classString.index + m.index });
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -452,10 +602,27 @@ function tokenizeTags(text: string): Tag[] {
   return tags;
 }
 
-function lineOf(text: string, index: number): number {
-  let line = 1;
-  for (let i = 0; i < index; i++) if (text.charCodeAt(i) === 10) line++;
-  return line;
+/**
+ * The offset each line starts at, built once per `checkUsage` call. Counting
+ * newlines from the start of the document for every finding is what made the
+ * check quadratic on a large file; `lineOf` binary-searches this instead.
+ */
+function buildLineStarts(text: string): number[] {
+  const starts = [0];
+  for (let i = 0; i < text.length; i++) if (text.charCodeAt(i) === 10) starts.push(i + 1);
+  return starts;
+}
+
+/** The 1-based line holding `index`, by binary search over `lineStarts`. */
+function lineOf(lineStarts: number[], index: number): number {
+  let low = 0;
+  let high = lineStarts.length - 1;
+  while (low < high) {
+    const mid = (low + high + 1) >> 1;
+    if (lineStarts[mid] <= index) low = mid;
+    else high = mid - 1;
+  }
+  return low + 1;
 }
 
 function classAttrOf(tagRaw: string): string {
@@ -468,17 +635,17 @@ function classAttrOf(tagRaw: string): string {
 
 /** flex-row, any grid-cols-*, or flex without flex-col. */
 function qualifiesAsRow(classStr: string): boolean {
-  const bases = tokensOf(classStr).map((t) => t.split(':').pop() ?? t);
+  const bases = tokensOf({ value: classStr, index: 0 }).map((t) => t.value.split(':').pop() ?? t.value);
   if (bases.includes('flex-row')) return true;
   if (bases.some((t) => t.startsWith('grid-cols-'))) return true;
   return bases.includes('flex') && !bases.includes('flex-col');
 }
 
-function findTileInRow(code: string, rawLines: string[]): Finding[] {
+function findTileInRow(tags: Tag[], rawLines: string[], lineStarts: number[]): Finding[] {
   const findings: Finding[] = [];
   type Frame = { name: string; qualifies: boolean; tileCount: number; line: number };
   const stack: Frame[] = [];
-  for (const tag of tokenizeTags(code)) {
+  for (const tag of tags) {
     if (tag.closing) {
       for (let i = stack.length - 1; i >= 0; i--) {
         if (stack[i].name === tag.name) {
@@ -502,17 +669,17 @@ function findTileInRow(code: string, rawLines: string[]): Finding[] {
         name: tag.name,
         qualifies: qualifiesAsRow(classAttrOf(tag.raw)),
         tileCount: 0,
-        line: lineOf(code, tag.index),
+        line: lineOf(lineStarts, tag.index),
       });
     }
   }
   return findings;
 }
 
-function findFocusMissing(code: string, rawLines: string[], data: Data): Finding[] {
+function findFocusMissing(tags: Tag[], rawLines: string[], lineStarts: number[], data: Data): Finding[] {
   const findings: Finding[] = [];
   const componentNames = new Set(data.manifest.components.map((c) => c.name));
-  for (const tag of tokenizeTags(code)) {
+  for (const tag of tags) {
     if (tag.closing) continue;
     const isRawButton = tag.name === 'button';
     const hasRoleButton = /role\s*=\s*["']button["']/.test(tag.raw);
@@ -520,7 +687,7 @@ function findFocusMissing(code: string, rawLines: string[], data: Data): Finding
     if (componentNames.has(tag.name)) continue; // a system component is skipped
     const hasFocusRing = /focusRing/.test(tag.raw) || /focus-visible:/.test(tag.raw);
     if (hasFocusRing) continue;
-    const line = lineOf(code, tag.index);
+    const line = lineOf(lineStarts, tag.index);
     findings.push({
       rule: 'focus-missing',
       line,
@@ -535,50 +702,72 @@ function findFocusMissing(code: string, rawLines: string[], data: Data): Finding
 // checkUsage
 // ---------------------------------------------------------------------------
 
+/**
+ * Runs every rule over one snippet. The document is scanned once for tags,
+ * once for class strings and once for line starts; each rule reads those
+ * shared results rather than re-scanning, so the cost is linear in the
+ * length of the snippet.
+ */
 export function checkUsage(data: Data, code: string): { findings: Finding[] } {
   const theme = getThemeSet(data);
   const findings: Finding[] = [];
   const rawLines = code.split('\n');
-  const strippedLines = stripComments(code).split('\n');
+  const stripped = stripComments(code);
+  const strippedLines = stripped.split('\n');
+  const lineStarts = buildLineStarts(code);
+  const excerptOf = (line: number) => (rawLines[line - 1] ?? '').trim();
+
+  const classStrings = extractClassStrings(stripped);
+  const classStringsByLine = new Map<number, string[]>();
+  for (const classString of classStrings) {
+    const line = lineOf(lineStarts, classString.index);
+    const existing = classStringsByLine.get(line);
+    if (existing) existing.push(classString.value);
+    else classStringsByLine.set(line, [classString.value]);
+  }
 
   for (let i = 0; i < rawLines.length; i++) {
     const lineNo = i + 1;
-    const stripped = strippedLines[i];
+    const strippedLine = strippedLines[i] ?? '';
     const excerpt = rawLines[i].trim();
 
     let hm: RegExpExecArray | null;
     HEX_RE.lastIndex = 0;
-    while ((hm = HEX_RE.exec(stripped))) {
+    while ((hm = HEX_RE.exec(strippedLine))) {
       findings.push({ rule: 'raw-hex', line: lineNo, excerpt, message: RAW_HEX_MESSAGE });
     }
 
-    const hasFontDecl = FONT_FAMILY_RE.test(stripped);
-    const hasFontNameInContext = fontContextsOnLine(stripped).some((c) => FONT_NAME_RE.test(c));
+    const hasFontDecl = FONT_FAMILY_RE.test(strippedLine);
+    const hasFontNameInContext = fontContextsOnLine(strippedLine, classStringsByLine.get(lineNo) ?? []).some((c) =>
+      FONT_NAME_RE.test(c),
+    );
     if (hasFontDecl || hasFontNameInContext) {
       findings.push({ rule: 'raw-font', line: lineNo, excerpt, message: RAW_FONT_MESSAGE });
     }
 
-    if (FONT_SIZE_RE.test(stripped)) {
+    if (FONT_SIZE_RE.test(strippedLine)) {
       findings.push({ rule: 'stem-without-role', line: lineNo, excerpt, message: STEM_MESSAGE });
-    }
-
-    for (const classString of extractClassStringsFromLine(stripped)) {
-      for (const token of tokensOf(classString)) {
-        const result = classifyToken(token, theme);
-        if (!result) continue;
-        const message =
-          result.rule === 'off-theme-utility'
-            ? OFF_THEME_MESSAGE
-            : result.rule === 'raw-size'
-              ? RAW_SIZE_MESSAGE
-              : STEM_MESSAGE;
-        findings.push({ rule: result.rule, line: lineNo, excerpt, message });
-      }
     }
   }
 
-  findings.push(...findTileInRow(code, rawLines));
-  findings.push(...findFocusMissing(code, rawLines, data));
+  for (const classString of classStrings) {
+    for (const token of tokensOf(classString)) {
+      const result = classifyToken(token.value, theme);
+      if (!result) continue;
+      const message =
+        result.rule === 'off-theme-utility'
+          ? OFF_THEME_MESSAGE
+          : result.rule === 'raw-size'
+            ? RAW_SIZE_MESSAGE
+            : STEM_MESSAGE;
+      const line = lineOf(lineStarts, token.index);
+      findings.push({ rule: result.rule, line, excerpt: excerptOf(line), message });
+    }
+  }
+
+  const tags = tokenizeTags(code);
+  findings.push(...findTileInRow(tags, rawLines, lineStarts));
+  findings.push(...findFocusMissing(tags, rawLines, lineStarts, data));
 
   findings.sort((a, b) => a.line - b.line);
   return { findings };

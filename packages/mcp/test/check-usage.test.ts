@@ -151,6 +151,68 @@ describe('checkUsage', () => {
     ]);
   });
 
+  // --- comment stripping must not eat code (fix round 2) ---
+  it('does not treat the // of a URL as a comment', () => {
+    const code = `<a href="https://example.com" className="bg-red-500 text-sm">x</a>`;
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).toContain('off-theme-utility');
+    expect(rules(findings)).toContain('stem-without-role');
+  });
+
+  it('still strips a real line comment', () => {
+    const code = ['// bg-red-500 text-sm were the old classes', '<div className="bg-ink">x</div>'].join('\n');
+    const { findings } = checkUsage(data, code);
+    expect(findings).toEqual([]);
+  });
+
+  it('does not blank the line a regex literal sits on', () => {
+    const code = 'const URL_RE = /https?:\\/\\//; const c = "#ff5a36";';
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).toContain('raw-hex');
+  });
+
+  // --- class strings wrapped over several lines (fix round 2) ---
+  it('reads a prettier-wrapped clsx call, with the line of each string', () => {
+    const code = ['<div', '  className={clsx(', '    "bg-red-500 p-11",', '    "text-sm",', '  )}', '/>'].join('\n');
+    const { findings } = checkUsage(data, code);
+    const offTheme = findings.filter((f) => f.rule === 'off-theme-utility');
+    expect(offTheme.map((f) => f.line)).toEqual([3, 3]);
+    const stem = findings.find((f) => f.rule === 'stem-without-role');
+    expect(stem?.line).toBe(4);
+  });
+
+  it('reads a cn() call', () => {
+    const { findings } = checkUsage(data, `<div className={cn("bg-red-500", "text-sm")}>x</div>`);
+    expect(rules(findings)).toContain('off-theme-utility');
+    expect(rules(findings)).toContain('stem-without-role');
+  });
+
+  // --- correct Tailwind that names a keyword, not a token (fix round 2) ---
+  const noFinding = (code: string) => {
+    const { findings } = checkUsage(data, code);
+    expect(findings).toEqual([]);
+  };
+
+  it('does not flag auto margins or sizing keywords', () => {
+    noFinding(`<div className="mx-auto h-fit w-fit w-1/2 max-w-full">x</div>`);
+  });
+
+  it('does not flag border sides and styles', () => {
+    noFinding(`<div className="border border-b border-t border-dashed">x</div>`);
+  });
+
+  it('does not flag text wrapping and alignment keywords', () => {
+    noFinding(`<p className="text-balance text-wrap text-nowrap text-start">Hi</p>`);
+  });
+
+  it('does not flag background gradients, sizes and positions', () => {
+    noFinding(`<div className="bg-gradient-to-r bg-cover bg-center bg-no-repeat">x</div>`);
+  });
+
+  it('does not flag font weights, which stay open', () => {
+    noFinding(`<p className="font-light font-extrabold font-thin">Hi</p>`);
+  });
+
   // --- raw-font must not fire on prose ---
   it('does not flag a font name mentioned in plain JSX text', () => {
     const { findings } = checkUsage(data, `<p>Georgia is a country.</p>`);
@@ -186,9 +248,30 @@ describe('check_usage tool', () => {
     expect(out).toEqual({ findings: [] });
   });
 
+  it('checks a 300 KB file with 5 000 tags in under two seconds', () => {
+    const unit = [
+      '<div className="flex flex-col gap-16">',
+      `  <p className="text-body">${'lorem ipsum dolor sit amet '.repeat(7)}</p>`,
+      '</div>',
+    ].join('\n');
+    const code = Array.from({ length: 1250 }, () => unit).join('\n'); // 4 tags each
+    expect(code.length).toBeGreaterThan(300_000);
+    const started = performance.now();
+    const { findings } = checkUsage(data, code);
+    const elapsed = performance.now() - started;
+    expect(findings).toEqual([]);
+    expect(elapsed).toBeLessThan(2000);
+  });
+
   it('flags a raw hex colour through the tool with a line number', async () => {
     const out = text(await client.callTool({ name: 'check_usage', arguments: { code: 'const c = "#ff5a36";' } }));
     expect(out.findings).toHaveLength(1);
     expect(out.findings[0]).toMatchObject({ rule: 'raw-hex', line: 1 });
+  });
+
+  it('refuses a snippet longer than the documented limit', async () => {
+    const result: any = await client.callTool({ name: 'check_usage', arguments: { code: 'x'.repeat(250_001) } });
+    expect(result.isError).toBe(true);
+    expect(result.content[0].text).toMatch(/at most 200000 characters/);
   });
 });
