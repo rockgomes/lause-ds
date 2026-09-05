@@ -60,6 +60,13 @@ describe('dataFromBundle', () => {
     if ('isError' in bundleResult || 'isError' in diskResult) throw new Error('expected Button to resolve');
     expect(bundleResult.sourceText).toBe(diskResult.sourceText);
   });
+
+  it('getComponent serves alias components from the bundle', () => {
+    const bundleResult = getComponent(fromBundle, 'TileStack');
+    if ('isError' in bundleResult) throw new Error('expected TileStack to resolve');
+    expect(bundleResult.sourceText).toContain('export function TileStack');
+    expect(bundleResult.sourceText).toBe(getComponent(fromBundle, 'Tile').sourceText);
+  });
 });
 
 describe('data', () => {
