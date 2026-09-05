@@ -84,6 +84,33 @@ describe('netlify mcp function', () => {
     expect(response.status).toBe(405);
   });
 
+  it('answers a request body that fails to read without leaking a stack', async () => {
+    const body = new ReadableStream({
+      pull(controller) {
+        controller.error(new Error('boom'));
+      },
+    });
+    const failing = new Request('http://localhost/mcp', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+        'mcp-protocol-version': PROTOCOL_VERSION,
+      },
+      body,
+      duplex: 'half',
+    } as RequestInit & { duplex: 'half' });
+
+    // The transport catches this one itself and answers 400; what matters here
+    // is that it still comes back with the CORS headers and without a stack.
+    const response = await handler(failing, {} as never);
+    const text = await response.text();
+    expect(response.status).toBe(400);
+    expect(response.headers.get('access-control-allow-origin')).toBe('*');
+    expect(response.headers.get('access-control-max-age')).toBe('86400');
+    expect(text).not.toMatch(/boom|node_modules|at .*\.ts:/);
+  });
+
   it('routes at /mcp', () => {
     expect(config.path).toBe('/mcp');
   });

@@ -20,6 +20,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, MCP-Protocol-Version',
+  'Access-Control-Max-Age': '86400',
 };
 
 function withCors(response: Response): Response {
@@ -48,15 +49,34 @@ export default async (req: Request, _context: Context): Promise<Response> => {
   // (sessionIdGenerator: undefined) and explicitly forbids reuse across
   // requests, and a serverless function has no durable place to keep one
   // instance alive between invocations anyway.
-  const server = buildServer(data);
-  const transport = new WebStandardStreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-    enableJsonResponse: true,
-  });
-  await server.connect(transport);
+  let server: ReturnType<typeof buildServer> | undefined;
+  let transport: WebStandardStreamableHTTPServerTransport | undefined;
 
-  const response = await transport.handleRequest(req);
-  return withCors(response);
+  try {
+    server = buildServer(data);
+    transport = new WebStandardStreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+      enableJsonResponse: true,
+    });
+    await server.connect(transport);
+    const response = await transport.handleRequest(req);
+    return withCors(response);
+  } catch {
+    // Anything that escapes the transport — a body that fails to read, a bug
+    // in a tool — becomes one JSON-RPC internal error. The message is fixed:
+    // a stack trace would tell a stranger about the inside of this function.
+    return withCors(
+      new Response(JSON.stringify({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal error' }, id: null }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+  } finally {
+    // One server and transport per request, so both are closed per request —
+    // otherwise every invocation leaks the pair it built.
+    await transport?.close();
+    await server?.close();
+  }
 };
 
 export const config: Config = {
