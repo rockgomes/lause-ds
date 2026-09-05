@@ -14,4 +14,10 @@ describe('data', () => {
   it('loads the figma ledger', () => {
     expect(data.figma.fileKey).toBe('Fi9CrQ0KzJdpCuwNcWbZKF');
   });
+  it('resolves a shadow composite to the CSS shorthand', () => {
+    expect(resolveToken(data, 'shadow.tile', 'light')).toBe('0px 6px 18px 0px rgba(15, 34, 56, 0.10)');
+  });
+  it('resolves a font stack to a comma-joined family list', () => {
+    expect(resolveToken(data, 'font.content', 'light')).toBe('Young Serif, Georgia, serif');
+  });
 });

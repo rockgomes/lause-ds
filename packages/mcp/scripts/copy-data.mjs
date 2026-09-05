@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 const root = new URL('../../../', import.meta.url).pathname;
@@ -32,4 +32,31 @@ for (const f of [
   mkdirSync(dirname(dest), { recursive: true });
   cpSync(src, dest);
 }
+
+// getComponent reads a component's source and story text straight off disk
+// (packages/ui/src/<Name>/<Name>.tsx and <Name>.stories.tsx) — a published
+// install has no monorepo to find those in, so they're bundled here too, at
+// the same relative path `findRoot()` resolves to in that layout. Missing
+// files (a directory with no matching source, e.g. a foundations page) are
+// skipped with the same warning style as above; getComponent falls back to
+// a placeholder string for whatever doesn't make it into the bundle.
+const uiSrc = join(root, 'packages/ui/src');
+if (existsSync(uiSrc)) {
+  for (const entry of readdirSync(uiSrc, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const name = entry.name;
+    for (const suffix of ['.tsx', '.stories.tsx']) {
+      const rel = `packages/ui/src/${name}/${name}${suffix}`;
+      const src = join(root, rel);
+      if (!existsSync(src)) {
+        console.warn(`copy-data: skipping missing ${rel}`);
+        continue;
+      }
+      const dest = join(out, rel);
+      mkdirSync(dirname(dest), { recursive: true });
+      cpSync(src, dest);
+    }
+  }
+}
+
 console.log('copied data');

@@ -48,7 +48,7 @@ export function buildServer(data: Data): McpServer {
       title: 'Get component',
       description:
         'The full record for one named Lause component or hook: its props, states, proof screen, Figma reference, usage rules, and the text of its source and story files. Use it before writing or reviewing code that uses the component.',
-      inputSchema: { name: z.string() },
+      inputSchema: { name: z.string().describe('The component name as exported from lause-ds, e.g. Button') },
     },
     async ({ name }) => {
       const result = getComponent(data, name);

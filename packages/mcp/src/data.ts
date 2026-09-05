@@ -115,20 +115,39 @@ function isAlias(value: unknown): value is string {
   return typeof value === 'string' && /^\{[^{}]+\}$/.test(value);
 }
 
-function formatValue(value: unknown): string {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number') return String(value);
-  if (
-    value &&
+function isDimension(value: unknown): value is { value: number; unit: string } {
+  return (
+    !!value &&
     typeof value === 'object' &&
     'value' in value &&
     'unit' in value &&
     typeof (value as { value: unknown }).value === 'number' &&
     typeof (value as { unit: unknown }).unit === 'string'
-  ) {
-    const dimension = value as { value: number; unit: string };
-    return `${dimension.value}${dimension.unit}`;
+  );
+}
+
+function isShadowComposite(
+  value: unknown,
+): value is { color: string; offsetX: unknown; offsetY: unknown; blur: unknown; spread: unknown } {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    'color' in value &&
+    'offsetX' in value &&
+    'offsetY' in value &&
+    'blur' in value &&
+    'spread' in value
+  );
+}
+
+function formatValue(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') return String(value);
+  if (Array.isArray(value)) return value.join(', ');
+  if (isShadowComposite(value)) {
+    return `${formatValue(value.offsetX)} ${formatValue(value.offsetY)} ${formatValue(value.blur)} ${formatValue(value.spread)} ${value.color}`;
   }
+  if (isDimension(value)) return `${value.value}${value.unit}`;
   return String(value);
 }
 

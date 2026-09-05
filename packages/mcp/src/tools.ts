@@ -157,20 +157,26 @@ function storiesPathFor(source: string): string {
   return join(dir, `${basename(dir)}.stories.tsx`);
 }
 
+const NOT_AVAILABLE = '(not available in this build)';
+
+function readTextOrPlaceholder(path: string): string {
+  return existsSync(path) ? readFileSync(path, 'utf8') : NOT_AVAILABLE;
+}
+
 /**
  * The manifest entry for `name` plus its source and story file text. Unknown
  * names return an error listing every known component name, in manifest
- * order, rather than guessing.
+ * order, rather than guessing. In a published install the ui sources may not
+ * be present (only their compiled output ships) — a missing source or story
+ * file yields the placeholder string rather than throwing.
  */
-export function getComponent(data: Data, name: string): GetComponentResult {
+export function getComponent(data: Data, name: string, root: string = findRoot()): GetComponentResult {
   const component = data.manifest.components.find((c) => c.name === name);
   if (!component) {
     const known = data.manifest.components.map((c) => c.name).join(', ');
     return { isError: true, message: `Unknown component "${name}". Known: ${known}` };
   }
-  const root = findRoot();
-  const sourceText = readFileSync(join(root, component.source), 'utf8');
-  const storiesPath = join(root, storiesPathFor(component.source));
-  const storiesText = existsSync(storiesPath) ? readFileSync(storiesPath, 'utf8') : '';
+  const sourceText = readTextOrPlaceholder(join(root, component.source));
+  const storiesText = readTextOrPlaceholder(join(root, storiesPathFor(component.source)));
   return { ...component, sourceText, storiesText };
 }
