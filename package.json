@@ -15,7 +15,7 @@
     "storybook": "npm run storybook --workspace lause-ds",
     "typecheck": "tsc -b packages/tokens && tsc -p packages/ui && tsc -p packages/mcp --noEmit && tsc -p netlify",
     "changeset": "changeset",
-    "release": "npm run build:tokens && npm run build:ui && changeset publish"
+    "release": "npm run build:tokens && npm run build:manifest && npm run build:mcp && npm run build:ui && changeset publish"
   },
   "dependencies": {
     "lause-ds-mcp": "*"
