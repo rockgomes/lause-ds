@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import type { Data } from './data.js';
+import { checkUsage } from './check-usage.js';
 import { getComponent, listComponents, listTokens } from './tools.js';
 
 const require = createRequire(import.meta.url);
@@ -64,7 +65,7 @@ export function buildServer(data: Data): McpServer {
         'Checks a snippet of JSX/TSX/CSS against the Lause rules and returns findings with line numbers and fixes: raw hex, raw fonts, Tailwind utilities outside the closed theme, raw sizes, tiles in a row, text sizes outside the six roles, buttons without a focus ring. Empty findings means the snippet follows the system.',
       inputSchema: { code: z.string() },
     },
-    async () => json({ findings: [] }),
+    async ({ code }) => json(checkUsage(data, code)),
   );
 
   return server;
