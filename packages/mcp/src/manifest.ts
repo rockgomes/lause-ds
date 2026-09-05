@@ -1,7 +1,7 @@
-import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
+// typescript 7 (tsgo) exposes the compiler API only under unstable/; pinned exactly in the root package.json — revisit on any TypeScript bump.
 import { API, SignatureKind, SymbolFlags, type Checker, type Program, type Symbol as ApiSymbol, type Type } from 'typescript/unstable/sync';
 import {
   SyntaxKind,
@@ -72,15 +72,6 @@ type FigmaLedger = {
   fileUrl: string;
   components?: Record<string, { setId?: string; componentId?: string }>;
 };
-
-/** `git rev-parse --short HEAD`, or `'unknown'` when git is unavailable. */
-function getCommit(root: string): string {
-  try {
-    return execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
-  } catch {
-    return 'unknown';
-  }
-}
 
 function samePath(a: string, b: string): boolean {
   return a.toLowerCase() === b.toLowerCase();
@@ -248,7 +239,15 @@ export function generateManifest(root: string): Manifest {
     }
 
     return {
-      generatedFrom: { commit: getCommit(root) },
+      generatedFrom: {
+        inputs: [
+          'packages/ui/src/index.ts',
+          'packages/ui/src/**/*.tsx',
+          'packages/ui/src/**/*.stories.tsx',
+          'figma/library.json',
+          'docs/specs/2026-09-03-lause-ds-design.md',
+        ],
+      },
       components,
       rules: SYSTEM_RULES,
     };

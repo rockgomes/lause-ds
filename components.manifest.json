@@ -1,6 +1,12 @@
 {
   "generatedFrom": {
-    "commit": "669a9b1"
+    "inputs": [
+      "packages/ui/src/index.ts",
+      "packages/ui/src/**/*.tsx",
+      "packages/ui/src/**/*.stories.tsx",
+      "figma/library.json",
+      "docs/specs/2026-09-03-lause-ds-design.md"
+    ]
   },
   "components": [
     {

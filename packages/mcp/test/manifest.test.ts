@@ -30,10 +30,7 @@ describe('manifest', () => {
     expect(cell.proofScreen).toBe('Õigused');
   });
   it('matches the committed file (run npm run build:manifest if this fails)', () => {
-    const file = JSON.parse(readFileSync(root + 'components.manifest.json', 'utf8'));
-    // generatedFrom.commit moves with HEAD, so drift is checked on everything else —
-    // see task-2-brief.md step 6.
-    expect({ ...file, generatedFrom: undefined }).toEqual({ ...manifest, generatedFrom: undefined });
+    expect(JSON.parse(readFileSync(root + 'components.manifest.json', 'utf8'))).toEqual(manifest);
   });
   it('renders llms.txt with the tokens and the components', () => {
     const txt = renderLlms(manifest, loadData(root));

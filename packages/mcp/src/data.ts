@@ -28,7 +28,7 @@ export type ManifestComponent = {
 };
 
 export type Manifest = {
-  generatedFrom?: Record<string, unknown>;
+  generatedFrom?: { inputs: string[] };
   components: ManifestComponent[];
   rules: string[];
 };
