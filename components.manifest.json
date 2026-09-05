@@ -1,0 +1,611 @@
+{
+  "generatedFrom": {
+    "commit": "669a9b1"
+  },
+  "components": [
+    {
+      "name": "Keycap",
+      "kind": "component",
+      "source": "packages/ui/src/Keycap/Keycap.tsx",
+      "summary": "A keyboard hint. Inherits its colour, so it follows the text of whatever holds it.",
+      "props": [
+        {
+          "name": "held",
+          "type": "boolean",
+          "required": false,
+          "doc": "Drawn filled while the key is physically held, as ⌥ is during a peek.",
+          "default": "false"
+        }
+      ],
+      "states": [
+        "Default",
+        "Held",
+        "Row",
+        "Dark"
+      ],
+      "proofScreen": "Everywhere",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "8:9"
+      },
+      "rules": []
+    },
+    {
+      "name": "Button",
+      "kind": "component",
+      "source": "packages/ui/src/Button/Button.tsx",
+      "summary": "A pill button. Every control in Lause shows its key, so pass `keycap` whenever there is one.",
+      "props": [
+        {
+          "name": "variant",
+          "type": "'filled' | 'outline' | 'dim'",
+          "required": false,
+          "doc": "filled: the one primary action. outline: secondary. dim: tertiary, text only.",
+          "default": "'filled'"
+        },
+        {
+          "name": "keycap",
+          "type": "string",
+          "required": false,
+          "doc": "The key that triggers this action; drawn as a Keycap after the label."
+        }
+      ],
+      "states": [
+        "Filled",
+        "Hover",
+        "DisabledNoHover",
+        "Outline",
+        "Dim",
+        "Disabled",
+        "Bar",
+        "Dark"
+      ],
+      "proofScreen": "Everywhere",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "9:65"
+      },
+      "rules": [
+        "Every control shows its key: pass keycap whenever there is one.",
+        "filled is the one primary action on a screen.",
+        "Disabled controls never hover."
+      ]
+    },
+    {
+      "name": "Progress",
+      "kind": "component",
+      "source": "packages/ui/src/Progress/Progress.tsx",
+      "summary": "The segmented bar under every screen: done in ink, current in accent, the rest faint.",
+      "props": [
+        {
+          "name": "total",
+          "type": "number",
+          "required": true,
+          "doc": "Number of units: sentences, cards, questions, arrows."
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "required": true,
+          "doc": "Zero-based index of the current unit. Units before it are done. Pass `total` when everything is done."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name, e.g. \"Lause 5 / 8\"."
+        }
+      ],
+      "states": [
+        "Midway",
+        "First",
+        "Last",
+        "Complete",
+        "Exam",
+        "Dark"
+      ],
+      "proofScreen": "Everywhere",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "componentId": "9:69"
+      },
+      "rules": [
+        "One segment per unit; the counts are given in words."
+      ]
+    },
+    {
+      "name": "Bar",
+      "kind": "component",
+      "source": "packages/ui/src/Bar/Bar.tsx",
+      "summary": "Coverage of one domain: one segment per article. Read and retained in ink, read but not retained in accent, unread faint.",
+      "props": [
+        {
+          "name": "segments",
+          "type": "readonly BarSegment[]",
+          "required": true,
+          "doc": "One entry per article, in article order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "The counts in words, e.g. \"Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10\". This is the accessible name."
+        }
+      ],
+      "states": [
+        "Domain",
+        "Untouched",
+        "Rows",
+        "Dark"
+      ],
+      "proofScreen": "Täna, tulemus",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "componentId": "9:81"
+      },
+      "rules": [
+        "One segment per unit; the counts are given in words."
+      ]
+    },
+    {
+      "name": "Dial",
+      "kind": "component",
+      "source": "packages/ui/src/Dial/Dial.tsx",
+      "summary": "A segmented control that behaves as a radio group: arrow keys move and select, Home/End jump.",
+      "props": [
+        {
+          "name": "options",
+          "type": "readonly DialOption<V>[]",
+          "required": true,
+          "doc": "Two or three positions."
+        },
+        {
+          "name": "value",
+          "type": "V",
+          "required": true,
+          "doc": ""
+        },
+        {
+          "name": "onChange",
+          "type": "(value: V) => void",
+          "required": true,
+          "doc": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name of the group, e.g. \"Tugi\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "",
+          "default": "false"
+        }
+      ],
+      "states": [
+        "Support",
+        "Hover",
+        "Keyboard",
+        "TwoPositions",
+        "Disabled",
+        "Dark"
+      ],
+      "proofScreen": "Lugeja, Skeemid",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "10:35"
+      },
+      "rules": [
+        "The exam disables it as one control."
+      ]
+    },
+    {
+      "name": "Tile",
+      "kind": "component",
+      "source": "packages/ui/src/Tile/Tile.tsx",
+      "summary": "An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item.",
+      "props": [
+        {
+          "name": "state",
+          "type": "'idle' | 'selected' | 'filled' | 'dimmed'",
+          "required": false,
+          "doc": "idle: available. selected: chosen, accent ring. filled: written in, ink. dimmed: no longer relevant.",
+          "default": "'idle'"
+        },
+        {
+          "name": "keycap",
+          "type": "string",
+          "required": false,
+          "doc": "The number key that picks this tile."
+        }
+      ],
+      "states": [
+        "Idle",
+        "Selected",
+        "Hover",
+        "Filled",
+        "Dimmed",
+        "Stack",
+        "TrueFalse",
+        "Dark"
+      ],
+      "proofScreen": "Eksam, Kordamine, Koosta",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "11:69"
+      },
+      "rules": [
+        "Options stack vertically in a TileStack, never in a row, except the two of a true/false item.",
+        "Options run to 40 characters."
+      ]
+    },
+    {
+      "name": "TileStack",
+      "kind": "component",
+      "source": "packages/ui/src/Tile/Tile.tsx",
+      "summary": "The column that holds option tiles: 640px wide at most, one tile per row.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name of the group, e.g. \"Vali õige vastus\"."
+        }
+      ],
+      "states": [
+        "Idle",
+        "Selected",
+        "Hover",
+        "Filled",
+        "Dimmed",
+        "Stack",
+        "TrueFalse",
+        "Dark"
+      ],
+      "proofScreen": "Eksam",
+      "rules": []
+    },
+    {
+      "name": "Bubble",
+      "kind": "component",
+      "source": "packages/ui/src/Bubble/Bubble.tsx",
+      "summary": "A translation bubble that sits above the word it belongs to. Render it inside an element with\n`position: relative`; it centres itself over that element and draws a tail down to it.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "The translation."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "required": false,
+          "doc": "How many times this term has been looked up; shown as ×N in accent."
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "required": false,
+          "doc": "A short note after the count, e.g. the app's promotion text."
+        }
+      ],
+      "states": [
+        "Pinned",
+        "Promoted",
+        "NoCount",
+        "Dark"
+      ],
+      "proofScreen": "Lugeja, ⌥ held",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "componentId": "12:5"
+      },
+      "rules": [
+        "Sits above its word; the count is decorative to assistive technology."
+      ]
+    },
+    {
+      "name": "Sentence",
+      "kind": "component",
+      "source": "packages/ui/src/Sentence/Sentence.tsx",
+      "summary": "The reading unit: one sentence at reading size, its neighbours dimmed, its terms openable.",
+      "props": [
+        {
+          "name": "segments",
+          "type": "readonly Segment[]",
+          "required": true,
+          "doc": "The sentence in reading order: plain strings and markable terms."
+        },
+        {
+          "name": "previous",
+          "type": "string",
+          "required": false,
+          "doc": "The neighbours, dimmed above and below."
+        },
+        {
+          "name": "next",
+          "type": "string",
+          "required": false,
+          "doc": ""
+        },
+        {
+          "name": "support",
+          "type": "'et' | 'tugi' | 'korvuti'",
+          "required": true,
+          "doc": "The dial level. et: no marks, terms still open. tugi: marks. korvuti: marks and the English under."
+        },
+        {
+          "name": "pinned",
+          "type": "readonly string[]",
+          "required": true,
+          "doc": "Term ids whose bubble is shown."
+        },
+        {
+          "name": "counts",
+          "type": "Readonly<Record<string, number>>",
+          "required": false,
+          "doc": "Look-up tally per term id, shown in the bubble.",
+          "default": "{}"
+        },
+        {
+          "name": "notes",
+          "type": "Readonly<Record<string, string>>",
+          "required": false,
+          "doc": "Per-term note shown after the count, e.g. the promotion text at three look-ups.",
+          "default": "{}"
+        },
+        {
+          "name": "peeking",
+          "type": "boolean",
+          "required": false,
+          "doc": "While true every gloss shows, pinned or not.\nAnnounces nothing; the glosses are already in the accessibility tree and the app decides whether to announce the mode.",
+          "default": "false"
+        },
+        {
+          "name": "english",
+          "type": "{ text: string; note: string }",
+          "required": false,
+          "doc": "The Riigi Teataja English and the fixed unofficial-translation line, shown under the sentence\nin korvuti; the note is never optional because the text is an unofficial translation of\nconstitutional law."
+        },
+        {
+          "name": "onToggle",
+          "type": "(termId: string) => void",
+          "required": true,
+          "doc": "Called with the term id when a term is clicked or opened with Enter/Space."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name of the reading region, e.g. \"Lause 5 / 8\"."
+        }
+      ],
+      "states": [
+        "Tugi",
+        "Keyboard",
+        "TwoPins",
+        "Peeking",
+        "EestiKeeles",
+        "Korvuti",
+        "RepeatedTerm",
+        "Narrow",
+        "Dark"
+      ],
+      "proofScreen": "Lugeja",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "14:322"
+      },
+      "rules": [
+        "The English pair (text + note) is required together: the note says the translation is unofficial.",
+        "Term ids that repeat pin together."
+      ]
+    },
+    {
+      "name": "usePeek",
+      "kind": "hook",
+      "source": "packages/ui/src/usePeek/usePeek.ts",
+      "summary": "The peek gesture: hold the modifier and every translation shows; release and it goes.\nA latch holds the same state without the key. The held modifier clears when the window\nloses focus or is hidden; the latch is the app's and survives blur. The modifier's keydown\nis cancelled so it cannot move focus to the browser's menu bar.",
+      "props": [
+        {
+          "name": "latched",
+          "type": "boolean",
+          "required": false,
+          "doc": "The latch: holds the peek on without the key.",
+          "default": "false"
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "required": false,
+          "doc": "The modifier that peeks while held.",
+          "default": "'Alt'"
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "required": false,
+          "doc": "Set false to register no listeners and report `held: false`, e.g. while the reader is off-screen.",
+          "default": "true"
+        }
+      ],
+      "states": [],
+      "proofScreen": "Lugeja",
+      "rules": []
+    },
+    {
+      "name": "Nav",
+      "kind": "component",
+      "source": "packages/ui/src/Nav/Nav.tsx",
+      "summary": "The top chrome: context left, caps navigation centre, controls right.",
+      "props": [
+        {
+          "name": "context",
+          "type": "ReactNode",
+          "required": true,
+          "doc": "Top-left: where the learner is, e.g. \"§ 60 · lause 5 / 8\"."
+        },
+        {
+          "name": "items",
+          "type": "readonly NavItem[]",
+          "required": true,
+          "doc": "The centre items. Empty in exam mode."
+        },
+        {
+          "name": "current",
+          "type": "string",
+          "required": false,
+          "doc": "The current item's id."
+        },
+        {
+          "name": "peeking",
+          "type": "boolean",
+          "required": false,
+          "doc": "While true the items read their English labels. The chrome swaps; it never gains a subtitle.",
+          "default": "false"
+        },
+        {
+          "name": "controls",
+          "type": "ReactNode",
+          "required": false,
+          "doc": "Top-right: the dial and the peek hint, or the exam's one action."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name of the navigation."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(id: string) => void",
+          "required": false,
+          "doc": "Supply this when the app owns routing. A plain left-click then calls it with the item id and\nsuppresses the browser's own navigation; modifier and middle clicks still open the link.\nLeave it out and the links navigate by themselves."
+        }
+      ],
+      "states": [
+        "Reader",
+        "Peeking",
+        "Exam",
+        "Dark"
+      ],
+      "proofScreen": "Everywhere",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "15:71"
+      },
+      "rules": [
+        "Chrome stays Estonian; while peeking it swaps to English and never gains a subtitle."
+      ]
+    },
+    {
+      "name": "Cell",
+      "kind": "component",
+      "source": "packages/ui/src/Cell/Cell.tsx",
+      "summary": "One cell of the 2×2 drill: the subject, the verdict, and its key.",
+      "props": [
+        {
+          "name": "subject",
+          "type": "string",
+          "required": true,
+          "doc": "The row's subject, e.g. \"Igaüks\"."
+        },
+        {
+          "name": "verdict",
+          "type": "string",
+          "required": false,
+          "doc": "The column's verdict, e.g. \"tohib piirata\"."
+        },
+        {
+          "name": "keycap",
+          "type": "string",
+          "required": false,
+          "doc": "The number key that picks this cell."
+        },
+        {
+          "name": "state",
+          "type": "'idle' | 'selected' | 'filled' | 'dimmed'",
+          "required": false,
+          "doc": "",
+          "default": "'idle'"
+        }
+      ],
+      "states": [
+        "Idle",
+        "Selected",
+        "Filled",
+        "Dimmed",
+        "Grid",
+        "Dark"
+      ],
+      "proofScreen": "Õigused",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "16:101"
+      },
+      "rules": [
+        "Rows Igaüks / Eesti kodanik, columns Tohib piirata / Ei tohi piirata; keys 1–4."
+      ]
+    },
+    {
+      "name": "CellGrid",
+      "kind": "component",
+      "source": "packages/ui/src/Cell/Cell.tsx",
+      "summary": "The 2×2 drill laid out as a table, so the headers are read with each cell.",
+      "props": [
+        {
+          "name": "rows",
+          "type": "readonly [string, string]",
+          "required": true,
+          "doc": "The two row headers, top to bottom."
+        },
+        {
+          "name": "columns",
+          "type": "readonly [string, string]",
+          "required": true,
+          "doc": "The two column headers, left to right."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "doc": "Accessible name of the table."
+        },
+        {
+          "name": "children",
+          "type": "readonly [ReactNode, ReactNode, ReactNode, ReactNode]",
+          "required": true,
+          "doc": "Exactly four cells, in reading order: row 1 left, row 1 right, row 2 left, row 2 right."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "doc": ""
+        }
+      ],
+      "states": [
+        "Idle",
+        "Selected",
+        "Filled",
+        "Dimmed",
+        "Grid",
+        "Dark"
+      ],
+      "proofScreen": "Õigused",
+      "rules": []
+    }
+  ],
+  "rules": [
+    "Use only token utilities: the Tailwind theme is closed, so bg-red-500 or p-11 do not exist.",
+    "Two fonts only: font-content (Young Serif) for what is being learned, font-chrome (Instrument Sans) for the app.",
+    "Type is used through the six roles (label, body, title, reading, headline, display), never a size number.",
+    "Contrast is a gate: every text pair 4.5:1, every graphic pair 3:1, in both modes.",
+    "Hit targets are at least 44px.",
+    "Every interactive element has a visible focus ring; disabled never hovers."
+  ]
+}

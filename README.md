@@ -49,11 +49,12 @@ Foundation and ten components done: Keycap, Button, Progress, Bar, Dial, Tile, B
 ## Using the system
 
 ```bash
-npm run build:tokens   # regenerates tokens/primitives.tokens.json, packages/ui/src/tokens/*.css, figma/variables.json
-npm test               # includes the WCAG contrast check on every semantic pair, both modes
+npm run build:tokens     # regenerates tokens/primitives.tokens.json, packages/ui/src/tokens/*.css, figma/variables.json
+npm run build:manifest   # regenerates components.manifest.json and llms.txt; what an AI tool reads first
+npm test                 # includes the WCAG contrast check on every semantic pair, both modes
 ```
 
-Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything else under `tokens/`, `packages/ui/src/tokens/` and `figma/` is generated and CI fails if it drifts.
+Edit only `tokens/src/*.json` and `tokens/semantic.*.tokens.json`. Everything else under `tokens/`, `packages/ui/src/tokens/`, `figma/`, `components.manifest.json` and `llms.txt` is generated and CI fails if it drifts.
 
 ### Consuming them
 
