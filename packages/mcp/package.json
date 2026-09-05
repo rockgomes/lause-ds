@@ -11,7 +11,8 @@
     "./data": { "types": "./dist/data.d.ts", "default": "./dist/data.js" },
     "./data/bundle.json": "./dist/data/bundle.json"
   },
-  "files": ["dist"],
+  "files": ["dist", "!dist/manifest.*"],
+  "engines": { "node": ">=24" },
   "scripts": {
     "prepack": "npm run build",
     "build": "tsc -p tsconfig.json && node scripts/copy-data.mjs",
