@@ -9,8 +9,10 @@
     "test": "vitest run",
     "build:tokens": "npm run build --workspace @lause-ds/tokens",
     "build:ui": "npm run build --workspace lause-ds",
+    "build:manifest": "npm run build:manifest --workspace lause-ds-mcp",
+    "build:mcp": "npm run build --workspace lause-ds-mcp",
     "storybook": "npm run storybook --workspace lause-ds",
-    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui",
+    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui && tsc -p packages/mcp --noEmit",
     "changeset": "changeset",
     "release": "npm run build:tokens && npm run build:ui && changeset publish"
   },

@@ -1,0 +1,150 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// Copied from packages/tokens/src/dtcg.ts — the two packages stay independent,
+// so this is a deliberate duplication rather than a shared dependency.
+export type Token = { $type: string; $value: unknown; $description?: string };
+export type Group = { [key: string]: Token | Group };
+
+export type ManifestProp = {
+  name: string;
+  type: string;
+  required: boolean;
+  default?: string;
+  doc: string;
+};
+
+export type ManifestComponent = {
+  name: string;
+  kind: 'component' | 'hook';
+  source: string;
+  summary: string;
+  props: ManifestProp[];
+  states: string[];
+  proofScreen: string;
+  figma?: { setId?: string; componentId?: string; file: string };
+  rules: string[];
+};
+
+export type Manifest = {
+  generatedFrom?: Record<string, unknown>;
+  components: ManifestComponent[];
+  rules: string[];
+};
+
+export type Ledger = Record<string, unknown>;
+
+export type Data = {
+  primitives: Group;
+  light: Group;
+  dark: Group;
+  manifest: Manifest;
+  llms: string;
+  figma: Ledger;
+};
+
+/**
+ * Finds the monorepo root by walking up from this module's location until a
+ * directory holding a `package.json` with a `"workspaces"` key is found.
+ * Falls back to `<dir of this file>/data` — the layout `copy-data.mjs`
+ * produces for the published package, where there is no workspace root to
+ * find.
+ */
+export function findRoot(): string {
+  const startDir = dirname(fileURLToPath(import.meta.url));
+  let dir = startDir;
+  for (;;) {
+    const pkgPath = join(dir, 'package.json');
+    if (existsSync(pkgPath)) {
+      try {
+        const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as Record<string, unknown>;
+        if (pkg && typeof pkg === 'object' && 'workspaces' in pkg) return dir;
+      } catch {
+        // Not valid JSON — keep walking up.
+      }
+    }
+    const parent = dirname(dir);
+    if (parent === dir) break; // reached the filesystem root without a match
+    dir = parent;
+  }
+  return join(startDir, 'data');
+}
+
+function readJSON(path: string): unknown {
+  return JSON.parse(readFileSync(path, 'utf8'));
+}
+
+function readJSONOr<T>(path: string, fallback: T): T {
+  if (!existsSync(path)) {
+    console.warn(`lause-ds-mcp: ${path} not found, using fallback`);
+    return fallback;
+  }
+  return readJSON(path) as T;
+}
+
+export function loadData(root: string = findRoot()): Data {
+  const primitives = readJSON(join(root, 'tokens/primitives.tokens.json')) as Group;
+  const light = readJSON(join(root, 'tokens/semantic.light.tokens.json')) as Group;
+  const dark = readJSON(join(root, 'tokens/semantic.dark.tokens.json')) as Group;
+  const manifest = readJSONOr<Manifest>(join(root, 'components.manifest.json'), {
+    components: [],
+    rules: [],
+  });
+  const llmsPath = join(root, 'llms.txt');
+  const llms = existsSync(llmsPath) ? readFileSync(llmsPath, 'utf8') : '';
+  const figma = readJSON(join(root, 'figma/library.json')) as Ledger;
+  return { primitives, light, dark, manifest, llms, figma };
+}
+
+function isToken(v: unknown): v is Token {
+  return typeof v === 'object' && v !== null && '$value' in v;
+}
+
+function getAtPath(group: Group, path: string): Token | undefined {
+  const parts = path.split('.');
+  let node: Group | Token = group;
+  for (const part of parts) {
+    if (typeof node !== 'object' || node === null || !(part in node)) return undefined;
+    node = (node as Group)[part];
+  }
+  return isToken(node) ? node : undefined;
+}
+
+function isAlias(value: unknown): value is string {
+  return typeof value === 'string' && /^\{[^{}]+\}$/.test(value);
+}
+
+function formatValue(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number') return String(value);
+  if (
+    value &&
+    typeof value === 'object' &&
+    'value' in value &&
+    'unit' in value &&
+    typeof (value as { value: unknown }).value === 'number' &&
+    typeof (value as { unit: unknown }).unit === 'string'
+  ) {
+    const dimension = value as { value: number; unit: string };
+    return `${dimension.value}${dimension.unit}`;
+  }
+  return String(value);
+}
+
+/**
+ * Resolves a semantic token to its primitive value. Semantic token values are
+ * always a single `{alias}` hop into the primitive group — this is that
+ * one-hop rule, not the general alias-chasing `resolve` in
+ * packages/tokens/src/dtcg.ts.
+ */
+export function resolveToken(data: Data, path: string, mode: 'light' | 'dark'): string {
+  const group = mode === 'light' ? data.light : data.dark;
+  const semanticToken = getAtPath(group, path);
+  if (!semanticToken) throw new Error(`no such semantic token: ${path}`);
+  if (!isAlias(semanticToken.$value)) return formatValue(semanticToken.$value);
+  const aliasPath = semanticToken.$value.slice(1, -1);
+  const primitiveToken = getAtPath(data.primitives, aliasPath);
+  if (!primitiveToken) throw new Error(`unresolved alias {${aliasPath}}`);
+  return formatValue(primitiveToken.$value);
+}
