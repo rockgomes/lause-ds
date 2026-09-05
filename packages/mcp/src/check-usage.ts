@@ -13,6 +13,8 @@ const RAW_FONT_MESSAGE = 'Use font-content or font-chrome';
 // The brief gives no exact wording for off-theme-utility (unlike the other five rules) — this is
 // the wording chosen for it; see the task report for the reasoning.
 const OFF_THEME_MESSAGE = 'Use a token from the closed theme instead of this off-theme Tailwind utility (see list_tokens)';
+const RAW_SIZE_MESSAGE =
+  'Sizes come from the space and type scales; only 44px (target), 640px (option width) and 1020px (reading measure) are allowed as raw values';
 const TILE_MESSAGE = 'Options stack in a TileStack; only the two of a true/false item sit side by side';
 const STEM_MESSAGE =
   'Type is used through the roles: text-label, text-body, text-title, text-reading, text-headline, text-display';
@@ -42,14 +44,8 @@ type ThemeSet = {
  */
 function loadThemeCss(): string {
   const root = findRoot();
-  const candidates = [
-    join(root, 'packages/ui/src/tokens/theme.css'),
-    join(root, 'data/packages/ui/src/tokens/theme.css'),
-  ];
-  for (const path of candidates) {
-    if (existsSync(path)) return readFileSync(path, 'utf8');
-  }
-  return '';
+  const path = join(root, 'packages/ui/src/tokens/theme.css');
+  return existsSync(path) ? readFileSync(path, 'utf8') : '';
 }
 
 /**
@@ -137,8 +133,37 @@ function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 const FONT_NAME_RE = new RegExp(`\\b(?:${FONT_NAMES.map(escapeRe).join('|')})\\b`, 'i');
-const FONT_FAMILY_RE = /font-family\s*:/;
+const FONT_FAMILY_RE = /font-family\s*:/i;
 const FONT_SIZE_RE = /font-size\s*:/;
+
+/**
+ * A font name is only a violation inside a styling context — a class
+ * attribute value, a `style` attribute (string or object form), a
+ * `font-family:` CSS declaration, or a `fontFamily:` JS style key — never in
+ * ordinary JSX text or an unrelated string literal ("Georgia is a country.").
+ * Each match run is line-scoped, matching the rest of this file's per-line
+ * architecture.
+ */
+function fontContextsOnLine(stripped: string): string[] {
+  const contexts: string[] = [];
+  contexts.push(...extractClassStringsFromLine(stripped));
+
+  let m: RegExpExecArray | null;
+
+  const styleAttrStrRe = /style\s*=\s*"([^"]*)"|style\s*=\s*'([^']*)'/g;
+  while ((m = styleAttrStrRe.exec(stripped))) contexts.push(m[1] ?? m[2] ?? '');
+
+  const styleObjRe = /style\s*=\s*\{\{([\s\S]*?)\}\}/g;
+  while ((m = styleObjRe.exec(stripped))) contexts.push(m[1]);
+
+  const famDeclRe = /font-family\s*:\s*([^;{}\n]*)/gi;
+  while ((m = famDeclRe.exec(stripped))) contexts.push(m[1]);
+
+  const fontFamilyKeyRe = /fontFamily\s*:\s*(['"`])((?:(?!\1)[\s\S])*)\1/g;
+  while ((m = fontFamilyKeyRe.exec(stripped))) contexts.push(m[2]);
+
+  return contexts;
+}
 
 // ---------------------------------------------------------------------------
 // Rules 3 & 5: class-token classification
@@ -224,12 +249,25 @@ const STATIC_ALLOWLIST = new Set([
   'truncate',
 ]);
 
-type ClassFinding = { rule: 'off-theme-utility' | 'stem-without-role'; util: string };
+type ClassFinding = { rule: 'off-theme-utility' | 'stem-without-role' | 'raw-size'; util: string };
 
 /** Strips a leading `sm:`/`hover:`/`enabled:active:` variant chain and a leading `-` (negative utility). */
 function baseUtility(rawToken: string): string {
   const afterVariants = rawToken.split(':').pop() ?? rawToken;
   return afterVariants.startsWith('-') ? afterVariants.slice(1) : afterVariants;
+}
+
+// A raw arbitrary length: a bare number + px/rem/em, e.g. `500px`, `2.5rem`.
+// A CSS function call (`min(320px,90vw)`, `calc(100% - 8px)`) or a `--variable`
+// reference is not a raw magnitude and always passes.
+const RAW_SIZE_VALUE_RE = /^-?\d+(?:\.\d+)?(?:px|rem|em)$/i;
+const RAW_SIZE_EXCEPTIONS = new Set(['44px', '640px', '1020px']);
+const CSS_FUNCTION_RE = /^[a-zA-Z-]+\(/;
+
+function isRawSizeValue(content: string): boolean {
+  if (CSS_FUNCTION_RE.test(content)) return false;
+  if (RAW_SIZE_EXCEPTIONS.has(content)) return false;
+  return RAW_SIZE_VALUE_RE.test(content);
 }
 
 /**
@@ -241,10 +279,17 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
   const token = baseUtility(rawToken);
   if (STATIC_ALLOWLIST.has(token)) return null;
 
-  if (token.includes('[') || token.includes('(')) {
-    // Arbitrary values (`p-[13px]`) and variable refs (`bg-(--foo)`) pass, per the brief —
-    // except an arbitrary text size, which is still a size outside the six roles.
+  const bracketMatch = token.match(/\[([^\]]+)\]/);
+  if (bracketMatch) {
+    // An arbitrary text size stays under stem-without-role — never double-reported as raw-size —
+    // regardless of what the value is.
     if (token.startsWith('text-[')) return { rule: 'stem-without-role', util: token };
+    if (isRawSizeValue(bracketMatch[1])) return { rule: 'raw-size', util: token };
+    return null; // other arbitrary values (colours, CSS functions, keywords, …) pass
+  }
+
+  if (token.includes('(')) {
+    // A `(--variable)` reference, e.g. `pl-(--lause-space-8)`, passes.
     return null;
   }
 
@@ -329,25 +374,76 @@ function tokensOf(classString: string): string[] {
 
 type Tag = { name: string; raw: string; index: number; closing: boolean; selfClosing: boolean };
 
+const TAG_START_RE = /<(\/)?([A-Za-z][\w.]*)/y;
+
 /**
- * Tokenizes JSX/HTML tags with one regex pass. Assumes attributes don't
- * contain a raw `>` (e.g. an inline arrow-function handler like
- * `onClick={() => f()}`) — a known limitation of a regex-based tokenizer;
- * see the task report.
+ * Tokenizes JSX/HTML tags with a small scanner rather than a single regex.
+ * From each `<name`, it walks forward tracking `{}` depth (a `>` inside a
+ * brace-expression — e.g. the arrow in `onClick={() => f()}`, or a
+ * comparison like `{(e) => { if (x > 1) go(); }}` — never ends the tag) and
+ * skips over `"…"`, `'…'` and `` `…` `` string literals verbatim, so a `>`
+ * or unbalanced brace inside a quoted attribute value can't confuse the
+ * depth count either. The tag ends at the first `>` seen at depth 0.
  */
 function tokenizeTags(text: string): Tag[] {
   const tags: Tag[] = [];
-  const re = /<\/?([A-Za-z][\w.]*)\b[^<>]*?>/g;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(text))) {
-    const raw = m[0];
+  let i = 0;
+  while (i < text.length) {
+    const start = text.indexOf('<', i);
+    if (start === -1) break;
+    TAG_START_RE.lastIndex = start;
+    const m = TAG_START_RE.exec(text);
+    if (!m) {
+      i = start + 1;
+      continue;
+    }
+    const closing = m[1] === '/';
+    const name = m[2];
+    let k = TAG_START_RE.lastIndex;
+    let braceDepth = 0;
+    let end = -1;
+    while (k < text.length) {
+      const ch = text[k];
+      if (ch === '"' || ch === "'" || ch === '`') {
+        const quote = ch;
+        k++;
+        while (k < text.length && text[k] !== quote) {
+          if (text[k] === '\\') k++;
+          k++;
+        }
+        k++; // consume the closing quote
+        continue;
+      }
+      if (ch === '{') {
+        braceDepth++;
+        k++;
+        continue;
+      }
+      if (ch === '}') {
+        if (braceDepth > 0) braceDepth--;
+        k++;
+        continue;
+      }
+      if (ch === '>' && braceDepth === 0) {
+        end = k;
+        break;
+      }
+      k++;
+    }
+    if (end === -1) {
+      // Unterminated (or not actually a tag, e.g. `a < b` in an expression) — bail from here.
+      i = start + 1;
+      continue;
+    }
+    const raw = text.slice(start, end + 1);
     tags.push({
-      name: m[1],
+      name,
       raw,
-      index: m.index,
-      closing: raw.startsWith('</'),
+      index: start,
+      closing,
       selfClosing: /\/\s*>$/.test(raw),
     });
+    i = end + 1;
   }
   return tags;
 }
@@ -452,7 +548,9 @@ export function checkUsage(data: Data, code: string): { findings: Finding[] } {
       findings.push({ rule: 'raw-hex', line: lineNo, excerpt, message: RAW_HEX_MESSAGE });
     }
 
-    if (FONT_FAMILY_RE.test(stripped) || FONT_NAME_RE.test(stripped)) {
+    const hasFontDecl = FONT_FAMILY_RE.test(stripped);
+    const hasFontNameInContext = fontContextsOnLine(stripped).some((c) => FONT_NAME_RE.test(c));
+    if (hasFontDecl || hasFontNameInContext) {
       findings.push({ rule: 'raw-font', line: lineNo, excerpt, message: RAW_FONT_MESSAGE });
     }
 
@@ -464,12 +562,13 @@ export function checkUsage(data: Data, code: string): { findings: Finding[] } {
       for (const token of tokensOf(classString)) {
         const result = classifyToken(token, theme);
         if (!result) continue;
-        findings.push({
-          rule: result.rule,
-          line: lineNo,
-          excerpt,
-          message: result.rule === 'off-theme-utility' ? OFF_THEME_MESSAGE : STEM_MESSAGE,
-        });
+        const message =
+          result.rule === 'off-theme-utility'
+            ? OFF_THEME_MESSAGE
+            : result.rule === 'raw-size'
+              ? RAW_SIZE_MESSAGE
+              : STEM_MESSAGE;
+        findings.push({ rule: result.rule, line: lineNo, excerpt, message });
       }
     }
   }

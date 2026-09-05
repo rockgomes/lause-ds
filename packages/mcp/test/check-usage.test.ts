@@ -101,6 +101,72 @@ describe('checkUsage', () => {
     const { findings } = checkUsage(data, `<Button>Go</Button>`);
     expect(rules(findings)).not.toContain('focus-missing');
   });
+
+  // --- expression-attribute tag boundaries (fix round 1) ---
+  it('does not lose className after an inline arrow-function onClick', () => {
+    const code = `<button onClick={() => setOpen(true)} className="focus-visible:ring-2">Go</button>`;
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).not.toContain('focus-missing');
+  });
+
+  it('still finds tile-in-row when the row container has an inline arrow-function onClick', () => {
+    const code = [
+      '<div onClick={() => f()} className="flex flex-row">',
+      '  <Tile>A</Tile>',
+      '  <Tile>B</Tile>',
+      '  <Tile>C</Tile>',
+      '</div>',
+    ].join('\n');
+    const { findings } = checkUsage(data, code);
+    const found = findings.find((f) => f.rule === 'tile-in-row');
+    expect(found).toBeDefined();
+    expect(found!.line).toBe(1);
+  });
+
+  it('does not crash and does not false-flag a nested-brace, comparison-bearing handler', () => {
+    const code = `<button onClick={(e) => { if (x > 1) go(); }} className="focus-visible:ring-2">Go</button>`;
+    expect(() => checkUsage(data, code)).not.toThrow();
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).not.toContain('focus-missing');
+  });
+
+  // --- rule: raw-size ---
+  it('flags an arbitrary pixel width outside the allowed exceptions', () => {
+    const { findings } = checkUsage(data, `<div className="w-[500px]">x</div>`);
+    const found = findings.find((f) => f.rule === 'raw-size');
+    expect(found).toBeDefined();
+    expect(found!.message).toMatch(/44px.*640px.*1020px/);
+  });
+
+  it('does not flag the allowed raw sizes, CSS functions, or variable refs', () => {
+    const code = `<div className="min-h-[44px] max-w-[640px] max-w-[min(320px,90vw)] pl-(--lause-space-8)">x</div>`;
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).not.toContain('raw-size');
+  });
+
+  it('reports an arbitrary text size once, under stem-without-role, not raw-size', () => {
+    const { findings } = checkUsage(data, `<p className="text-[18px]">Hi</p>`);
+    expect(rules(findings).filter((r) => r === 'raw-size' || r === 'stem-without-role')).toEqual([
+      'stem-without-role',
+    ]);
+  });
+
+  // --- raw-font must not fire on prose ---
+  it('does not flag a font name mentioned in plain JSX text', () => {
+    const { findings } = checkUsage(data, `<p>Georgia is a country.</p>`);
+    expect(rules(findings)).not.toContain('raw-font');
+  });
+
+  it('flags a font name used in an arbitrary class value', () => {
+    const { findings } = checkUsage(data, `<div className="font-[Georgia]">x</div>`);
+    expect(rules(findings)).toContain('raw-font');
+  });
+
+  it('flags a font name used in a style object', () => {
+    const code = `<div style={{ fontFamily: 'Georgia' }}>x</div>`;
+    const { findings } = checkUsage(data, code);
+    expect(rules(findings)).toContain('raw-font');
+  });
 });
 
 describe('check_usage tool', () => {
