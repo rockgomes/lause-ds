@@ -272,7 +272,10 @@
         "Dark"
       ],
       "proofScreen": "Eksam",
-      "rules": []
+      "rules": [
+        "Options stack vertically in a TileStack, never in a row, except the two of a true/false item.",
+        "Options run to 40 characters."
+      ]
     },
     {
       "name": "Bubble",
@@ -603,7 +606,9 @@
         "Dark"
       ],
       "proofScreen": "Õigused",
-      "rules": []
+      "rules": [
+        "Rows Igaüks / Eesti kodanik, columns Tohib piirata / Ei tohi piirata; keys 1–4."
+      ]
     }
   ],
   "rules": [

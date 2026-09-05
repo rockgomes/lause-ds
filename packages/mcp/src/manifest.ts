@@ -15,7 +15,8 @@ import {
   type Node,
   type TypeNode,
 } from 'typescript/unstable/ast';
-import { findRoot, loadData, type Data, type Group, type Manifest, type ManifestComponent, type ManifestProp, type Token } from './data.js';
+import { findRoot, loadData, type Data, type Manifest, type ManifestComponent, type ManifestProp } from './data.js';
+import { listTokens, type TokenEntry, type TypographyValue } from './tools.js';
 
 // The spec §4 proof-screen table, copied here so the generator has no runtime
 // dependency on the spec document.
@@ -35,6 +36,14 @@ const PROOF_SCREENS: Record<string, string> = {
   usePeek: 'Lugeja',
 };
 
+// A container carries the rules of what it holds: an agent that asks for
+// TileStack alone must still be told how tiles behave in it.
+const TILE_RULES = [
+  'Options stack vertically in a TileStack, never in a row, except the two of a true/false item.',
+  'Options run to 40 characters.',
+];
+const CELL_RULES = ['Rows Igaüks / Eesti kodanik, columns Tohib piirata / Ei tohi piirata; keys 1–4.'];
+
 // Per-component usage rules, English. Components not listed here have no rules of their own.
 const RULES_BY_COMPONENT: Record<string, string[]> = {
   Button: [
@@ -42,16 +51,15 @@ const RULES_BY_COMPONENT: Record<string, string[]> = {
     'filled is the one primary action on a screen.',
     'Disabled controls never hover.',
   ],
-  Tile: [
-    'Options stack vertically in a TileStack, never in a row, except the two of a true/false item.',
-    'Options run to 40 characters.',
-  ],
+  Tile: TILE_RULES,
+  TileStack: TILE_RULES,
   Sentence: [
     'The English pair (text + note) is required together: the note says the translation is unofficial.',
     'Term ids that repeat pin together.',
   ],
   Nav: ['Chrome stays Estonian; while peeking it swaps to English and never gains a subtitle.'],
-  Cell: ['Rows Igaüks / Eesti kodanik, columns Tohib piirata / Ei tohi piirata; keys 1–4.'],
+  Cell: CELL_RULES,
+  CellGrid: CELL_RULES,
   Bubble: ['Sits above its word; the count is decorative to assistive technology.'],
   Dial: ['The exam disables it as one control.'],
   Progress: ['One segment per unit; the counts are given in words.'],
@@ -256,70 +264,6 @@ export function generateManifest(root: string): Manifest {
   }
 }
 
-function isTokenNode(value: unknown): value is Token {
-  return typeof value === 'object' && value !== null && '$value' in value;
-}
-
-/** Every leaf token path in a group, dot-joined, in file order. */
-function collectTokenPaths(group: Group, prefix = ''): string[] {
-  const paths: string[] = [];
-  for (const [key, value] of Object.entries(group)) {
-    const path = prefix ? `${prefix}.${key}` : key;
-    if (isTokenNode(value)) paths.push(path);
-    else paths.push(...collectTokenPaths(value as Group, path));
-  }
-  return paths;
-}
-
-function getTokenNode(group: Group, path: string): Token | undefined {
-  const parts = path.split('.');
-  let node: Group | Token = group;
-  for (const part of parts) {
-    if (typeof node !== 'object' || node === null || !(part in node)) return undefined;
-    node = (node as Group)[part];
-  }
-  return isTokenNode(node) ? node : undefined;
-}
-
-function getDescription(group: Group, path: string): string | undefined {
-  return getTokenNode(group, path)?.$description;
-}
-
-function isAlias(value: unknown): value is string {
-  return typeof value === 'string' && /^\{[^{}]+\}$/.test(value);
-}
-
-/**
- * A richer sibling of `resolveToken` in data.ts: that one intentionally stops at the first
- * primitive `$value`, which is enough for a plain color or dimension but prints `[object Object]`
- * for the composite tokens (typography, shadow) — those need one more hop into their own fields,
- * each of which is itself a `{...}` alias into the primitives. Independent on purpose, same as the
- * duplication data.ts already carries from packages/tokens/src/dtcg.ts.
- */
-function formatTokenValue(primitives: Group, value: unknown): string {
-  if (isAlias(value)) {
-    const primitive = getTokenNode(primitives, value.slice(1, -1));
-    return primitive ? formatTokenValue(primitives, primitive.$value) : value;
-  }
-  if (Array.isArray(value)) return value.join(', ');
-  if (typeof value === 'string' || typeof value === 'number') return String(value);
-  if (value && typeof value === 'object') {
-    if ('value' in value && 'unit' in value) {
-      const dimension = value as { value: number; unit: string };
-      return `${dimension.value}${dimension.unit}`;
-    }
-    return Object.entries(value as Record<string, unknown>)
-      .map(([field, fieldValue]) => `${field} ${formatTokenValue(primitives, fieldValue)}`)
-      .join(', ');
-  }
-  return String(value);
-}
-
-function formatSemanticToken(data: Data, path: string, mode: 'light' | 'dark'): string {
-  const token = getTokenNode(mode === 'light' ? data.light : data.dark, path);
-  return token ? formatTokenValue(data.primitives, token.$value) : '';
-}
-
 function renderProp(prop: ManifestProp): string {
   const optional = prop.required ? '' : '?';
   const withDefault = prop.default !== undefined ? ` = ${prop.default}` : '';
@@ -328,15 +272,15 @@ function renderProp(prop: ManifestProp): string {
 }
 
 function renderComponent(component: ManifestComponent): string {
-  const lines = [`## ${component.name}`, '', component.summary];
+  const lines = [`### ${component.name}`, '', component.summary];
   if (component.props.length > 0) {
-    lines.push('', '### Props', ...component.props.map(renderProp));
+    lines.push('', '#### Props', ...component.props.map(renderProp));
   }
   if (component.states.length > 0) {
     lines.push('', `States: ${component.states.join(', ')}`);
   }
   if (component.rules.length > 0) {
-    lines.push('', '### Rules', ...component.rules.map((rule) => `- ${rule}`));
+    lines.push('', '#### Rules', ...component.rules.map((rule) => `- ${rule}`));
   }
   lines.push('', `Source: ${component.source}`);
   if (component.figma) {
@@ -346,14 +290,61 @@ function renderComponent(component: ManifestComponent): string {
   return lines.join('\n');
 }
 
+/** A typography role prints its whole ramp; everything else is already a string. */
+function renderTokenValue(value: string | TypographyValue): string {
+  if (typeof value === 'string') return value;
+  return `fontFamily ${value.fontFamily}, fontSize ${value.fontSize}, lineHeight ${value.lineHeight}, fontWeight ${value.fontWeight}`;
+}
+
+/** The utilities a token is reached through: a colour is both a background and a text colour. */
+function renderUtilities(entry: TokenEntry): string {
+  return entry.type === 'color' ? `bg-${entry.tailwind} / text-${entry.tailwind}` : entry.tailwind;
+}
+
+/**
+ * One token per line, in the form a reader can act on without a second
+ * lookup: the resolved value in both modes, then the Tailwind utility and
+ * the CSS custom property, then what the token is for. The values, the
+ * utility keys and the custom properties all come from `listTokens` — the
+ * same mapping the `list_tokens` tool serves, not a second copy of it.
+ */
+function renderTokenLine(entry: TokenEntry): string {
+  const light = renderTokenValue(entry.light);
+  const dark = renderTokenValue(entry.dark);
+  const description = entry.description ? ` — ${entry.description}` : '';
+  return `${entry.name}: ${light} (light) · ${dark} (dark) — ${renderUtilities(entry)} · ${entry.css}${description}`;
+}
+
+const INSTALL_SECTION = [
+  '## Install and import',
+  '',
+  '`lause-ds` requires Tailwind v4 in the consuming app.',
+  '',
+  '```bash',
+  'npm install lause-ds',
+  '```',
+  '',
+  'In your Tailwind CSS entry (for example `app/globals.css`), in this order:',
+  '',
+  '```css',
+  "@import 'tailwindcss';",
+  "@import 'lause-ds/styles.css';            /* tokens + the theme; must live here, not in a TSX file */",
+  "@source '../node_modules/lause-ds/dist';  /* relative to THIS css file; adjust for src/app/globals.css */",
+  '```',
+  '',
+  'Then import components normally:',
+  '',
+  '```tsx',
+  "import { Button, Dial, Tile, TileStack } from 'lause-ds';",
+  '```',
+  '',
+  "Every component already carries `'use client'`, so it works as it is in a React Server Components app. " +
+    'Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).',
+];
+
 /** Renders `llms.txt`: the tokens and components an AI tool should read before touching this code. */
 export function renderLlms(manifest: Manifest, data: Data): string {
-  const tokenLines = collectTokenPaths(data.light).map((path) => {
-    const light = formatSemanticToken(data, path, 'light');
-    const dark = formatSemanticToken(data, path, 'dark');
-    const description = getDescription(data.light, path);
-    return `${path}: ${light} (light) · ${dark} (dark)${description ? ` — ${description}` : ''}`;
-  });
+  const tokenLines = listTokens(data).tokens.map(renderTokenLine);
 
   const lines = [
     '# Lause design system',
@@ -362,7 +353,12 @@ export function renderLlms(manifest: Manifest, data: Data): string {
       'rules an AI tool needs before touching this code. This file and components.manifest.json are generated by ' +
       '`npm run build:manifest` — read them before the source.',
     '',
+    ...INSTALL_SECTION,
+    '',
     '## Tokens',
+    '',
+    'Each line is `token: light · dark — Tailwind utility · CSS custom property — what it is for`. The theme is ' +
+      'closed: these utilities exist, anything else (`bg-red-500`, `p-11`) does not.',
     '',
     ...tokenLines,
     '',
