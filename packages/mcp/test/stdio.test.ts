@@ -11,9 +11,12 @@ const distStdio = `${packageRoot}dist/stdio.js`;
 
 beforeAll(() => {
   execSync('npm run build:mcp', { cwd: repoRoot, stdio: 'ignore' });
+  if (!existsSync(distStdio)) {
+    throw new Error(`Expected ${distStdio} to exist after npm run build:mcp`);
+  }
 }, 120_000);
 
-describe.skipIf(!existsSync(distStdio))('stdio entry', () => {
+describe('stdio entry', () => {
   it('serves list_components with 13 entries over stdio', async () => {
     const client = new Client({ name: 'lause-ds-mcp-test-client', version: '0.0.0' });
     const transport = new StdioClientTransport({ command: 'node', args: [distStdio] });
