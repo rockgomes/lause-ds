@@ -52,9 +52,7 @@ function CommandRow({ command, description }: { command: string; description: st
   return (
     <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex min-w-0 flex-col gap-4">
-        {/* tabIndex: the "claude mcp add" line is wider than the card at most widths and scrolls —
-            axe's scrollable-region-focusable rule requires that to be reachable by keyboard. */}
-        <pre tabIndex={0} className="overflow-x-auto text-body text-ink">
+        <pre className="font-chrome whitespace-pre-wrap break-all text-body text-ink">
           {command}
         </pre>
         <p className="text-label text-dim">{description}</p>

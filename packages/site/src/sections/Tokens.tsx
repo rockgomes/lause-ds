@@ -113,7 +113,7 @@ export function Tokens() {
             {/* tabIndex: at some widths this sample is wider than the card and scrolls — axe's
                 scrollable-region-focusable rule requires a scrollable region to be reachable by
                 keyboard, since the sample text itself (a plain `<p>`) is never focusable. */}
-            <div tabIndex={0} className="overflow-x-auto">
+            <div tabIndex={0} role="region" aria-label={`${role.role} specimen`} className="overflow-x-auto">
               <p
                 data-role={role.role}
                 className={clsx('whitespace-nowrap', FAMILY_CLASS[role.family], TEXT_ROLE_CLASS[role.role])}
