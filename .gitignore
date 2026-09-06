@@ -8,5 +8,4 @@ out/
 *.tsbuildinfo
 storybook-static/
 .netlify/
-site/llms.txt
-site/components.manifest.json
+/site/
