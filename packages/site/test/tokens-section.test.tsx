@@ -1,3 +1,4 @@
+import { page } from '@vitest/browser/context';
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { Tokens } from '../src/sections/Tokens.js';
@@ -29,5 +30,16 @@ describe('Tokens section', () => {
     const display = document.querySelector('[data-role="display"]') as HTMLElement;
     const label = document.querySelector('[data-role="label"]') as HTMLElement;
     expect(parseFloat(getComputedStyle(display).fontSize)).toBeGreaterThan(parseFloat(getComputedStyle(label).fontSize));
+  });
+  it('never breaks a specimen word on narrow screens; the row scrolls instead', async () => {
+    await render(<Tokens />);
+    for (const width of [390, 320]) {
+      await page.viewport(width, 900);
+      const display = document.querySelector('[data-role="display"]') as HTMLElement;
+      const lineHeight = parseFloat(getComputedStyle(display).lineHeight);
+      expect(display.getBoundingClientRect().height, `display sample at ${width}`).toBeLessThanOrEqual(lineHeight * 1.5);
+      expect(document.documentElement.scrollWidth, `page width at ${width}`).toBeLessThanOrEqual(width);
+    }
+    await page.viewport(1440, 900);
   });
 });
