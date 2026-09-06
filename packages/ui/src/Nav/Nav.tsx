@@ -41,7 +41,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
   return (
     <header
       data-state={peeking ? 'peeking' : 'idle'}
-      className={clsx('grid grid-cols-[1fr_auto_1fr] items-center gap-24 font-chrome text-label text-ink', hitTarget, className)}
+      className={clsx('grid grid-cols-[1fr_auto_1fr] items-center gap-24 py-8 font-chrome text-label text-ink', hitTarget, className)}
       {...rest}
     >
       <div className="col-start-1 justify-self-start">{context}</div>
