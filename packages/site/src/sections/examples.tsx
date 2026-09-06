@@ -16,9 +16,11 @@ import {
   type BarSegment,
   type CellState,
   type NavItem,
-  type Segment,
+  type Support,
   type TileState,
 } from 'lause-ds';
+import { sentenceEnglish, sentenceNext, sentencePrevious, sentenceSegments, supportOptions } from '../data/reader-sample.js';
+import { useMediaQuery } from '../media.js';
 
 // Every sample below is copied from the matching component's story
 // (`packages/ui/src/<Name>/<Name>.stories.tsx`), not invented here — so the gallery shows the
@@ -51,14 +53,6 @@ const riigikord: BarSegment[] = ['retained', 'retained', 'retained', 'retained',
 function BarExample() {
   return <Bar segments={riigikord} label="Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10" />;
 }
-
-// packages/ui/src/Dial/Dial.stories.tsx — the Support story's options.
-type Support = 'et' | 'tugi' | 'korvuti';
-const supportOptions = [
-  { value: 'et', label: 'Eesti keeles' },
-  { value: 'tugi', label: 'Tugi' },
-  { value: 'korvuti', label: 'Kõrvuti' },
-] as const satisfies readonly { value: Support; label: string }[];
 
 function DialExample() {
   const [value, setValue] = useState<Support>('et');
@@ -106,25 +100,16 @@ function BubbleExample() {
   );
 }
 
-// packages/ui/src/Sentence/Sentence.stories.tsx — the default args' segments and neighbours.
-const sentenceSegments: Segment[] = [
-  'Riigikogusse võib ',
-  { id: 'kandideerida', text: 'kandideerida', gloss: 'to stand as a candidate' },
-  ' iga vähemalt kahekümne ühe aastane ',
-  { id: 'haaleoiguslik', text: 'hääleõiguslik', gloss: 'with the right to vote' },
-  ' Eesti ',
-  { id: 'kodanik', text: 'kodanik', gloss: 'citizen' },
-  '.',
-];
-
+// packages/site/src/data/reader-sample.ts — the same fixture the Reader section reads, extracted
+// from the Sentence story's default args so this gallery card and the Reader never drift apart.
 function SentenceExample() {
   const [pinned, setPinned] = useState<string[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
   return (
     <Sentence
       segments={sentenceSegments}
-      previous="Riigikogu liikmed valitakse vabadel valimistel proportsionaalsuse põhimõtte alusel."
-      next="Riigikogu liikmete valimise korra sätestab Riigikogu valimise seadus."
+      previous={sentencePrevious}
+      next={sentenceNext}
       support="tugi"
       pinned={pinned}
       counts={counts}
@@ -135,10 +120,7 @@ function SentenceExample() {
           setCounts({ ...counts, [id]: (counts[id] ?? 0) + 1 });
         }
       }}
-      english={{
-        text: 'Any citizen of Estonia with the right to vote who is at least twenty-one years old may stand as a candidate for the Riigikogu.',
-        note: 'Constitution §60',
-      }}
+      english={sentenceEnglish}
       label="Lause 5 / 8"
     />
   );
@@ -146,10 +128,13 @@ function SentenceExample() {
 
 function UsePeekExample() {
   const { held } = usePeek({ enabled: true });
+  // Touch ruling (Rock 2026-09-06): there is no modifier key to hold on a touch device, so this
+  // card names the latch Button instead — the same one the Reader section shows in its place.
+  const touch = useMediaQuery('(hover: none)');
   return (
     <p className="flex items-center gap-8 text-body">
       <Keycap held={held}>⌥</Keycap>
-      <span>Hold ⌥ anywhere on this page.</span>
+      <span>{touch ? 'No modifier here. The latch button does the same thing.' : 'Hold ⌥ anywhere on this page.'}</span>
     </p>
   );
 }
