@@ -49,7 +49,10 @@ function focusAskInput() {
   const ask = document.getElementById('ask');
   // In Component/Check mode the panel has a real input/textarea to focus; in Tokens mode there is
   // no input row at all, so the next best target is the "Question" Dial's selected radio button.
-  const target = ask?.querySelector<HTMLElement>('input, textarea, [role="radio"][aria-checked="true"]');
+  // Two separate queries, not one selector list: `querySelector` returns whichever match comes
+  // first in DOM order, and the Dial's radios sit above the form — a combined selector would
+  // always find the radio first, even when a real input/textarea is on the page.
+  const target = ask?.querySelector<HTMLElement>('textarea, input') ?? ask?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]');
   (target ?? ask)?.focus();
 }
 
@@ -116,7 +119,7 @@ export function Hero({ reducedMotion }: HeroProps) {
               )}
             >
               {word.text}
-              {word.term && peeking ? <Bubble>{word.term.gloss}</Bubble> : null}
+              {word.term && peeking ? <Bubble lang="en">{word.term.gloss}</Bubble> : null}
             </span>
             {i < WORDS.length - 1 ? ' ' : ''}
           </Fragment>
