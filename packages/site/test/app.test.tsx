@@ -51,4 +51,14 @@ describe('App', () => {
     const story = document.getElementById('story')!;
     expect(story.scrollWidth).toBeLessThanOrEqual(story.clientWidth);
   });
+
+  it('the footer reading progress starts at 0, the first section, not 1', async () => {
+    // Regression for the off-by-one: `current` passed to <Progress> is `index` (0-based), not
+    // `index + 1` — with the bug this read '1' even before any scrolling, since
+    // `useSectionProgress` already defaults `index` to 0 for the first section.
+    await page.viewport(1440, 900);
+    const screen = await render(<App />);
+    const footer = screen.getByRole('progressbar', { name: 'Reading progress' });
+    await expect.element(footer).toHaveAttribute('aria-valuenow', '0');
+  });
 });

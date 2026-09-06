@@ -87,7 +87,7 @@ export function App() {
         ))}
       </main>
       <footer className="fixed inset-x-0 bottom-0 bg-ground px-24 pt-16 pb-[max(16px,env(safe-area-inset-bottom))] sm:px-64">
-        <Progress total={SECTIONS.length} current={index + 1} label="Reading progress" />
+        <Progress total={SECTIONS.length} current={index} label="Reading progress" />
       </footer>
     </div>
   );

@@ -51,7 +51,7 @@ export function Reader({ touch }: ReaderProps) {
           ? 'Tap a term to pin its gloss. The button shows every gloss at once — the same latch the ⌥ key sets on a keyboard.'
           : 'The reading unit, live. Click a term to pin its gloss; hold ⌥ to see every gloss at once; the dial sets how much support the sentence carries.'}
       </p>
-      <Dial label="Support level" value={support} onChange={setSupport} options={supportOptions} />
+      <Dial className="self-start" label="Support level" value={support} onChange={setSupport} options={supportOptions} />
       <Sentence
         segments={sentenceSegments}
         previous={sentencePrevious}
