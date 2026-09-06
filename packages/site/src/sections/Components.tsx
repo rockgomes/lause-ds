@@ -45,17 +45,19 @@ function Card({ doc }: { doc: ComponentDoc }) {
     // shares its implicit column — i.e. every other card, below the `md:` two-column breakpoint —
     // to that same width, overflowing the page (the classic CSS grid "blowout").
     <article data-component={doc.name} className={clsx('flex min-w-0 flex-col gap-16 rounded-card bg-surface p-24 shadow-tile', WIDE.has(doc.name) && 'md:col-span-2')}>
+      <div className={clsx('flex w-full items-center justify-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) && 'overflow-x-auto')}>
+        {/* w-full min-w-0: without a definite width, a w-full example (Progress, Bar) collapses to
+            0; min-w-0 is a flex item's own shrink-to-fit override so Sentence's line of text — the
+            one example that needs to wrap, not scroll — can shrink below its content width on a
+            phone. The SCROLLS members (Nav, CellGrid, Bubble) don't shrink to fit a phone-width
+            card at all, so they're shrink-0 and scroll inside overflow-x-auto instead of squeezing. */}
+        <div className={SCROLLS.has(doc.name) ? 'shrink-0' : 'w-full min-w-0'}>
+          <Example />
+        </div>
+      </div>
       <div className="flex flex-col gap-4">
         <h3 className="font-chrome text-title">{doc.name}</h3>
         <p className="text-body">{doc.summary}</p>
-      </div>
-      <div className={clsx('flex w-full items-center justify-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) && 'overflow-x-auto')}>
-        {/* min-w-0: a flex item's default min-width is its content's shrink-to-fit size — without
-            this, Sentence's line of text (the one example that needs to wrap, not scroll) would
-            refuse to shrink below that width and overflow the card on a phone. */}
-        <div className="min-w-0">
-          <Example />
-        </div>
       </div>
       <p className="text-label text-dim">Proof: {doc.proofScreen}</p>
       <LinkRow doc={doc} />

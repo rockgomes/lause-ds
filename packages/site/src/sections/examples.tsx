@@ -34,14 +34,10 @@ function KeycapExample() {
 }
 
 function ButtonExample() {
-  const [count, setCount] = useState(0);
   return (
-    <div className="flex flex-col items-start gap-8">
-      <Button keycap="↵" onClick={() => setCount((c) => c + 1)}>
-        Edasi
-      </Button>
-      <p className="text-label text-dim">Vajutatud {count} korda</p>
-    </div>
+    <Button keycap="↵" onClick={() => {}}>
+      Edasi
+    </Button>
   );
 }
 
