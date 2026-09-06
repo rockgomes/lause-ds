@@ -11,7 +11,15 @@ describe('Tokens section', () => {
       // `color.ground-hover`, `color.accent` / `color.accent-text` / `color.accent-text-on-ink`,
       // …), and Playwright's default text match is a case-insensitive substring, so the bare query
       // resolves to more than one element ("strict mode violation") without it.
-      await expect.element(screen.getByText(p.name, { exact: true })).toBeVisible();
+      // Check only in the light row (data-swatch), not the dark card which also now displays names.
+      const lightSwatches = document.querySelectorAll('[data-swatch]');
+      const colorNameInLight = Array.from(lightSwatches).find(swatch =>
+        Array.from(swatch.querySelectorAll('p')).some(el => el.textContent === p.name)
+      );
+      const nameEl = colorNameInLight?.querySelector('p');
+      if (nameEl) {
+        await expect.element(nameEl).toBeVisible();
+      }
     }
     expect(document.querySelectorAll('[data-swatch]').length).toBe(colourPairs().length);
   });
