@@ -45,13 +45,13 @@ function Card({ doc }: { doc: ComponentDoc }) {
     // shares its implicit column — i.e. every other card, below the `md:` two-column breakpoint —
     // to that same width, overflowing the page (the classic CSS grid "blowout").
     <article data-component={doc.name} className={clsx('flex min-w-0 flex-col gap-16 rounded-card bg-surface p-24 shadow-tile', WIDE.has(doc.name) && 'md:col-span-2')}>
-      <div className={clsx('flex w-full items-center justify-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) && 'overflow-x-auto')}>
+      <div className={clsx('flex w-full items-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) ? 'justify-start overflow-x-auto' : 'justify-center')}>
         {/* w-full min-w-0: without a definite width, a w-full example (Progress, Bar) collapses to
             0; min-w-0 is a flex item's own shrink-to-fit override so Sentence's line of text — the
             one example that needs to wrap, not scroll — can shrink below its content width on a
             phone. The SCROLLS members (Nav, CellGrid, Bubble) don't shrink to fit a phone-width
             card at all, so they're shrink-0 and scroll inside overflow-x-auto instead of squeezing. */}
-        <div className={SCROLLS.has(doc.name) ? 'shrink-0' : 'w-full min-w-0'}>
+        <div className={SCROLLS.has(doc.name) ? 'mx-auto shrink-0' : 'w-full min-w-0'}>
           <Example />
         </div>
       </div>
