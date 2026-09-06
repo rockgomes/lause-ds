@@ -19,7 +19,7 @@ const checkUsageModule = join(root, 'node_modules/lause-ds-mcp/dist/check-usage.
 const { checkUsage } = await import(`file://${checkUsageModule}`);
 
 const data = loadData();
-const files = globSync(join(root, 'packages/site/src/**/*.tsx'));
+const files = globSync(join(root, 'packages/site/src/**/*.{ts,tsx}'));
 
 let findingCount = 0;
 for (const file of files.sort()) {
