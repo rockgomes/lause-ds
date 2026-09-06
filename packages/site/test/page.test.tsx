@@ -44,4 +44,16 @@ describe('page', () => {
       expect(s.outlineStyle !== 'none' || s.boxShadow !== 'none', el.outerHTML.slice(0, 80)).toBe(true);
     }
   });
+
+  it('scrolls a focused control clear of the fixed footer', async () => {
+    await page.viewport(1440, 900);
+    render(<App />);
+    await new Promise((r) => setTimeout(r, 2000)); // hero settles
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-component] a');
+    const lastGalleryLink = links[links.length - 1];
+    expect(lastGalleryLink).toBeDefined();
+    lastGalleryLink.focus();
+    await new Promise((r) => setTimeout(r, 100)); // let the browser's scroll-into-view settle
+    expect(lastGalleryLink.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight - 64);
+  });
 });

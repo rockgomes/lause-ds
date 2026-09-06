@@ -2,18 +2,25 @@
 @import 'lause-ds/styles.css';
 @source '../../ui/dist';
 
+html {
+  /* Matches `main`'s `pb-64` fixed-footer clearance (see App.tsx) — without it, focusing the last
+     control on the page (e.g. the last gallery link) scrolls it exactly to the viewport edge,
+     underneath the fixed footer. */
+  scroll-padding-bottom: 64px;
+}
+
 @layer components {
-  [data-state='pending'] {
+  [data-word][data-state='pending'] {
     opacity: 0;
     transform: translateY(4px);
   }
-  [data-state='in'] {
+  [data-word][data-state='in'] {
     transition:
       opacity 240ms ease-out,
       transform 240ms ease-out;
   }
   @media (prefers-reduced-motion: reduce) {
-    [data-state='in'] {
+    [data-word][data-state='in'] {
       transition: none;
     }
   }
