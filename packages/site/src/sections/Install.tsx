@@ -73,7 +73,7 @@ function LinkRow() {
         <span key={link.label}>
           {i > 0 ? ' · ' : null}
           <a href={link.href} className={clsx('rounded-control', focusRing)}>
-            {link.label}
+            {link.label} ↗
           </a>
         </span>
       ))}
