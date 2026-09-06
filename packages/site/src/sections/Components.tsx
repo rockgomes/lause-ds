@@ -45,7 +45,12 @@ function Card({ doc }: { doc: ComponentDoc }) {
     // shares its implicit column — i.e. every other card, below the `md:` two-column breakpoint —
     // to that same width, overflowing the page (the classic CSS grid "blowout").
     <article data-component={doc.name} className={clsx('flex min-w-0 flex-col gap-16 rounded-card bg-surface p-24 shadow-tile', WIDE.has(doc.name) && 'md:col-span-2')}>
-      <div className={clsx('flex w-full items-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) ? 'justify-start overflow-x-auto' : 'justify-center')}>
+      {/* tabIndex on the SCROLLS members only: axe's scrollable-region-focusable rule requires a
+          scrollable region to be reachable by keyboard when its content isn't already focusable. */}
+      <div
+        tabIndex={SCROLLS.has(doc.name) ? 0 : undefined}
+        className={clsx('flex w-full items-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) ? 'justify-start overflow-x-auto' : 'justify-center')}
+      >
         {/* w-full min-w-0: without a definite width, a w-full example (Progress, Bar) collapses to
             0; min-w-0 is a flex item's own shrink-to-fit override so Sentence's line of text — the
             one example that needs to wrap, not scroll — can shrink below its content width on a

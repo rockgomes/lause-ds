@@ -2,6 +2,7 @@ import { Dial, Nav, Progress, type NavItem } from 'lause-ds';
 import { Ask } from './sections/Ask.js';
 import { Components } from './sections/Components.js';
 import { Hero } from './sections/Hero.js';
+import { Install } from './sections/Install.js';
 import { Reader } from './sections/Reader.js';
 import { Tokens } from './sections/Tokens.js';
 import { useMediaQuery } from './media.js';
@@ -81,9 +82,7 @@ export function App() {
               ) : s.id === 'ask' ? (
                 <Ask />
               ) : (
-                <h2 id={`${s.id}-title`} className="break-words font-content text-headline-narrow sm:text-headline">
-                  {s.label}
-                </h2>
+                <Install />
               )}
             </div>
           </section>

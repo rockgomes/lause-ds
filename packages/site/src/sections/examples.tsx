@@ -102,6 +102,9 @@ function BubbleExample() {
 
 // packages/site/src/data/reader-sample.ts — the same fixture the Reader section reads, extracted
 // from the Sentence story's default args so this gallery card and the Reader never drift apart.
+// The label is deliberately not "Lause 5 / 8" — the Reader section below renders the same
+// fixture under that exact accessible name, and axe's landmark-unique rule fails the page if two
+// `<section>` regions on it share a role and a name.
 function SentenceExample() {
   const [pinned, setPinned] = useState<string[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({});
@@ -121,7 +124,7 @@ function SentenceExample() {
         }
       }}
       english={sentenceEnglish}
-      label="Lause 5 / 8"
+      label="Lause 5 / 8 — Components gallery example"
     />
   );
 }
