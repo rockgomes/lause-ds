@@ -52,6 +52,7 @@ describe('Ask section', () => {
     button.click();
     await expect.element(button).toHaveAttribute('aria-busy', 'true');
     expect(button.disabled).toBe(true);
+    expect(button.querySelector('kbd')).not.toBeNull();
 
     openGate();
     await expect.element(button).not.toBeDisabled();

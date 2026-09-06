@@ -20,7 +20,7 @@
 
   /* The Ask section's submit Keycap, while its request is pending — see packages/site/src/sections/Ask.tsx. */
   @media (prefers-reduced-motion: no-preference) {
-    kbd[data-state='pulse'] {
+    button[aria-busy='true'] kbd {
       animation: ask-keycap-pulse 900ms ease-in-out infinite;
     }
   }

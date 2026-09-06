@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { clsx } from 'clsx';
-import { Dial, Keycap, type DialOption } from 'lause-ds';
+import { Button, Dial, type DialOption } from 'lause-ds';
 import { callTool, type ToolName } from '../mcp-client.js';
 import { componentDocs } from '../data/manifest.js';
-import { focusRing, hitTarget, hoverFade } from '../styles.js';
+import { focusRing, hitTarget } from '../styles.js';
 
 type Mode = 'tokens' | 'component' | 'check';
 
@@ -33,19 +33,6 @@ const CLASSNAME = 'className';
 const DEFAULT_SNIPPET = `<div ${CLASSNAME}="bg-red-500 text-sm">Tere</div>`;
 
 const COMPONENT_DATALIST_ID = 'ask-component-names';
-
-// Copied from `Button`'s own filled-variant classes (packages/ui/src/Button/Button.tsx) rather
-// than rendered through `Button` itself: `Button`'s `keycap` prop always renders its `Keycap`
-// with a fixed `aria-hidden="true"` and nothing else, so there is no way to also give that
-// `Keycap` `data-state="pulse"` while pending — the pulse the CSS below animates.
-const askButtonClasses = clsx(
-  'inline-flex items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold',
-  hitTarget,
-  focusRing,
-  hoverFade,
-  'disabled:cursor-not-allowed disabled:opacity-(--lause-opacity-dim)',
-  'bg-ink text-on-ink enabled:hover:bg-ink-hover enabled:active:bg-ink-active',
-);
 
 const controlClasses = clsx(
   'w-full rounded-control border-(length:--lause-stroke-thin) border-ink bg-ground px-16 font-chrome text-body text-ink',
@@ -182,7 +169,7 @@ export type AskProps = {
 
 /** The Ask section: calls the same hosted MCP server Claude Code talks to, live, from the page. */
 export function Ask({ fetchImpl }: AskProps) {
-  const [mode, setMode] = useState<Mode>('tokens');
+  const [mode, setMode] = useState<Mode>('check');
   const [componentName, setComponentName] = useState(DEFAULT_COMPONENT_NAME);
   const [snippet, setSnippet] = useState(DEFAULT_SNIPPET);
   const [pending, setPending] = useState(false);
@@ -219,7 +206,7 @@ export function Ask({ fetchImpl }: AskProps) {
       </p>
 
       <div className="flex max-w-[640px] flex-col gap-16 rounded-card bg-surface p-24 shadow-tile">
-        <Dial label="Question" value={mode} onChange={setMode} options={MODE_OPTIONS} />
+        <Dial label="Question" value={mode} onChange={setMode} options={MODE_OPTIONS} className="self-start" />
 
         <form onSubmit={onSubmit} className="flex flex-col gap-16">
           {mode === 'component' ? (
@@ -249,19 +236,9 @@ export function Ask({ fetchImpl }: AskProps) {
             />
           ) : null}
 
-          {/* `focusRing` is already folded into `askButtonClasses` above; it is named again here,
-              on the button element itself, only so `check_usage`'s focus-ring check — a plain
-              text scan for the literal word `focusRing` on that element's own opening tag — can
-              see it (`clsx` drops the exact duplicate, so this has no visual effect). Written as
-              "button element", not the bracketed tag spelling: check_usage's own tag scanner
-              reads this file's raw text too, comments included, and a literal opening-bracket
-              spelling here would register as a second, focus-ring-less button of its own. */}
-          <button type="submit" disabled={pending} aria-busy={pending} className={clsx(askButtonClasses, focusRing, 'self-start')}>
+          <Button type="submit" disabled={pending} aria-busy={pending} keycap="↵" className="self-start">
             Ask
-            <Keycap aria-hidden="true" data-state={pending ? 'pulse' : undefined}>
-              ⏎
-            </Keycap>
-          </button>
+          </Button>
         </form>
 
         <p className="text-label text-dim">{TOOL_BY_MODE[mode]} · POST /mcp</p>
@@ -287,7 +264,7 @@ export function Ask({ fetchImpl }: AskProps) {
                 <CheckAnswer findings={(JSON.parse(answer.text) as { findings: Finding[] }).findings} />
               )}
               <details>
-                <summary className="cursor-pointer text-label text-dim">Raw JSON-RPC response</summary>
+                <summary className="cursor-pointer text-label text-dim">Raw tool result</summary>
                 <pre className="mt-8 overflow-x-auto text-label text-ink">{JSON.stringify(JSON.parse(answer.text), null, 2)}</pre>
               </details>
             </div>
