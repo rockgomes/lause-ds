@@ -77,9 +77,6 @@ export function Reader({ touch }: ReaderProps) {
             <Keycap held={held}>⌥</Keycap> peek
           </span>
           <span className="flex items-center gap-8">
-            <Keycap>↵</Keycap> pin
-          </span>
-          <span className="flex items-center gap-8">
             <Keycap>Esc</Keycap> clear
           </span>
         </p>
