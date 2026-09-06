@@ -17,4 +17,21 @@
       transition: none;
     }
   }
+
+  /* The Ask section's submit Keycap, while its request is pending — see packages/site/src/sections/Ask.tsx. */
+  @media (prefers-reduced-motion: no-preference) {
+    kbd[data-state='pulse'] {
+      animation: ask-keycap-pulse 900ms ease-in-out infinite;
+    }
+  }
+
+  @keyframes ask-keycap-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
 }

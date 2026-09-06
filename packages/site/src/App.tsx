@@ -1,4 +1,5 @@
 import { Dial, Nav, Progress, type NavItem } from 'lause-ds';
+import { Ask } from './sections/Ask.js';
 import { Components } from './sections/Components.js';
 import { Hero } from './sections/Hero.js';
 import { Reader } from './sections/Reader.js';
@@ -77,6 +78,8 @@ export function App() {
                 <Components />
               ) : s.id === 'reader' ? (
                 <Reader />
+              ) : s.id === 'ask' ? (
+                <Ask />
               ) : (
                 <h2 id={`${s.id}-title`} className="break-words font-content text-headline-narrow sm:text-headline">
                   {s.label}

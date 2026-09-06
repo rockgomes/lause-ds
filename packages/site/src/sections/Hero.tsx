@@ -47,8 +47,10 @@ function isTouchDevice(): boolean {
 
 function focusAskInput() {
   const ask = document.getElementById('ask');
-  const input = ask?.querySelector<HTMLElement>('input, textarea');
-  (input ?? ask)?.focus();
+  // In Component/Check mode the panel has a real input/textarea to focus; in Tokens mode there is
+  // no input row at all, so the next best target is the "Question" Dial's selected radio button.
+  const target = ask?.querySelector<HTMLElement>('input, textarea, [role="radio"][aria-checked="true"]');
+  (target ?? ask)?.focus();
 }
 
 export type HeroProps = {
