@@ -1,5 +1,6 @@
 import { Dial, Nav, type NavItem } from 'lause-ds';
 import { Hero } from './sections/Hero.js';
+import { useMediaQuery } from './media.js';
 import { useTheme } from './theme.js';
 
 export const SECTIONS = [
@@ -28,37 +29,45 @@ function reducedMotion(): boolean {
 
 export function App() {
   const [theme, setTheme] = useTheme();
+  // Below 640px the Nav shows only the context and the colour dial (design frames' phone Nav).
+  const narrow = useMediaQuery('(max-width: 639px)');
 
   return (
     <div className="min-h-screen bg-ground font-chrome text-body text-ink">
-      <Nav
-        context="Lause"
-        label="Site sections"
-        items={NAV_ITEMS}
-        current="story"
-        onNavigate={(id) => document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' })}
-        controls={
-          <Dial
-            label="Colour mode"
-            value={theme}
-            onChange={setTheme}
-            options={[
-              { value: 'light', label: 'Light' },
-              { value: 'dark', label: 'Dark' },
-            ]}
-          />
-        }
-      />
+      {/* The design frames' page side padding — 24px phone, 64px desktop — shared by this wrapper
+          and every section's outer edge below. */}
+      <div className="px-24 sm:px-64">
+        <Nav
+          context="Lause"
+          label="Site sections"
+          items={narrow ? [] : NAV_ITEMS}
+          current="story"
+          onNavigate={(id) => document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' })}
+          controls={
+            <Dial
+              label="Colour mode"
+              value={theme}
+              onChange={setTheme}
+              options={[
+                { value: 'light', label: 'Light' },
+                { value: 'dark', label: 'Dark' },
+              ]}
+            />
+          }
+        />
+      </div>
       <main>
         {SECTIONS.map((s) => (
-          <section key={s.id} id={s.id} aria-labelledby={s.id === 'story' ? undefined : `${s.id}-title`} className="mx-auto max-w-[1020px] px-16 py-64">
-            {s.id === 'story' ? (
-              <Hero />
-            ) : (
-              <h2 id={`${s.id}-title`} className="font-content text-headline">
-                {s.label}
-              </h2>
-            )}
+          <section key={s.id} id={s.id} aria-labelledby={s.id === 'story' ? undefined : `${s.id}-title`} className="px-24 sm:px-64 py-64">
+            <div className="mx-auto max-w-[1020px]">
+              {s.id === 'story' ? (
+                <Hero />
+              ) : (
+                <h2 id={`${s.id}-title`} className="break-words font-content text-headline-narrow sm:text-headline">
+                  {s.label}
+                </h2>
+              )}
+            </div>
           </section>
         ))}
       </main>

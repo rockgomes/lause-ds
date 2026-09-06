@@ -8,6 +8,7 @@ export default defineConfig({
   test: {
     name: 'site',
     include: ['test/**/*.test.tsx'],
+    setupFiles: ['./test/setup.ts'],
     browser: { enabled: true, headless: true, provider: playwright(), instances: [{ browser: 'chromium' }] },
   },
 });

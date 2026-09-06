@@ -16,4 +16,13 @@ describe('Hero', () => {
     await new Promise((r) => setTimeout(r, 60 * words.length + 400));
     expect(document.querySelectorAll('[data-word][data-state="pending"]').length).toBe(0);
   });
+
+  it('marks each of the three terms with the Sentence underline, and no other word', async () => {
+    await render(<Hero reducedMotion />);
+    const words = Array.from(document.querySelectorAll<HTMLElement>('[data-word]'));
+    const term = words.find((w) => w.textContent === 'kandideerida')!;
+    const plain = words.find((w) => w.textContent === 'iga')!;
+    expect(getComputedStyle(term).textDecorationLine).toBe('underline');
+    expect(getComputedStyle(plain).textDecorationLine).not.toBe('underline');
+  });
 });

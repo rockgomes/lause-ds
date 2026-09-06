@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
+import { clsx } from 'clsx';
 import { Bubble, Button } from 'lause-ds';
 
 type Word = { text: string; term?: { id: string; gloss: string } };
@@ -97,10 +98,21 @@ export function Hero({ reducedMotion }: HeroProps) {
 
   return (
     <div className="flex flex-col items-start gap-32">
-      <p data-peek={peeking ? 'on' : undefined} className="font-content text-headline-narrow text-ink sm:text-headline">
+      <p lang="et" className="w-full break-words font-content text-headline-narrow text-ink hyphens-auto sm:text-headline">
         {WORDS.map((word, i) => (
           <Fragment key={i}>
-            <span data-word data-state={reduced || i < revealed ? 'in' : 'pending'} className="relative inline-block">
+            <span
+              data-word
+              data-state={reduced || i < revealed ? 'in' : 'pending'}
+              className={clsx(
+                // max-w-full: without it an `inline-block` box sizes to its own text regardless of
+                // the container, so `break-words`/`hyphens-auto` on the <p> never gets a chance to
+                // apply to a long unbreakable word (measured directly: "hääleõiguslik" alone runs to
+                // ~320px at the phone's 48px headline size, wider than the 272px column at 320px).
+                'relative inline-block max-w-full',
+                word.term && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12)',
+              )}
+            >
               {word.text}
               {word.term && peeking ? <Bubble>{word.term.gloss}</Bubble> : null}
             </span>

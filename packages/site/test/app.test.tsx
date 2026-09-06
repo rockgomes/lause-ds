@@ -1,3 +1,4 @@
+import { page } from '@vitest/browser/context';
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { App, SECTIONS } from '../src/App.js';
@@ -10,5 +11,41 @@ describe('App', () => {
     // The story section's heading is the Hero itself (Task 3) — it has no separate "Story" title.
     await expect.element(screen.getByText(/Riigikogusse võib/)).toBeVisible();
     await expect.element(screen.getByRole('heading', { name: 'Tokens' })).toBeVisible();
+  });
+
+  it('holds the Nav in the page side padding — 64px desktop, 24px phone', async () => {
+    await page.viewport(1440, 900);
+    const wide = await render(<App />);
+    const header = document.querySelector('header')!;
+    expect(header.getBoundingClientRect().left).toBeGreaterThanOrEqual(64);
+    wide.unmount();
+
+    await page.viewport(390, 844);
+    const narrow = await render(<App />);
+    const headerNarrow = document.querySelector('header')!;
+    expect(headerNarrow.getBoundingClientRect().left).toBeGreaterThanOrEqual(24);
+    narrow.unmount();
+  });
+
+  it('shows the full Nav from the tablet breakpoint up, and only the context and dial below 640px', async () => {
+    await page.viewport(1440, 900);
+    const wide = await render(<App />);
+    expect(document.querySelectorAll('header nav a').length).toBe(4);
+    wide.unmount();
+
+    for (const width of [390, 320]) {
+      await page.viewport(width, 900);
+      const screen = await render(<App />);
+      expect(document.querySelector('header nav')).toBeNull();
+      expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(width);
+      screen.unmount();
+    }
+  });
+
+  it('does not overflow at 320px — the story sentence wraps instead', async () => {
+    await page.viewport(320, 900);
+    await render(<App />);
+    const story = document.getElementById('story')!;
+    expect(story.scrollWidth).toBeLessThanOrEqual(story.clientWidth);
   });
 });

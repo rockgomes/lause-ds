@@ -34,9 +34,10 @@ export type ComponentDoc = {
   sourceUrl: string;
 };
 
-// TileStack, CellGrid and usePeek have no set of their own in the library
-// file: TileStack and CellGrid fall back to the master they compose (Tile,
-// Cell); usePeek is a hook with no Figma component at all.
+// TileStack and CellGrid have no story (Storybook docs id `tile--docs` / `cell--docs`, not
+// `tilestack--docs` / `cellgrid--docs`) and no set of their own in the library file: both fall
+// back to the master they compose (Tile, Cell). usePeek is a hook with no Figma component at all.
+// Reused for both storybookUrl and figmaUrl below.
 const FIGMA_FALLBACK_NAME: Record<string, string> = { TileStack: 'Tile', CellGrid: 'Cell' };
 
 function figmaUrlFor(name: string): string | undefined {
@@ -55,7 +56,7 @@ export function componentDocs(): ComponentDoc[] {
     props: component.props,
     states: component.states,
     proofScreen: component.proofScreen,
-    storybookUrl: `/storybook/?path=/docs/${component.name.toLowerCase()}--docs`,
+    storybookUrl: `/storybook/?path=/docs/${(FIGMA_FALLBACK_NAME[component.name] ?? component.name).toLowerCase()}--docs`,
     figmaUrl: figmaUrlFor(component.name),
     sourceUrl: `https://github.com/rockgomes/lause-ds/blob/main/${component.source}`,
   }));
