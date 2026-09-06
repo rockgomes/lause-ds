@@ -188,7 +188,15 @@
     "radius/card": "VariableID:3:42",
     "radius/bubble": "VariableID:3:43",
     "radius/keycap": "VariableID:3:44",
-    "shadow/tile": "VariableID:3:45"
+    "shadow/tile": "VariableID:3:45",
+    "type/reading-narrow/fontFamily": "VariableID:33:2",
+    "type/reading-narrow/fontSize": "VariableID:33:3",
+    "type/reading-narrow/lineHeight": "VariableID:33:4",
+    "type/reading-narrow/fontWeight": "VariableID:33:5",
+    "type/headline-narrow/fontFamily": "VariableID:33:7",
+    "type/headline-narrow/fontSize": "VariableID:33:8",
+    "type/headline-narrow/lineHeight": "VariableID:33:9",
+    "type/headline-narrow/fontWeight": "VariableID:33:10"
   },
   "styles": {
     "text": {
@@ -197,7 +205,9 @@
       "Title": "S:e4b555f093f691e2228fd76a27ef32895793e073,",
       "Reading": "S:7c18122888f5db9d77d19ca83b8eee748eddc6ab,",
       "Headline": "S:b20617f73aaef25cf0c3b577444ea5701b95717e,",
-      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,"
+      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,",
+      "Reading · narrow": "S:a4653b3cecdfbdaf41dd9e2c7ef5a1f423221c3f,",
+      "Headline · narrow": "S:987d0fc9b42668b63f63a7514b5d82fca76b1588,"
     },
     "effect": {
       "shadow/low": "S:38ae0dd5e2943318af2c6ccdfd9d0a6e12035fa0,",
