@@ -18,6 +18,23 @@ export type SectionProgress = {
  */
 export function useSectionProgress(ids: readonly string[]): SectionProgress {
   const [current, setCurrent] = useState(ids[0] ?? '');
+  // A short last section may never reach the viewport's middle line, so the end of the page
+  // counts as the last section: otherwise the reading progress could never complete.
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      const root = document.documentElement;
+      setAtEnd(window.innerHeight + window.scrollY >= root.scrollHeight - 2);
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
+  }, []);
 
   useEffect(() => {
     const elements = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
@@ -36,6 +53,8 @@ export function useSectionProgress(ids: readonly string[]): SectionProgress {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ids.join('|')]);
 
-  const index = Math.max(0, ids.indexOf(current));
-  return { current, index };
+  const last = ids[ids.length - 1] ?? '';
+  const resolved = atEnd && last ? last : current;
+  const index = Math.max(0, ids.indexOf(resolved));
+  return { current: resolved, index };
 }
