@@ -9,3 +9,5 @@ out/
 storybook-static/
 .netlify/
 /site/
+.vitest-attachments/
+**/__screenshots__/
