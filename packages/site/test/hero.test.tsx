@@ -13,6 +13,8 @@ describe('Hero', () => {
     await render(<Hero />);
     const words = document.querySelectorAll('[data-word]');
     expect(words.length).toBeGreaterThan(5);
+    // Right after render, revealed starts at 0 — every word is still pending.
+    expect(document.querySelectorAll('[data-word][data-state="pending"]').length).toBeGreaterThan(0);
     await new Promise((r) => setTimeout(r, 60 * words.length + 400));
     expect(document.querySelectorAll('[data-word][data-state="pending"]').length).toBe(0);
   });
