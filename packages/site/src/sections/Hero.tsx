@@ -110,7 +110,7 @@ export function Hero({ reducedMotion }: HeroProps) {
                 // apply to a long unbreakable word (measured directly: "hääleõiguslik" alone runs to
                 // ~320px at the phone's 48px headline size, wider than the 272px column at 320px).
                 'relative inline-block max-w-full',
-                word.term && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12)',
+                word.term && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12) [text-decoration-skip-ink:none]',
               )}
             >
               {word.text}

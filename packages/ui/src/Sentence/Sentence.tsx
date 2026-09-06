@@ -109,7 +109,7 @@ export function Sentence({
                   'inline cursor-pointer rounded-keycap font-content text-reading font-normal text-ink',
                   focusRing,
                   hoverFade,
-                  marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12)',
+                  marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12) [text-decoration-skip-ink:none]',
                   marked && !isPinned && 'decoration-dotted',
                   isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
                   'hover:bg-ground-hover',
