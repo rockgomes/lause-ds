@@ -51,6 +51,13 @@ type ComponentPayload = {
   sourceText: string;
 };
 
+// The parsed tool result, kept in state rather than re-parsed on every render — see `ask()`.
+type Answer =
+  | { isError: true; text: string }
+  | { isError: false; mode: 'tokens'; data: { tokens: TokenRow[] } }
+  | { isError: false; mode: 'component'; data: ComponentPayload }
+  | { isError: false; mode: 'check'; data: { findings: Finding[] } };
+
 /** A token's light/dark value for the table: a plain string, or a resolved type-role ramp. */
 function formatTokenValue(value: unknown): string {
   if (typeof value === 'string') return value;
@@ -173,7 +180,7 @@ export function Ask({ fetchImpl }: AskProps) {
   const [componentName, setComponentName] = useState(DEFAULT_COMPONENT_NAME);
   const [snippet, setSnippet] = useState(DEFAULT_SNIPPET);
   const [pending, setPending] = useState(false);
-  const [answer, setAnswer] = useState<{ mode: Mode; text: string; isError: boolean } | null>(null);
+  const [answer, setAnswer] = useState<Answer | null>(null);
   const [networkError, setNetworkError] = useState(false);
 
   const ask = async () => {
@@ -182,7 +189,14 @@ export function Ask({ fetchImpl }: AskProps) {
     const args = mode === 'tokens' ? {} : mode === 'component' ? { name: componentName } : { code: snippet };
     try {
       const result = await callTool(TOOL_BY_MODE[mode], args, fetchImpl);
-      setAnswer({ mode, text: result.text, isError: result.isError });
+      // A tool result can carry `isError: true` with a plain-text message — never JSON — so only
+      // a non-error result is parsed. `JSON.parse` throwing here (a malformed or unexpected
+      // payload) falls into the same catch as a network failure below, and shows the same alert.
+      setAnswer(
+        result.isError
+          ? { isError: true, text: result.text }
+          : { isError: false, mode, data: JSON.parse(result.text) as never },
+      );
     } catch {
       setNetworkError(true);
       setAnswer(null);
@@ -196,6 +210,14 @@ export function Ask({ fetchImpl }: AskProps) {
     if (!pending) void ask();
   };
 
+  // A stale answer from the previous mode otherwise sits in the panel until the next Ask click —
+  // switching modes clears it immediately, along with any network error.
+  const onModeChange = (next: Mode) => {
+    setMode(next);
+    setAnswer(null);
+    setNetworkError(false);
+  };
+
   return (
     <div className="flex flex-col gap-24">
       <h2 id="ask-title" className="break-words font-content text-headline-narrow sm:text-headline">
@@ -206,7 +228,7 @@ export function Ask({ fetchImpl }: AskProps) {
       </p>
 
       <div className="flex max-w-[640px] flex-col gap-16 rounded-card bg-surface p-24 shadow-tile">
-        <Dial label="Question" value={mode} onChange={setMode} options={MODE_OPTIONS} className="self-start" />
+        <Dial label="Question" value={mode} onChange={onModeChange} options={MODE_OPTIONS} className="self-start" />
 
         <form onSubmit={onSubmit} className="flex flex-col gap-16">
           {mode === 'component' ? (
@@ -229,6 +251,7 @@ export function Ask({ fetchImpl }: AskProps) {
           {mode === 'check' ? (
             <textarea
               rows={4}
+              maxLength={200000}
               value={snippet}
               onChange={(e) => setSnippet(e.target.value)}
               aria-label="Code to check"
@@ -257,15 +280,15 @@ export function Ask({ fetchImpl }: AskProps) {
           ) : (
             <div className="flex flex-col gap-16">
               {answer.mode === 'tokens' ? (
-                <TokensAnswer tokens={(JSON.parse(answer.text) as { tokens: TokenRow[] }).tokens} />
+                <TokensAnswer tokens={answer.data.tokens} />
               ) : answer.mode === 'component' ? (
-                <ComponentAnswer data={JSON.parse(answer.text) as ComponentPayload} />
+                <ComponentAnswer data={answer.data} />
               ) : (
-                <CheckAnswer findings={(JSON.parse(answer.text) as { findings: Finding[] }).findings} />
+                <CheckAnswer findings={answer.data.findings} />
               )}
               <details>
                 <summary className="cursor-pointer text-label text-dim">Raw tool result</summary>
-                <pre className="mt-8 overflow-x-auto text-label text-ink">{JSON.stringify(JSON.parse(answer.text), null, 2)}</pre>
+                <pre className="mt-8 overflow-x-auto text-label text-ink">{JSON.stringify(answer.data, null, 2)}</pre>
               </details>
             </div>
           )}

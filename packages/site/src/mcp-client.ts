@@ -3,7 +3,10 @@ export type ToolName = 'list_tokens' | 'list_components' | 'get_component' | 'ch
 
 export type ToolResult = { text: string; isError: boolean };
 
-type JsonRpcResponse = { result?: { content?: { type: string; text: string }[]; isError?: boolean } };
+type JsonRpcResponse = {
+  result?: { content?: { type: string; text: string }[]; isError?: boolean };
+  error?: { code: number; message: string };
+};
 
 /**
  * Calls one Lause MCP tool over HTTP — the same protocol Claude Code speaks to the hosted
@@ -32,7 +35,9 @@ export async function callTool(
       body: JSON.stringify({ jsonrpc: '2.0', id: nextId++, method, params }),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json() as Promise<JsonRpcResponse>;
+    const body = (await response.json()) as JsonRpcResponse;
+    if (body.error) throw new Error(`MCP error ${body.error.code}: ${body.error.message}`);
+    return body;
   };
 
   await post('initialize', {

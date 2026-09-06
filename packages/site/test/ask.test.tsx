@@ -69,4 +69,33 @@ describe('Ask section', () => {
     await screen.getByRole('button', { name: /Ask/ }).click();
     await expect.element(screen.getByRole('alert')).toHaveTextContent('The server did not answer. Try again.');
   });
+
+  it('shows the alert message when the server returns a JSON-RPC error envelope', async () => {
+    // A well-formed HTTP 200 response whose body is a JSON-RPC error, not a result — the
+    // transport itself never rejects, so `mcp-client.ts` has to notice `body.error` and throw.
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      return new Response(
+        JSON.stringify({ jsonrpc: '2.0', id: body.id, error: { code: -32601, message: 'Method not found' } }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    }) as unknown as typeof fetch;
+    const screen = await render(<Ask fetchImpl={fetchImpl} />);
+    await screen.getByRole('button', { name: /Ask/ }).click();
+    await expect.element(screen.getByRole('alert')).toHaveTextContent('The server did not answer. Try again.');
+  });
+
+  it('shows the alert message when a tools/call result is not JSON', async () => {
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      const result =
+        body.method === 'initialize'
+          ? { protocolVersion: '2025-06-18', capabilities: {}, serverInfo: { name: 'lause-ds', version: '0' } }
+          : { content: [{ type: 'text', text: 'not json' }] };
+      return new Response(JSON.stringify({ jsonrpc: '2.0', id: body.id, result }), { headers: { 'Content-Type': 'application/json' } });
+    }) as unknown as typeof fetch;
+    const screen = await render(<Ask fetchImpl={fetchImpl} />);
+    await screen.getByRole('button', { name: /Ask/ }).click();
+    await expect.element(screen.getByRole('alert')).toHaveTextContent('The server did not answer. Try again.');
+  });
 });
