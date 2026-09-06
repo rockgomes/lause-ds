@@ -49,7 +49,7 @@ function Card({ doc }: { doc: ComponentDoc }) {
           scrollable region to be reachable by keyboard when its content isn't already focusable. */}
       <div
         tabIndex={SCROLLS.has(doc.name) ? 0 : undefined}
-        role={SCROLLS.has(doc.name) ? 'region' : undefined}
+        role={SCROLLS.has(doc.name) ? 'group' : undefined}
         aria-label={SCROLLS.has(doc.name) ? `${doc.name} example` : undefined}
         className={clsx('flex w-full items-center rounded-bubble bg-ground p-24', SCROLLS.has(doc.name) ? 'justify-start overflow-x-auto' : 'justify-center')}
       >
