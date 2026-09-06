@@ -1,4 +1,5 @@
 import { Dial, Nav, type NavItem } from 'lause-ds';
+import { Components } from './sections/Components.js';
 import { Hero } from './sections/Hero.js';
 import { Tokens } from './sections/Tokens.js';
 import { useMediaQuery } from './media.js';
@@ -65,6 +66,8 @@ export function App() {
                 <Hero />
               ) : s.id === 'tokens' ? (
                 <Tokens />
+              ) : s.id === 'components' ? (
+                <Components />
               ) : (
                 <h2 id={`${s.id}-title`} className="break-words font-content text-headline-narrow sm:text-headline">
                   {s.label}

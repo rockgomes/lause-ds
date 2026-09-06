@@ -9,7 +9,8 @@ describe('App', () => {
     const ids = Array.from(document.querySelectorAll('main > section')).map((s) => s.id);
     expect(ids).toEqual(SECTIONS.map((s) => s.id));
     // The story section's heading is the Hero itself (Task 3) — it has no separate "Story" title.
-    await expect.element(screen.getByText(/Riigikogusse võib/)).toBeVisible();
+    // `.first()`: the Components section's Sentence example (Task 5) opens with the same words.
+    await expect.element(screen.getByText(/Riigikogusse võib/).first()).toBeVisible();
     await expect.element(screen.getByRole('heading', { name: 'Tokens' })).toBeVisible();
   });
 
@@ -28,15 +29,17 @@ describe('App', () => {
   });
 
   it('shows the full Nav from the tablet breakpoint up, and only the context and dial below 640px', async () => {
+    // Scoped to the site's own top Nav (aria-label "Site sections") — the Components section
+    // (Task 5) embeds a live Nav example of its own ("Peamenüü") that is not part of this check.
     await page.viewport(1440, 900);
     const wide = await render(<App />);
-    expect(document.querySelectorAll('header nav a').length).toBe(4);
+    expect(document.querySelector('nav[aria-label="Site sections"]')!.querySelectorAll('a').length).toBe(4);
     wide.unmount();
 
     for (const width of [390, 320]) {
       await page.viewport(width, 900);
       const screen = await render(<App />);
-      expect(document.querySelector('header nav')).toBeNull();
+      expect(document.querySelector('nav[aria-label="Site sections"]')).toBeNull();
       expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(width);
       screen.unmount();
     }
