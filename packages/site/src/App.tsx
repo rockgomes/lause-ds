@@ -1,5 +1,6 @@
 import { Dial, Nav, type NavItem } from 'lause-ds';
 import { Hero } from './sections/Hero.js';
+import { Tokens } from './sections/Tokens.js';
 import { useMediaQuery } from './media.js';
 import { useTheme } from './theme.js';
 
@@ -62,6 +63,8 @@ export function App() {
             <div className="mx-auto max-w-[1020px]">
               {s.id === 'story' ? (
                 <Hero />
+              ) : s.id === 'tokens' ? (
+                <Tokens />
               ) : (
                 <h2 id={`${s.id}-title`} className="break-words font-content text-headline-narrow sm:text-headline">
                   {s.label}
