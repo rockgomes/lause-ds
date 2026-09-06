@@ -1,3 +1,20 @@
 @import 'tailwindcss';
 @import 'lause-ds/styles.css';
 @source '../../ui/dist';
+
+@layer components {
+  [data-state='pending'] {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  [data-state='in'] {
+    transition:
+      opacity 240ms ease-out,
+      transform 240ms ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-state='in'] {
+      transition: none;
+    }
+  }
+}
