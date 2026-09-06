@@ -59,7 +59,7 @@ const SHORT_SAMPLE_ROLES = new Set(['display', 'headline']);
 function Swatch({ pair }: { pair: ColourPair }) {
   return (
     <div data-swatch className="flex flex-col items-start gap-8">
-      <div className={clsx('h-64 w-64 rounded-keycap border-[length:--lause-stroke-thin] border-dim', SWATCH_BG[pair.name])} />
+      <div className={clsx('h-64 w-64 rounded-keycap border-(length:--lause-stroke-thin) border-dim', SWATCH_BG[pair.name])} />
       <p className="break-words text-label text-ink">{pair.name}</p>
       <p className="break-words text-label text-dim">light {pair.light}</p>
       <p className="break-words text-label text-dim">dark {pair.dark}</p>
@@ -98,7 +98,7 @@ export function Tokens() {
           <div className="grid grid-cols-2 gap-24 sm:grid-cols-4 lg:grid-cols-7">
             {pairs.map((pair) => (
               <div key={pair.name} aria-hidden="true" className="flex flex-col items-start gap-8">
-                <div className={clsx('h-64 w-64 rounded-keycap border-[length:--lause-stroke-thin] border-dim', SWATCH_BG[pair.name])} />
+                <div className={clsx('h-64 w-64 rounded-keycap border-(length:--lause-stroke-thin) border-dim', SWATCH_BG[pair.name])} />
                 <p className="text-label text-dim">{pair.name}</p>
                 <p className="break-words text-label text-dim">{pair.dark}</p>
               </div>
@@ -130,7 +130,7 @@ export function Tokens() {
           const isLast = i === rad.length - 1;
           return (
             <div key={radius.name} className="flex flex-col items-start gap-8">
-              <div className={clsx('h-64 w-64 bg-surface', RADIUS_CLASS[radius.name], !isLast && 'border-[length:--lause-stroke-thin] border-dim', isLast && 'shadow-tile')} />
+              <div className={clsx('h-64 w-64 bg-surface', RADIUS_CLASS[radius.name], !isLast && 'border-(length:--lause-stroke-thin) border-dim', isLast && 'shadow-tile')} />
               <p className="break-words text-label text-dim">
                 {radius.name} · {radius.px}px{isLast ? ` · shadow.tile ${shadow()}` : ''}
               </p>
