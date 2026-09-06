@@ -17,10 +17,11 @@ describe('Tokens section', () => {
       const colorNameInLight = Array.from(lightSwatches).find(swatch =>
         Array.from(swatch.querySelectorAll('p')).some(el => el.textContent === p.name)
       );
-      const nameEl = colorNameInLight?.querySelector('p');
-      if (nameEl) {
-        await expect.element(nameEl).toBeVisible();
-      }
+      expect(colorNameInLight, p.name).toBeDefined();
+      const nameEl = colorNameInLight!.querySelector('p')!;
+      await expect.element(nameEl).toBeVisible();
+      expect(colorNameInLight!.textContent).toContain(p.light);
+      expect(colorNameInLight!.textContent).toContain(p.dark);
     }
     expect(document.querySelectorAll('[data-swatch]').length).toBe(colourPairs().length);
   });
