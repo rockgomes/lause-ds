@@ -35,7 +35,7 @@ const DEFAULT_SNIPPET = `<div ${CLASSNAME}="bg-red-500 text-sm">Tere</div>`;
 const COMPONENT_DATALIST_ID = 'ask-component-names';
 
 const controlClasses = clsx(
-  'w-full rounded-control border-(length:--lause-stroke-thin) border-ink bg-ground px-16 font-chrome text-body text-ink',
+  'w-full rounded-bubble border-(length:--lause-stroke-thin) border-dim bg-surface px-16 py-12 font-chrome text-body text-ink',
   focusRing,
 );
 
