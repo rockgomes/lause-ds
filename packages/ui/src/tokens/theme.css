@@ -55,9 +55,15 @@
   --text-reading: var(--lause-type-reading-size);
   --text-reading--line-height: var(--lause-type-reading-leading);
   --text-reading--font-weight: var(--lause-type-reading-weight);
+  --text-reading-narrow: var(--lause-type-reading-narrow-size);
+  --text-reading-narrow--line-height: var(--lause-type-reading-narrow-leading);
+  --text-reading-narrow--font-weight: var(--lause-type-reading-narrow-weight);
   --text-headline: var(--lause-type-headline-size);
   --text-headline--line-height: var(--lause-type-headline-leading);
   --text-headline--font-weight: var(--lause-type-headline-weight);
+  --text-headline-narrow: var(--lause-type-headline-narrow-size);
+  --text-headline-narrow--line-height: var(--lause-type-headline-narrow-leading);
+  --text-headline-narrow--font-weight: var(--lause-type-headline-narrow-weight);
   --text-display: var(--lause-type-display-size);
   --text-display--line-height: var(--lause-type-display-leading);
   --text-display--font-weight: var(--lause-type-display-weight);

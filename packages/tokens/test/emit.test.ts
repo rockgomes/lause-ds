@@ -30,6 +30,16 @@ describe('emit css', () => {
     expect(css).toContain('--lause-type-reading-size: var(--lause-type-size-57);');
     expect(css).toContain('--lause-type-reading-weight: 400;');
   });
+  it('expands the narrow typography roles onto the existing ramp steps (40 and 48)', () => {
+    expect(css).toContain('--lause-type-reading-narrow-font: var(--lause-font-family-serif);');
+    expect(css).toContain('--lause-type-reading-narrow-size: var(--lause-type-size-40);');
+    expect(css).toContain('--lause-type-reading-narrow-leading: var(--lause-type-leading-open);');
+    expect(css).toContain('--lause-type-reading-narrow-weight: 400;');
+    expect(css).toContain('--lause-type-headline-narrow-font: var(--lause-font-family-serif);');
+    expect(css).toContain('--lause-type-headline-narrow-size: var(--lause-type-size-48);');
+    expect(css).toContain('--lause-type-headline-narrow-leading: var(--lause-type-leading-tight);');
+    expect(css).toContain('--lause-type-headline-narrow-weight: 400;');
+  });
   it('serializes composite shadows as one CSS value', () => {
     expect(css).toContain('--lause-shadow-mid: 0px 6px 18px 0px rgba(15, 34, 56, 0.10);');
     expect(css).toContain('--lause-shadow-tile: var(--lause-shadow-mid);');
@@ -54,6 +64,14 @@ describe('emit theme', () => {
     expect(theme).toContain('--text-reading: var(--lause-type-reading-size);');
     expect(theme).toContain('--text-reading--line-height: var(--lause-type-reading-leading);');
     expect(theme).toContain('--radius-control: var(--lause-radius-control);');
+  });
+  it('exposes the narrow reading and headline roles the same way as their base roles', () => {
+    expect(theme).toContain('--text-reading-narrow: var(--lause-type-reading-narrow-size);');
+    expect(theme).toContain('--text-reading-narrow--line-height: var(--lause-type-reading-narrow-leading);');
+    expect(theme).toContain('--text-reading-narrow--font-weight: var(--lause-type-reading-narrow-weight);');
+    expect(theme).toContain('--text-headline-narrow: var(--lause-type-headline-narrow-size);');
+    expect(theme).toContain('--text-headline-narrow--line-height: var(--lause-type-headline-narrow-leading);');
+    expect(theme).toContain('--text-headline-narrow--font-weight: var(--lause-type-headline-narrow-weight);');
   });
   it('exposes primitive spacing and leading as Tailwind theme values', () => {
     expect(theme).toContain('--spacing-16: var(--lause-space-16);');
@@ -94,6 +112,14 @@ describe('emit figma', () => {
   it('computes reading line height in pixels', () => {
     const s = f.collections[1].variables.find((v) => v.name === 'type/reading/lineHeight')!;
     expect(s).toEqual({ name: 'type/reading/lineHeight', type: 'FLOAT', values: { Light: 105, Dark: 105 } });
+  });
+  it('computes the narrow reading line height in pixels (40 * 1.85 = 74)', () => {
+    const s = f.collections[1].variables.find((v) => v.name === 'type/reading-narrow/lineHeight')!;
+    expect(s).toEqual({ name: 'type/reading-narrow/lineHeight', type: 'FLOAT', values: { Light: 74, Dark: 74 } });
+  });
+  it('computes the narrow headline line height in pixels (48 * 1.1 = 52.8, rounded to 53)', () => {
+    const s = f.collections[1].variables.find((v) => v.name === 'type/headline-narrow/lineHeight')!;
+    expect(s).toEqual({ name: 'type/headline-narrow/lineHeight', type: 'FLOAT', values: { Light: 53, Dark: 53 } });
   });
   it('carries typography fontFamily and fontSize as aliases', () => {
     const family = f.collections[1].variables.find((v) => v.name === 'type/body/fontFamily')!;

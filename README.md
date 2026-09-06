@@ -80,7 +80,9 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 
 `lause-ds/styles.css` closes Tailwind's default colour, spacing, type, font, radius, shadow, leading and
 tracking scales. `p-4` is 4px from the token scale; `p-11` and `bg-red-500` do not exist. Arbitrary values
-(`min-h-[44px]`) still work. Font weights, breakpoints and easings stay open.
+(`min-h-[44px]`) still work. Font weights, breakpoints and easings stay open. `text-reading-narrow` and
+`text-headline-narrow` size `reading`/`headline` down for viewports below 640px — pair them with the
+base role at the `sm` breakpoint, e.g. `text-reading-narrow sm:text-reading`.
 
 ## The workshop
 
