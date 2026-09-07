@@ -14,7 +14,7 @@ export function Keycap({ held = false, className, children, ...rest }: KeycapPro
     <kbd
       data-held={held ? 'true' : undefined}
       className={clsx(
-        'inline-flex min-w-24 items-center justify-center rounded-keycap border-(length:--lause-stroke-thin) border-current px-4 py-2 font-chrome text-label font-semibold not-italic leading-none',
+        'inline-flex min-w-24 items-center justify-center rounded-keycap border-(length:--lause-stroke-thin) border-current px-4 py-2 font-chrome text-label font-semibold not-italic',
         held && 'bg-ink text-on-ink',
         className,
       )}
