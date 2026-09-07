@@ -13,7 +13,7 @@ const libraryData = library as unknown as Library;
 const COMMANDS: readonly { command: string; description: string }[] = [
   { command: 'npm install lause-ds', description: 'the React components and the Tailwind theme' },
   {
-    command: 'claude mcp add --transport http lause https://shiny-frangipane-78fc08.netlify.app/mcp',
+    command: 'claude mcp add --transport http lause https://lause-ds.netlify.app/mcp',
     description: 'the hosted MCP server, no install',
   },
   { command: 'npx lause-ds-mcp', description: 'the same server over stdio, from npm' },

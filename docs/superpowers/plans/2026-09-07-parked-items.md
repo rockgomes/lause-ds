@@ -390,7 +390,7 @@ Rock renames the Netlify project (suggested name `lause-ds`, so the URL becomes 
 - [ ] **Step 1: Replace the host everywhere**
 
 ```bash
-git grep -l 'shiny-frangipane-78fc08.netlify.app' -- . ':!package-lock.json' | xargs sed -i '' 's|shiny-frangipane-78fc08\.netlify\.app|<new-name>.netlify.app|g'
+git grep -l 'lause-ds.netlify.app' -- . ':!package-lock.json' | xargs sed -i '' 's|shiny-frangipane-78fc08\.netlify\.app|<new-name>.netlify.app|g'
 git grep -n 'shiny-frangipane' -- . ':!package-lock.json'
 ```
 

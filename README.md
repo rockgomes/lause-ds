@@ -117,7 +117,7 @@ Gated in CI: no axe violations in light or dark, no horizontal scroll from 320px
 every interactive element shows a focus ring, every animation respects reduced motion, and
 `npm run check:site` passes against the site's own source.
 
-Live at <https://shiny-frangipane-78fc08.netlify.app>. Storybook, the workshop, is linked
+Live at <https://lause-ds.netlify.app>. Storybook, the workshop, is linked
 from the site and built alongside it, at `/storybook/`.
 
 ## The MCP server
@@ -135,7 +135,7 @@ claude mcp add lause -- npx lause-ds-mcp
 Or point a client at the hosted server, a Netlify Function, no install:
 
 ```bash
-claude mcp add --transport http lause https://shiny-frangipane-78fc08.netlify.app/mcp
+claude mcp add --transport http lause https://lause-ds.netlify.app/mcp
 ```
 
 (That is this Netlify project's current default hostname; it changes if the project is

@@ -22,7 +22,7 @@ Or skip the install and point a client at the hosted server instead — a Netlif
 no local process:
 
 ```bash
-claude mcp add --transport http lause https://shiny-frangipane-78fc08.netlify.app/mcp
+claude mcp add --transport http lause https://lause-ds.netlify.app/mcp
 ```
 
 (That URL is the current hostname of the Netlify project this server is deployed to; it
