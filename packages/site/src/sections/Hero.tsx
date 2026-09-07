@@ -76,28 +76,42 @@ export function Hero({ reducedMotion }: HeroProps) {
     setRevealed(0);
     setPeeking(false);
     let cancelled = false;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    WORDS.forEach((_, i) => {
-      timers.push(
-        setTimeout(() => {
-          if (!cancelled) setRevealed((r) => Math.max(r, i + 1));
-        }, i * STEP_MS),
-      );
-    });
-    timers.push(
-      setTimeout(() => {
+    let frame = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let count = 0;
+    let last = 0;
+    // One word per animation frame at most, and only once STEP_MS has passed since the previous
+    // one. Pre-scheduled timers do not work here: the page's first render blocks the main thread
+    // for a few hundred ms right after mount, every due timer then fires in one burst, and eight
+    // words appear at once (measured on the deploy preview). A frame-driven loop can never reveal
+    // more than one word per frame, however long the thread was blocked.
+    const tick = (now: number) => {
+      if (cancelled) return;
+      if (count === 0 || now - last >= STEP_MS) {
+        count += 1;
+        last = now;
+        setRevealed(count);
+      }
+      if (count < WORDS.length) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+      timer = setTimeout(() => {
         if (cancelled || isTouchDevice()) return;
         setPeeking(true);
-        timers.push(
-          setTimeout(() => {
-            if (!cancelled) setPeeking(false);
-          }, PEEK_MS),
-        );
-      }, WORDS.length * STEP_MS),
-    );
+        timer = setTimeout(() => {
+          if (!cancelled) setPeeking(false);
+        }, PEEK_MS);
+      }, STEP_MS);
+    };
+    // Two frames in, so the page paints once before the first word moves.
+    frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(tick);
+    });
     return () => {
       cancelled = true;
-      timers.forEach(clearTimeout);
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
     };
   }, [reduced]);
 
