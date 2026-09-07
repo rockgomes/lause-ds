@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
 import { clsx } from 'clsx';
-import { Button } from 'lause-ds';
+import { Button, focusRing } from 'lause-ds';
 import library from '../../../../figma/library.json';
-import { focusRing } from '../styles.js';
 
 // Minimal local copy of the shape read off `figma/library.json`, see `data/manifest.ts` for the
 // same pattern (the site must not depend on the server package, and the manifest's own file

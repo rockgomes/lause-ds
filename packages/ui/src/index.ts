@@ -9,3 +9,4 @@ export { Sentence, type SentenceProps, type Segment, type Term, type Support } f
 export { usePeek, type UsePeekOptions, type PeekState } from './usePeek/usePeek.js';
 export { Nav, type NavProps, type NavItem } from './Nav/Nav.js';
 export { Cell, CellGrid, type CellProps, type CellState, type CellGridProps } from './Cell/Cell.js';
+export { focusRing, disabledControl, hitTarget, hoverFade, type SurfaceState } from './styles.js';

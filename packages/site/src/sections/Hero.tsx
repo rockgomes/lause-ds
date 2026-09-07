@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { Bubble, Button, usePeek } from 'lause-ds';
-import { focusRing, hoverFade } from '../styles.js';
+import { Bubble, Button, focusRing, hitTarget, hoverFade, usePeek } from 'lause-ds';
 
 type Word = { text: string; term?: { id: string; gloss: string } };
 
@@ -28,15 +27,16 @@ const STEP_MS = 60;
 const PEEK_MS = 900;
 
 // Button has no `href` (ButtonProps = ComponentProps<'button'> & { variant?, keycap? }), so the
-// Storybook link is a plain <a> styled to match. These classes are copied from
-// packages/ui/src/Button/Button.tsx's outline variant and packages/ui/src/styles.ts
-// (focusRing, hitTarget, hoverFade), none of those are exported from `lause-ds` (Plan 3 parked
-// that), with the `enabled:` variants dropped, since `:enabled` never matches an anchor.
-const storybookLinkClasses =
-  'inline-flex items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold min-h-[44px] ' +
-  'focus-visible:outline-(length:--lause-stroke-focus) focus-visible:outline-offset-2 focus-visible:outline-accent ' +
-  'transition-colors duration-120 motion-reduce:transition-none ' +
-  'border-(length:--lause-stroke-thin) border-ink text-ink hover:bg-ground-hover active:bg-ground-hover';
+// Storybook link is a plain <a> styled to match Button's outline variant
+// (packages/ui/src/Button/Button.tsx), with the `enabled:` variants dropped: `:enabled` never
+// matches an anchor.
+const storybookLinkClasses = clsx(
+  'inline-flex items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold',
+  hitTarget,
+  focusRing,
+  hoverFade,
+  'border-(length:--lause-stroke-thin) border-ink text-ink hover:bg-ground-hover active:bg-ground-hover',
+);
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

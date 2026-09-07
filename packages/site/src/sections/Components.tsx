@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
+import { focusRing } from 'lause-ds';
 import { componentDocs, type ComponentDoc } from '../data/manifest.js';
 import { EXAMPLES } from './examples.js';
-import { focusRing } from '../styles.js';
 
 // The Sentence, Nav and CellGrid cards span both columns on desktop, their components are wide
 // (Sentence maxes at 1020px, Nav is a full header row, CellGrid is a 2×2 table), the other ten
