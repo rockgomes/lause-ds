@@ -155,8 +155,9 @@ export function Hero({ reducedMotion }: HeroProps) {
                       focusRing,
                       hoverFade,
                       'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-4) [text-decoration-skip-ink:none]',
-                      !isPinned && 'decoration-dotted',
-                      isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
+                      // Solid while idle (the design's mark), thicker once pinned. The Sentence
+                      // component's dotted idle state stays out of the hero (Rock, 2026-09-07).
+                      isPinned && 'decoration-(length:--lause-stroke-pin)',
                       'hover:bg-ground-hover',
                     )}
                   >
