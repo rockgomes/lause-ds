@@ -614,7 +614,7 @@
   "rules": [
     "Use only token utilities: the Tailwind theme is closed, so bg-red-500 or p-11 do not exist.",
     "Two fonts only: font-content (Young Serif) for what is being learned, font-chrome (Instrument Sans) for the app.",
-    "Type is used through the six roles (label, body, title, reading, headline, display), never a size number.",
+    "Type is used through the roles (label, body, title, reading, headline, display, and reading-narrow / headline-narrow below 640px), never a size number.",
     "Contrast is a gate: every text pair 4.5:1, every graphic pair 3:1, in both modes.",
     "Hit targets are at least 44px.",
     "Every interactive element has a visible focus ring; disabled never hovers."

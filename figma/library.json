@@ -15,7 +15,7 @@
     "librariesAddedToFile": [
       "Rock's Team Colors"
     ],
-    "reuse": "none — community kits only; incompatible APIs and token models"
+    "reuse": "none, community kits only; incompatible APIs and token models"
   },
   "phase": "phase4",
   "completedSteps": [
@@ -188,7 +188,15 @@
     "radius/card": "VariableID:3:42",
     "radius/bubble": "VariableID:3:43",
     "radius/keycap": "VariableID:3:44",
-    "shadow/tile": "VariableID:3:45"
+    "shadow/tile": "VariableID:3:45",
+    "type/reading-narrow/fontFamily": "VariableID:33:2",
+    "type/reading-narrow/fontSize": "VariableID:33:3",
+    "type/reading-narrow/lineHeight": "VariableID:33:4",
+    "type/reading-narrow/fontWeight": "VariableID:33:5",
+    "type/headline-narrow/fontFamily": "VariableID:33:7",
+    "type/headline-narrow/fontSize": "VariableID:33:8",
+    "type/headline-narrow/lineHeight": "VariableID:33:9",
+    "type/headline-narrow/fontWeight": "VariableID:33:10"
   },
   "styles": {
     "text": {
@@ -197,7 +205,9 @@
       "Title": "S:e4b555f093f691e2228fd76a27ef32895793e073,",
       "Reading": "S:7c18122888f5db9d77d19ca83b8eee748eddc6ab,",
       "Headline": "S:b20617f73aaef25cf0c3b577444ea5701b95717e,",
-      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,"
+      "Display": "S:e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce,",
+      "Reading · narrow": "S:a4653b3cecdfbdaf41dd9e2c7ef5a1f423221c3f,",
+      "Headline · narrow": "S:987d0fc9b42668b63f63a7514b5d82fca76b1588,"
     },
     "effect": {
       "shadow/low": "S:38ae0dd5e2943318af2c6ccdfd9d0a6e12035fa0,",
@@ -364,7 +374,7 @@
       "props": {
         "text": "text#7:24"
       },
-      "ruling": "no peeked axis — the bubble is composed by Sentence"
+      "ruling": "no peeked axis, the bubble is composed by Sentence"
     }
   },
   "rulings": [
@@ -380,5 +390,82 @@
     "unnamedNodes": 0,
     "pagesAudited": 11
   },
-  "published": true
+  "published": true,
+  "site": {
+    "fileKey": "FTC4XMc13ylTR72j1i2FLn",
+    "fileUrl": "https://www.figma.com/design/FTC4XMc13ylTR72j1i2FLn",
+    "pageId": "0:1",
+    "libraryKey": "lk-784ac19cbbc1fd86987e86f8dc8c0522e4c06bea5a6792ed1b85fa64ffa2df57adaf007a525b8470cd5d897d1bc84f882308f7a2293c6dfe8c6ce4e3e60d178a",
+    "libraryKeys": {
+      "componentSets": {
+        "Keycap": "e16a79b4ccc2382a4d65e92b1dba690500bfb311",
+        "Button": "02b57071a8d999da043c8cbbe0037a3d4484c8c8",
+        "Dial": "c4d442253dc76f82f4ee20d2effc2214c7666d56",
+        "Tile": "60e5b40816b54d0f8f71f9a54223c832b68213eb",
+        "Sentence": "8b3d5f0c5d442a85639033c88c7c2bd023b5a0a8",
+        "Nav": "c3f0958bb47564f7a5d77b24163cfaa019f5f278",
+        "Cell": "296d730f77a58434a252ec4b5479c378e8827043"
+      },
+      "components": {
+        "Bar": "c5e548cfc902e21ca00396dd776c04ee9dd38717",
+        "Bubble": "07a11c2798d4911307ee0f17960287cd60ad15d1",
+        "Progress": "9a36789e3c854371d3ac67a03a585dfec515cb95"
+      },
+      "textStyles": {
+        "Label": "1171451e8fe3a9b4337917028c9c4220f8ffb006",
+        "Body": "9111b5621f8b47e3826e43d7ec10c890d76ed57c",
+        "Title": "e4b555f093f691e2228fd76a27ef32895793e073",
+        "Reading": "7c18122888f5db9d77d19ca83b8eee748eddc6ab",
+        "Headline": "b20617f73aaef25cf0c3b577444ea5701b95717e",
+        "Display": "e09908d2d4ca50fccf7bcceab1b9f4a7140a12ce"
+      },
+      "effectStyles": {
+        "shadow/tile": "b7d166b5aed09c2eca71c513b32e05aba0d9b5c4"
+      },
+      "variables": {
+        "color/ground": "7c19fa301158ffaed7c6501ad742f14e8747d413",
+        "color/ink": "4cc56ae4fcefe9f658a84d101123ca57d1a9bdb7",
+        "color/dim": "1675c5f2992d11af83bac331ef371194969e3e0e",
+        "color/accent": "bd1fddad701718e7be752bb4fcd15dcca0a15490",
+        "color/accent-text": "5054cd166a87d686a196199d7b3dad4b439dfdf1",
+        "color/surface": "24cfe2070b39c3eb451e73391177a0c996b011fc",
+        "color/on-ink": "cbba610e2a16cb1f660249c75b82f207db75639e",
+        "stroke/thin": "5b6e683f9310d761b0f652f914f5f0c6c2e59a49",
+        "stroke/mark": "c001ff9d98b136fd3b06841cce174fa91d901cd0",
+        "radius/control": "8070c7acc89eb509af6d7e33abd50f44dc3650ef",
+        "radius/card": "744ac5f021d2e9d51e45415ebf6ff1559499dda5",
+        "radius/bubble": "b067db28df9035b7f77c6f52a37ccba17bac03b8",
+        "radius/keycap": "ae7e31f96b33de2af425a2ffa196b3ac36a1c85f",
+        "space/8": "bdeb7285abb01943b8392f000287aa47493ce2d9",
+        "space/16": "fead61a2ad40de9c2ea4c0700c4bc3a93bf09412",
+        "space/24": "be869d9dfcebab633f60e2d5537c23d5e6a47119",
+        "space/32": "4c10ebdb42d39ee25c0cfaa108f65f1a7f7a7376",
+        "space/48": "14d4bc3583fe25124d4ce69ace41a8213d6686c8",
+        "space/64": "415e3449ab4931e80673ffff6d2ea0092864871d",
+        "space/128": "4da97c0bef453a93428a3a05750d1650d924fb04"
+      }
+    },
+    "frames": {
+      "desktop": "1:501",
+      "phone": "17:260",
+      "sections": {
+        "nav": "1:502",
+        "hero": "1:503",
+        "tokens": "1:504",
+        "components": "1:505",
+        "reader": "1:506",
+        "ask": "1:507",
+        "install": "1:508",
+        "footer": "1:509"
+      }
+    },
+    "rulings": [
+      "Site designed in its own file consuming the published library; the library file is never edited (Rock, 2026-09-05)",
+      "Hero sentence in Headline (83px); Display makes the 11-word sentence ~7 lines",
+      "The site Nav shows four items (Tokens · Components · Reader · Ask): the Nav component has four item slots; Story is the top, Install the footer link",
+      "Sentence, Nav and CellGrid cards span the full width; the other cards sit two per row",
+      "Phone frame uses proposed narrow sizes (sentence 36/44, headings 44/48) detached from the styles: the ramp has no role between title 19 and reading 57, open question for Rock",
+      "Imported component ids do not persist between use_figma scripts: re-import by key each call"
+    ]
+  }
 }

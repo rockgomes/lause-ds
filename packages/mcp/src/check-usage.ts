@@ -17,7 +17,7 @@ const RAW_SIZE_MESSAGE =
   'Sizes come from the space and type scales; only 44px (target), 640px (option width) and 1020px (reading measure) are allowed as raw values';
 const TILE_MESSAGE = 'Options stack in a TileStack; only the two of a true/false item sit side by side';
 const STEM_MESSAGE =
-  'Type is used through the roles: text-label, text-body, text-title, text-reading, text-headline, text-display';
+  'Type is used through the roles: text-label, text-body, text-title, text-reading, text-headline, text-display (and text-reading-narrow, text-headline-narrow below 640px)';
 const FOCUS_MESSAGE =
   "Every interactive element needs the focus ring (import focusRing from lause-ds' styles or use the components)";
 

@@ -11,9 +11,11 @@
     "build:ui": "npm run build --workspace lause-ds",
     "build:manifest": "npm run build:manifest --workspace lause-ds-mcp",
     "build:mcp": "npm run build --workspace lause-ds-mcp",
-    "build:site": "mkdir -p site && cp llms.txt components.manifest.json site/",
+    "dev:site": "npm run dev --workspace @lause-ds/site",
+    "build:site": "npm run build --workspace @lause-ds/site && npm run build-storybook --workspace lause-ds -- -o ../../site/storybook && cp llms.txt components.manifest.json site/",
+    "check:site": "node scripts/check-site-usage.mjs",
     "storybook": "npm run storybook --workspace lause-ds",
-    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui && tsc -p packages/mcp --noEmit && tsc -p netlify",
+    "typecheck": "tsc -b packages/tokens && tsc -p packages/ui && tsc -p packages/mcp --noEmit && tsc -p netlify && tsc -p packages/site",
     "changeset": "changeset",
     "release": "npm run build:tokens && npm run build:manifest && npm run build:mcp && npm run build:ui && changeset publish",
     "version": "changeset version && node scripts/sync-mcp-version.mjs"

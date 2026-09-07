@@ -26,7 +26,7 @@ Two audiences, one artefact.
 | 4 | Separate repo, npm package `lause-ds`, the app imports it | A system with a customer, not a folder inside an app |
 | 5 | React + Tailwind for the coded library | Matches the app's stack (Next.js, Tailwind, shadcn) |
 | 6 | One dark mode ships in the first release | Proves the semantic layer swaps cleanly; the first thing a system interviewer asks about. The app itself stays light |
-| 7 | Two docs surfaces: a custom site as the front door, built with the system's own components, and a public Storybook as the workshop | The site tells the story and shows one example per component; Storybook shows every state. Each links to the other and never copies the other's job. The site is built last, after components exist |
+| 7 | Two docs surfaces: a custom site as the front door, built with the system's own components, and a public Storybook as the workshop | The site tells the story and shows one example per component; Storybook shows every state. Each links to the other and never copies the other's job. The site is built last, after components exist (built 2026-09-07, Plan 6) |
 | 8 | Changesets plus semver; merging to `main` bumps and publishes to npm; the app pins a version | One sentence per pull request buys a trustworthy changelog, and nothing changes when a second consumer arrives |
 | 9 | The MCP server runs on Netlify Functions, in the same repo and deploy as the docs site | One host, one pipeline, a preview per pull request; fits the git-connected, CI-on-every-push rule |
 | 10 | WCAG AA on every component, checked in CI: a script tests every token contrast pair, every Storybook story runs an axe check, a failing check fails the pull request | Contrast is a gate, not an afterthought; a visible failing check is the proof |
@@ -137,6 +137,7 @@ Code Connect.
   package and the docs.
 - A component merges only with its proof screen in the app.
 - Docs in English. App chrome stays in Estonian.
+- The site passes its own check_usage in CI.
 
 ## 8. Open questions
 

@@ -867,6 +867,46 @@
           }
         },
         {
+          "name": "type/reading-narrow/fontFamily",
+          "type": "STRING",
+          "values": {
+            "Light": {
+              "alias": "font/family/serif"
+            },
+            "Dark": {
+              "alias": "font/family/serif"
+            }
+          }
+        },
+        {
+          "name": "type/reading-narrow/fontSize",
+          "type": "FLOAT",
+          "values": {
+            "Light": {
+              "alias": "type/size/40"
+            },
+            "Dark": {
+              "alias": "type/size/40"
+            }
+          }
+        },
+        {
+          "name": "type/reading-narrow/lineHeight",
+          "type": "FLOAT",
+          "values": {
+            "Light": 74,
+            "Dark": 74
+          }
+        },
+        {
+          "name": "type/reading-narrow/fontWeight",
+          "type": "FLOAT",
+          "values": {
+            "Light": 400,
+            "Dark": 400
+          }
+        },
+        {
           "name": "type/headline/fontFamily",
           "type": "STRING",
           "values": {
@@ -900,6 +940,46 @@
         },
         {
           "name": "type/headline/fontWeight",
+          "type": "FLOAT",
+          "values": {
+            "Light": 400,
+            "Dark": 400
+          }
+        },
+        {
+          "name": "type/headline-narrow/fontFamily",
+          "type": "STRING",
+          "values": {
+            "Light": {
+              "alias": "font/family/serif"
+            },
+            "Dark": {
+              "alias": "font/family/serif"
+            }
+          }
+        },
+        {
+          "name": "type/headline-narrow/fontSize",
+          "type": "FLOAT",
+          "values": {
+            "Light": {
+              "alias": "type/size/48"
+            },
+            "Dark": {
+              "alias": "type/size/48"
+            }
+          }
+        },
+        {
+          "name": "type/headline-narrow/lineHeight",
+          "type": "FLOAT",
+          "values": {
+            "Light": 53,
+            "Dark": 53
+          }
+        },
+        {
+          "name": "type/headline-narrow/fontWeight",
           "type": "FLOAT",
           "values": {
             "Light": 400,
