@@ -8,7 +8,7 @@ describe('Tokens section', () => {
   it('shows one swatch per semantic colour with both values', async () => {
     const screen = await render(<Tokens />);
     for (const p of colourPairs()) {
-      // exact: true — several names are literal prefixes of another (`color.ground` /
+      // exact: true, several names are literal prefixes of another (`color.ground` /
       // `color.ground-hover`, `color.accent` / `color.accent-text` / `color.accent-text-on-ink`,
       // …), and Playwright's default text match is a case-insensitive substring, so the bare query
       // resolves to more than one element ("strict mode violation") without it.

@@ -6,7 +6,7 @@ import dark from '../../../../tokens/semantic.dark.tokens.json';
  * A minimal read of the DTCG shape: leaves carry `$value` (and, on the
  * semantic files, `$description`); groups nest further groups. This mirrors
  * `packages/mcp/src/data.ts`'s `Token`/`Group` but is not imported from
- * there — the site must not depend on the server package.
+ * there, the site must not depend on the server package.
  */
 type Token = { $value: unknown; $description?: string };
 type Group = { [key: string]: Token | Group };
@@ -37,7 +37,7 @@ function isAlias(value: unknown): value is string {
   return typeof value === 'string' && /^\{[^{}]+\}$/.test(value);
 }
 
-/** Resolves a `{primitive.path}` alias to its primitive `$value`. Primitive values are leaves — no further aliasing. */
+/** Resolves a `{primitive.path}` alias to its primitive `$value`. Primitive values are leaves, no further aliasing. */
 function resolveAlias(alias: string): unknown {
   const path = alias.slice(1, -1);
   const token = getAtPath(primitivesGroup, path);
@@ -95,7 +95,7 @@ export function colourPairs(): ColourPair[] {
   });
 }
 
-// The order the site presents type roles in — not the object-key order in the
+// The order the site presents type roles in, not the object-key order in the
 // token file, which groups the two narrow-viewport roles next to the role
 // they substitute for rather than at the end of the ramp.
 const TYPE_ROLE_ORDER = ['label', 'body', 'title', 'reading', 'headline', 'display', 'reading-narrow', 'headline-narrow'] as const;

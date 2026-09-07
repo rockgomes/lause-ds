@@ -2,7 +2,7 @@ import type { Segment, Support } from 'lause-ds';
 
 // The Sentence story's default args (packages/ui/src/Sentence/Sentence.stories.tsx) and the Dial
 // story's Support options (packages/ui/src/Dial/Dial.stories.tsx). Both the Components gallery
-// (`sections/examples.tsx`) and the Reader section (`sections/Reader.tsx`) import these — never
+// (`sections/examples.tsx`) and the Reader section (`sections/Reader.tsx`) import these, never
 // duplicate them.
 
 export const sentenceSegments: Segment[] = [
@@ -24,7 +24,7 @@ export const sentenceEnglish = {
 };
 
 // Labels per the Reader ruling (Rock 2026-09-06): short chrome labels, not the story's
-// "Eesti keeles" — the gallery's Dial example takes the same three now, so both read alike.
+// "Eesti keeles", the gallery's Dial example takes the same three now, so both read alike.
 export const supportOptions = [
   { value: 'et', label: 'Eesti' },
   { value: 'tugi', label: 'Tugi' },

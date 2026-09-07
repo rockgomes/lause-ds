@@ -3,7 +3,7 @@
 @source '../../ui/dist';
 
 html {
-  /* Matches `main`'s `pb-64` fixed-footer clearance (see App.tsx) — without it, focusing the last
+  /* Matches `main`'s `pb-64` fixed-footer clearance (see App.tsx), without it, focusing the last
      control on the page (e.g. the last gallery link) scrolls it exactly to the viewport edge,
      underneath the fixed footer. */
   scroll-padding-bottom: 64px;
@@ -25,7 +25,7 @@ html {
     }
   }
 
-  /* The Ask section's submit Keycap, while its request is pending — see packages/site/src/sections/Ask.tsx. */
+  /* The Ask section's submit Keycap, while its request is pending, see packages/site/src/sections/Ask.tsx. */
   @media (prefers-reduced-motion: no-preference) {
     button[aria-busy='true'] kbd {
       animation: ask-keycap-pulse 900ms ease-in-out infinite;

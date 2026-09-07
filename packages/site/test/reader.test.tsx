@@ -3,7 +3,7 @@ import { render } from 'vitest-browser-react';
 import { page, userEvent } from '@vitest/browser/context';
 import { Reader } from '../src/sections/Reader.js';
 
-// The brief's Step 1 snippet writes `const screen = render(<Reader />)` without an `await` — every
+// The brief's Step 1 snippet writes `const screen = render(<Reader />)` without an `await`, every
 // other test in this package awaits `render` (it returns a Promise, per vitest-browser-react's
 // types), so that is followed here too; the queries and assertions match the brief verbatim.
 describe('Reader section', () => {
@@ -11,7 +11,7 @@ describe('Reader section', () => {
     const screen = await render(<Reader />);
     await screen.getByRole('button', { name: /kandideerida/ }).click();
     // `.first()`: pinning also updates the sr-only `aria-live` region (Sentence.tsx) with the same
-    // gloss text, so the plain string is a strict-mode ambiguity — `.first()` picks the visible
+    // gloss text, so the plain string is a strict-mode ambiguity, `.first()` picks the visible
     // bubble, which is first in DOM order (the App test does the same for a similar collision).
     await expect.element(screen.getByText('to stand as a candidate').first()).toBeVisible();
   });

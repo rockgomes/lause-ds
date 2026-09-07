@@ -23,7 +23,7 @@ import { sentenceEnglish, sentenceNext, sentencePrevious, sentenceSegments, supp
 import { useMediaQuery } from '../media.js';
 
 // Every sample below is copied from the matching component's story
-// (`packages/ui/src/<Name>/<Name>.stories.tsx`), not invented here — so the gallery shows the
+// (`packages/ui/src/<Name>/<Name>.stories.tsx`), not invented here, so the gallery shows the
 // same fixtures the component's own tests already prove correct.
 
 function KeycapExample() {
@@ -47,7 +47,7 @@ function ProgressExample() {
   return <Progress total={8} current={4} label="Lause 5 / 8" />;
 }
 
-// packages/ui/src/Bar/Bar.stories.tsx — the Domain story's segments.
+// packages/ui/src/Bar/Bar.stories.tsx, the Domain story's segments.
 const riigikord: BarSegment[] = ['retained', 'retained', 'retained', 'retained', 'covered', 'covered', 'unread', 'unread', 'unread', 'unread'];
 
 function BarExample() {
@@ -68,7 +68,7 @@ function TileExample() {
   );
 }
 
-// packages/ui/src/Tile/Tile.stories.tsx — the Stack story's options, minus Riigikohus.
+// packages/ui/src/Tile/Tile.stories.tsx, the Stack story's options, minus Riigikohus.
 const stackOptions = ['Riigikogu', 'Vabariigi President', 'Vabariigi Valitsus'];
 
 function TileStackExample() {
@@ -87,7 +87,7 @@ function TileStackExample() {
 function BubbleExample() {
   // The story's own `Word` wrapper (Bubble.stories.tsx): `text-reading font-content` on the <p>,
   // a bare `relative` span as the anchor. At `text-reading` size "kandideerida" is wider than a
-  // phone-width card and doesn't have a natural break point, so — like Nav and CellGrid — this
+  // phone-width card and doesn't have a natural break point, so, like Nav and CellGrid, this
   // card's example scrolls horizontally instead of overflowing the page (Components.tsx's
   // `SCROLLS` set) rather than being forced to hyphenate or shrink away from the story's sample.
   return (
@@ -100,9 +100,9 @@ function BubbleExample() {
   );
 }
 
-// packages/site/src/data/reader-sample.ts — the same fixture the Reader section reads, extracted
+// packages/site/src/data/reader-sample.ts, the same fixture the Reader section reads, extracted
 // from the Sentence story's default args so this gallery card and the Reader never drift apart.
-// The label is deliberately not "Lause 5 / 8" — the Reader section below renders the same
+// The label is deliberately not "Lause 5 / 8", the Reader section below renders the same
 // fixture under that exact accessible name, and axe's landmark-unique rule fails the page if two
 // `<section>` regions on it share a role and a name.
 function SentenceExample() {
@@ -124,7 +124,7 @@ function SentenceExample() {
         }
       }}
       english={sentenceEnglish}
-      label="Lause 5 / 8 — Components gallery example"
+      label="Lause 5 / 8: Components gallery example"
     />
   );
 }
@@ -132,7 +132,7 @@ function SentenceExample() {
 function UsePeekExample() {
   const { held } = usePeek({ enabled: true });
   // Touch ruling (Rock 2026-09-06): there is no modifier key to hold on a touch device, so this
-  // card names the latch Button instead — the same one the Reader section shows in its place.
+  // card names the latch Button instead, the same one the Reader section shows in its place.
   const touch = useMediaQuery('(hover: none)');
   return (
     <p className="flex items-center gap-8 text-body">
@@ -142,7 +142,7 @@ function UsePeekExample() {
   );
 }
 
-// packages/ui/src/Nav/Nav.stories.tsx — the Reader story's args.
+// packages/ui/src/Nav/Nav.stories.tsx, the Reader story's args.
 const navItems: NavItem[] = [
   { id: 'lugeja', label: 'Lugeja', labelEn: 'Reader', href: '#lugeja' },
   { id: 'skeemid', label: 'Skeemid', labelEn: 'Diagrams', href: '#skeemid' },

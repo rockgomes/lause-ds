@@ -4,7 +4,7 @@ import { Button } from 'lause-ds';
 import library from '../../../../figma/library.json';
 import { focusRing } from '../styles.js';
 
-// Minimal local copy of the shape read off `figma/library.json` — see `data/manifest.ts` for the
+// Minimal local copy of the shape read off `figma/library.json`, see `data/manifest.ts` for the
 // same pattern (the site must not depend on the server package, and the manifest's own file
 // covers components, not the file key itself).
 type Library = { fileKey: string };
@@ -37,7 +37,7 @@ function CommandRow({ command, description }: { command: string; description: st
 
   const copy = async () => {
     // Older browsers, and any page not served over HTTPS/localhost, have no `navigator.clipboard`
-    // at all — the button just does nothing rather than throwing.
+    // at all, the button just does nothing rather than throwing.
     if (!navigator.clipboard) return;
     try {
       await navigator.clipboard.writeText(command);
@@ -45,7 +45,7 @@ function CommandRow({ command, description }: { command: string; description: st
       setCopied(true);
       timeoutRef.current = setTimeout(() => setCopied(false), COPY_RESET_MS);
     } catch {
-      // Denied permission, or no secure context — the row simply stays "Copy".
+      // Denied permission, or no secure context, the row simply stays "Copy".
     }
   };
 

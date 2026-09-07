@@ -5,7 +5,7 @@ import { Install } from '../src/sections/Install.js';
 const originalClipboard = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
 
 afterEach(() => {
-  // Each test below replaces navigator.clipboard for its own duration — put the real descriptor
+  // Each test below replaces navigator.clipboard for its own duration, put the real descriptor
   // back (or remove it, if there wasn't one) so it doesn't leak into whatever runs next.
   if (originalClipboard) {
     Object.defineProperty(navigator, 'clipboard', originalClipboard);
@@ -23,7 +23,7 @@ describe('Install', () => {
 
     const screen = await render(<Install />);
 
-    // Three commands, three Copy buttons — the first is `npm install lause-ds`.
+    // Three commands, three Copy buttons, the first is `npm install lause-ds`.
     const copyButton = screen.container.querySelectorAll<HTMLButtonElement>('button')[0];
     expect(copyButton.textContent).toBe('Copy');
 
@@ -32,7 +32,7 @@ describe('Install', () => {
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('npm install lause-ds');
     expect(copyButton.textContent).toBe('Copied');
-    // aria-live="polite" is on the button itself — no separate sr-only region announces this.
+    // aria-live="polite" is on the button itself, no separate sr-only region announces this.
     expect(copyButton.getAttribute('aria-live')).toBe('polite');
 
     await new Promise((r) => setTimeout(r, 1700)); // past the 1500ms reset in Install.tsx
@@ -40,7 +40,7 @@ describe('Install', () => {
   });
 
   it('copy button handles missing clipboard gracefully', async () => {
-    // Older browsers, and any page not served over HTTPS/localhost, have no clipboard at all —
+    // Older browsers, and any page not served over HTTPS/localhost, have no clipboard at all,
     // the button should just do nothing rather than throw.
     Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
 

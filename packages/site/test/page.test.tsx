@@ -28,7 +28,7 @@ describe('page', () => {
   it('every interactive element shows a focus ring', async () => {
     // The previous test leaves the browser viewport at 1920×900; resetting it first (and giving
     // React a moment to settle) avoids a flaky empty query on a freshly resized, not-yet-painted
-    // page — the assertion below is about focus rings, not layout, so a stable mid-size viewport
+    // page, the assertion below is about focus rings, not layout, so a stable mid-size viewport
     // is enough.
     await page.viewport(1280, 900);
     render(<App />);
@@ -37,7 +37,7 @@ describe('page', () => {
     expect(controls.length).toBeGreaterThan(10);
     for (const el of controls) {
       // A programmatic `.focus()` does not reliably trigger `:focus-visible` in Chromium for a
-      // mouse-like focus path — `{ focusVisible: true }` forces the focus-visible heuristic on,
+      // mouse-like focus path, `{ focusVisible: true }` forces the focus-visible heuristic on,
       // matching how a keyboard user would actually reach these controls.
       el.focus({ focusVisible: true } as FocusOptions);
       const s = getComputedStyle(el, ':focus-visible');

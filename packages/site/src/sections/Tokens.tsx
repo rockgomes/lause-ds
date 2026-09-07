@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { colourPairs, radii, shadow, typeRoles, type ColourPair } from '../data/tokens.js';
 
-// Tailwind scans the source for literal class strings — these maps exist so every class name
+// Tailwind scans the source for literal class strings, these maps exist so every class name
 // this file ever renders is written out in full somewhere here, never assembled from a token
 // name at runtime (`bg-${key}` would never be picked up by the scanner).
 const SWATCH_BG: Record<string, string> = {
@@ -43,14 +43,14 @@ const FAMILY_CLASS: Record<'content' | 'chrome', string> = {
   chrome: 'font-chrome',
 };
 
-// The family token names, shown as plain text in the caption — never as CSS or a class name, so
+// The family token names, shown as plain text in the caption, never as CSS or a class name, so
 // this never trips the raw-font-name check (that check only looks at styling contexts).
 const FAMILY_NAME: Record<'content' | 'chrome', string> = {
   content: 'Young Serif',
   chrome: 'Instrument Sans',
 };
 
-const LONG_SAMPLE = 'Riigikogu — the parliament';
+const LONG_SAMPLE = 'Riigikogu, the parliament';
 const SHORT_SAMPLE = 'Riigikogu';
 // Design ruling (Rock 2026-09-05): the long sample wraps to three lines at the two largest sizes,
 // so display and headline show the bare word instead.
@@ -91,7 +91,7 @@ export function Tokens() {
           Swap the Dial in the top-right; every value on this page comes from the same token files.
         </p>
 
-        {/* The same colours forced into dark mode, regardless of the page's live theme — a fixed
+        {/* The same colours forced into dark mode, regardless of the page's live theme, a fixed
             point of comparison next to the row above, which follows whatever the Dial is set to. */}
         <div data-theme="dark" className="rounded-card bg-ground p-24">
           <p className="mb-16 text-label text-dim">Dark</p>
@@ -110,7 +110,7 @@ export function Tokens() {
       <div className="flex flex-col gap-24">
         {roles.map((role) => (
           <div key={role.role} className="flex flex-col gap-4">
-            {/* tabIndex: at some widths this sample is wider than the card and scrolls — axe's
+            {/* tabIndex: at some widths this sample is wider than the card and scrolls, axe's
                 scrollable-region-focusable rule requires a scrollable region to be reachable by
                 keyboard, since the sample text itself (a plain `<p>`) is never focusable. */}
             <div tabIndex={0} role="group" aria-label={`${role.role} specimen`} className="overflow-x-auto">

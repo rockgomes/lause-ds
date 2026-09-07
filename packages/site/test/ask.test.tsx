@@ -3,7 +3,7 @@ import { render } from 'vitest-browser-react';
 import { Ask } from '../src/sections/Ask.js';
 
 // The two findings `check_usage` really returns for the prefilled snippet
-// (`<div className="bg-red-500 text-sm">Tere</div>`) — verified against the built
+// (`<div className="bg-red-500 text-sm">Tere</div>`), verified against the built
 // `lause-ds-mcp` package while writing `scripts/check-site-usage.mjs`: `bg-red-500` is an
 // off-theme colour utility, `text-sm` is a raw text size outside the six roles, both on line 1.
 const FINDINGS = [
@@ -16,7 +16,7 @@ const FINDINGS = [
   },
 ];
 
-/** `gate`, when given, is awaited before the `tools/call` response resolves — lets a test observe the pending state. */
+/** `gate`, when given, is awaited before the `tools/call` response resolves, lets a test observe the pending state. */
 function checkUsageFetchImpl(gate?: Promise<void>) {
   return vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
     const body = JSON.parse(String(init?.body));
@@ -47,8 +47,8 @@ describe('Ask section', () => {
     const button = screen.getByRole('button', { name: /Ask/ }).element() as HTMLButtonElement;
 
     // A native, unawaited click: the locator's own `.click()` refuses to fire without being
-    // awaited, but awaiting it here would wait for the whole request — including the pending
-    // state this assertion needs to catch — to finish first.
+    // awaited, but awaiting it here would wait for the whole request, including the pending
+    // state this assertion needs to catch, to finish first.
     button.click();
     await expect.element(button).toHaveAttribute('aria-busy', 'true');
     expect(button.disabled).toBe(true);
@@ -71,7 +71,7 @@ describe('Ask section', () => {
   });
 
   it('shows the alert message when the server returns a JSON-RPC error envelope', async () => {
-    // A well-formed HTTP 200 response whose body is a JSON-RPC error, not a result — the
+    // A well-formed HTTP 200 response whose body is a JSON-RPC error, not a result, the
     // transport itself never rejects, so `mcp-client.ts` has to notice `body.error` and throw.
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body));

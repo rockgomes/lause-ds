@@ -6,7 +6,7 @@ import { sentenceEnglish, sentenceNext, sentencePrevious, sentenceSegments, supp
 export type ReaderProps = {
   /**
    * Overrides the `(hover: none)` media query so tests can render the touch variant without a
-   * real touch-only browser — the section otherwise reads it itself.
+   * real touch-only browser, the section otherwise reads it itself.
    */
   touch?: boolean;
 };
@@ -32,7 +32,7 @@ export function Reader({ touch }: ReaderProps) {
     }
   };
 
-  // Esc clears every pin — the Keycap row below promises it.
+  // Esc clears every pin, the Keycap row below promises it.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setPinned([]);
@@ -48,7 +48,7 @@ export function Reader({ touch }: ReaderProps) {
       </h2>
       <p className="max-w-[640px] text-body text-dim">
         {isTouch
-          ? 'Tap a term to pin its gloss. The button shows every gloss at once — the same latch the ⌥ key sets on a keyboard.'
+          ? 'Tap a term to pin its gloss. The button shows every gloss at once, the same latch the ⌥ key sets on a keyboard.'
           : 'The reading unit, live. Click a term to pin its gloss; hold ⌥ to see every gloss at once; the dial sets how much support the sentence carries.'}
       </p>
       <Dial className="self-start" label="Support level" value={support} onChange={setSupport} options={supportOptions} />

@@ -15,7 +15,7 @@
     "librariesAddedToFile": [
       "Rock's Team Colors"
     ],
-    "reuse": "none — community kits only; incompatible APIs and token models"
+    "reuse": "none, community kits only; incompatible APIs and token models"
   },
   "phase": "phase4",
   "completedSteps": [
@@ -374,7 +374,7 @@
       "props": {
         "text": "text#7:24"
       },
-      "ruling": "no peeked axis — the bubble is composed by Sentence"
+      "ruling": "no peeked axis, the bubble is composed by Sentence"
     }
   },
   "rulings": [
@@ -464,7 +464,7 @@
       "Hero sentence in Headline (83px); Display makes the 11-word sentence ~7 lines",
       "The site Nav shows four items (Tokens · Components · Reader · Ask): the Nav component has four item slots; Story is the top, Install the footer link",
       "Sentence, Nav and CellGrid cards span the full width; the other cards sit two per row",
-      "Phone frame uses proposed narrow sizes (sentence 36/44, headings 44/48) detached from the styles: the ramp has no role between title 19 and reading 57 — open question for Rock",
+      "Phone frame uses proposed narrow sizes (sentence 36/44, headings 44/48) detached from the styles: the ramp has no role between title 19 and reading 57, open question for Rock",
       "Imported component ids do not persist between use_figma scripts: re-import by key each call"
     ]
   }

@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 
 // One `MediaQueryList` per query string, reused across every `useMediaQuery` call and every
-// subscribe/getSnapshot invocation for that query — `matchMedia` returns a fresh (but
+// subscribe/getSnapshot invocation for that query, `matchMedia` returns a fresh (but
 // behaviourally identical) object on each call otherwise, which is wasted allocation on a hook
 // that re-reads its snapshot on every render.
 const mediaQueryLists = new Map<string, MediaQueryList>();

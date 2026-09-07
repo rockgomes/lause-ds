@@ -21,12 +21,12 @@ const TOOL_BY_MODE: Record<Mode, ToolName> = {
 
 const DEFAULT_COMPONENT_NAME = 'Button';
 // The exact snippet `scripts/check-site-usage.mjs` and the MCP server's own `check_usage` both
-// flag with the same two findings — an off-theme colour and a raw text size outside the six
-// roles — so clicking Ask with no edits is a real, reproducible round-trip, not a fabricated one.
+// flag with the same two findings, an off-theme colour and a raw text size outside the six
+// roles, so clicking Ask with no edits is a real, reproducible round-trip, not a fabricated one.
 //
 // Built by interpolation rather than written as one literal string: `check_usage`'s own scanner
 // (see `packages/mcp/src/check-usage.ts`) is a plain text search for `className="..."`, with no
-// idea that this particular occurrence sits inside a JS string constant rather than real JSX — so
+// idea that this particular occurrence sits inside a JS string constant rather than real JSX, so
 // spelled out directly, this line would flag its own file with the very violations it is quoting
 // on purpose. `${CLASSNAME}=` is not the four-character run `className=` the scanner looks for.
 const CLASSNAME = 'className';
@@ -51,7 +51,7 @@ type ComponentPayload = {
   sourceText: string;
 };
 
-// The parsed tool result, kept in state rather than re-parsed on every render — see `ask()`.
+// The parsed tool result, kept in state rather than re-parsed on every render, see `ask()`.
 type Answer =
   | { isError: true; text: string }
   | { isError: false; mode: 'tokens'; data: { tokens: TokenRow[] } }
@@ -118,14 +118,14 @@ function ComponentAnswer({ data }: { data: ComponentPayload }) {
                 <td className="border-b border-dim py-8 pr-16 text-label text-ink">{p.name}</td>
                 <td className="border-b border-dim py-8 pr-16 text-label text-dim">{p.type}</td>
                 <td className="border-b border-dim py-8 pr-16 text-label text-dim">{p.required ? 'yes' : 'no'}</td>
-                <td className="border-b border-dim py-8 pr-16 text-label text-dim">{p.default ?? '—'}</td>
+                <td className="border-b border-dim py-8 pr-16 text-label text-dim">{p.default ?? 'none'}</td>
                 <td className="border-b border-dim py-8 text-label text-dim">{p.doc}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="text-label text-dim">States: {data.states.join(', ') || '—'}</p>
+      <p className="text-label text-dim">States: {data.states.join(', ') || 'none'}</p>
       <p className="text-label text-dim">Proof: {data.proofScreen}</p>
       <p className="text-label">
         {doc?.figmaUrl ? (
@@ -160,7 +160,7 @@ function CheckAnswer({ findings }: { findings: Finding[] }) {
         <ul className="flex flex-col gap-8">
           {findings.map((f, i) => (
             <li key={i} className="text-body text-ink">
-              {f.rule} · line {f.line} — {f.message}
+              {f.rule} · line {f.line}: {f.message}
             </li>
           ))}
         </ul>
@@ -189,7 +189,7 @@ export function Ask({ fetchImpl }: AskProps) {
     const args = mode === 'tokens' ? {} : mode === 'component' ? { name: componentName } : { code: snippet };
     try {
       const result = await callTool(TOOL_BY_MODE[mode], args, fetchImpl);
-      // A tool result can carry `isError: true` with a plain-text message — never JSON — so only
+      // A tool result can carry `isError: true` with a plain-text message, never JSON, so only
       // a non-error result is parsed. `JSON.parse` throwing here (a malformed or unexpected
       // payload) falls into the same catch as a network failure below, and shows the same alert.
       setAnswer(
@@ -210,7 +210,7 @@ export function Ask({ fetchImpl }: AskProps) {
     if (!pending) void ask();
   };
 
-  // A stale answer from the previous mode otherwise sits in the panel until the next Ask click —
+  // A stale answer from the previous mode otherwise sits in the panel until the next Ask click,
   // switching modes clears it immediately, along with any network error.
   const onModeChange = (next: Mode) => {
     setMode(next);

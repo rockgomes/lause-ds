@@ -9,12 +9,12 @@ type JsonRpcResponse = {
 };
 
 /**
- * Calls one Lause MCP tool over HTTP — the same protocol Claude Code speaks to the hosted
+ * Calls one Lause MCP tool over HTTP, the same protocol Claude Code speaks to the hosted
  * server. The transport is stateless (`sessionIdGenerator: undefined` in `netlify/functions/mcp.ts`),
  * so no session id is kept between the two requests it takes: `initialize`, then `tools/call`.
  *
  * `fetchImpl` defaults to the global `fetch` and exists so tests can supply a mock; the client
- * never sends cookies (`credentials: 'omit'`) — every tool here is public, read-only reference
+ * never sends cookies (`credentials: 'omit'`), every tool here is public, read-only reference
  * data, so there is nothing a cookie could authenticate.
  */
 export async function callTool(

@@ -40,7 +40,7 @@ export const Reader: Story = {
     await expect(links[2]).toHaveTextContent('14');
     await userEvent.click(links[1]);
     await expect(args.onNavigate).toHaveBeenLastCalledWith('skeemid');
-    // The Nav hugs its tallest control — here the 48px Dial in `controls` — plus 8px of air above and below.
+    // The Nav hugs its tallest control, here the 48px Dial in `controls`, plus 8px of air above and below.
     const header = canvasElement.querySelector('header')!;
     await expect(header.getBoundingClientRect().height).toBeGreaterThanOrEqual(64);
     restFocus();

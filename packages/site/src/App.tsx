@@ -19,7 +19,7 @@ export const SECTIONS = [
 ] as const;
 
 // The Nav has four item slots; Story is the top of the page and Install is reached from the
-// footer (ruling, Rock 2026-09-05 — see figma/library.json "rulings").
+// footer (ruling, Rock 2026-09-05, see figma/library.json "rulings").
 const NAV_IDS = new Set(['tokens', 'components', 'reader', 'ask']);
 
 const NAV_ITEMS: NavItem[] = SECTIONS.filter((s) => NAV_IDS.has(s.id)).map((s) => ({
@@ -43,7 +43,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-ground font-chrome text-body text-ink">
-      {/* The design frames' page side padding — 24px phone, 64px desktop — shared by this wrapper
+      {/* The design frames' page side padding, 24px phone, 64px desktop, shared by this wrapper
           and every section's outer edge below. */}
       <div className="px-24 sm:px-64">
         <Nav

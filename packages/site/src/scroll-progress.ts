@@ -12,7 +12,7 @@ export type SectionProgress = {
 /**
  * Tracks which of the given sections is "current" while the page scrolls. An IntersectionObserver
  * watches every id with `rootMargin: '-50% 0px -50% 0px'`, which shrinks the observed root to a
- * single line across the viewport's vertical middle — a section is "current" for as long as its
+ * single line across the viewport's vertical middle, a section is "current" for as long as its
  * band covers that line. Reports the last section whose top crossed it, defaulting to the first
  * id until any section has.
  */

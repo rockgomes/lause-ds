@@ -29,8 +29,8 @@ const PEEK_MS = 900;
 // Button has no `href` (ButtonProps = ComponentProps<'button'> & { variant?, keycap? }), so the
 // Storybook link is a plain <a> styled to match. These classes are copied from
 // packages/ui/src/Button/Button.tsx's outline variant and packages/ui/src/styles.ts
-// (focusRing, hitTarget, hoverFade) — none of those are exported from `lause-ds` (Plan 3 parked
-// that) — with the `enabled:` variants dropped, since `:enabled` never matches an anchor.
+// (focusRing, hitTarget, hoverFade), none of those are exported from `lause-ds` (Plan 3 parked
+// that), with the `enabled:` variants dropped, since `:enabled` never matches an anchor.
 const storybookLinkClasses =
   'inline-flex items-center justify-center gap-8 rounded-control px-24 font-chrome text-body font-semibold min-h-[44px] ' +
   'focus-visible:outline-(length:--lause-stroke-focus) focus-visible:outline-offset-2 focus-visible:outline-accent ' +
@@ -50,7 +50,7 @@ function focusAskInput() {
   // In Component/Check mode the panel has a real input/textarea to focus; in Tokens mode there is
   // no input row at all, so the next best target is the "Question" Dial's selected radio button.
   // Two separate queries, not one selector list: `querySelector` returns whichever match comes
-  // first in DOM order, and the Dial's radios sit above the form — a combined selector would
+  // first in DOM order, and the Dial's radios sit above the form, a combined selector would
   // always find the radio first, even when a real input/textarea is on the page.
   const target = ask?.querySelector<HTMLElement>('textarea, input') ?? ask?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]');
   (target ?? ask)?.focus();

@@ -2,7 +2,7 @@ import manifest from '../../../../components.manifest.json';
 import library from '../../../../figma/library.json';
 
 // Minimal local copies of the shapes read off `components.manifest.json` and
-// `figma/library.json` — not imported from `packages/mcp`, since the site
+// `figma/library.json`, not imported from `packages/mcp`, since the site
 // must not depend on the server package.
 type ManifestProp = { name: string; type: string; required: boolean; default?: string; doc: string };
 type ManifestComponent = {
