@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { Bubble, Button } from 'lause-ds';
+import { Bubble, Button, usePeek } from 'lause-ds';
+import { focusRing, hoverFade } from '../styles.js';
 
 type Word = { text: string; term?: { id: string; gloss: string } };
 
@@ -61,11 +62,19 @@ export type HeroProps = {
   reducedMotion?: boolean;
 };
 
-/** The story's opening sentence, assembling word by word, then peeking its three glosses. */
+/**
+ * The story's opening sentence, assembling word by word, then peeking its three glosses once.
+ * After that the terms work as in the Reader: click one to pin its gloss, hold ⌥ to see all three.
+ */
 export function Hero({ reducedMotion }: HeroProps) {
   const reduced = reducedMotion ?? prefersReducedMotion();
   const [revealed, setRevealed] = useState(reduced ? WORDS.length : 0);
   const [peeking, setPeeking] = useState(false);
+  const [pinned, setPinned] = useState<string[]>([]);
+  // The same hook the Reader uses: `held` is true while ⌥ is down.
+  const { held } = usePeek({ enabled: true });
+  const toggle = (id: string) =>
+    setPinned((current) => (current.includes(id) ? current.filter((p) => p !== id) : [...current, id]));
 
   useEffect(() => {
     if (reduced) {
@@ -118,26 +127,54 @@ export function Hero({ reducedMotion }: HeroProps) {
   return (
     <div className="flex flex-col items-start gap-32">
       <p lang="et" className="w-full break-words font-content text-headline-narrow text-ink hyphens-auto sm:text-headline">
-        {WORDS.map((word, i) => (
-          <Fragment key={i}>
-            <span
-              data-word
-              data-state={reduced || i < revealed ? 'in' : 'pending'}
-              className={clsx(
+        {WORDS.map((word, i) => {
+          const isPinned = word.term ? pinned.includes(word.term.id) : false;
+          const shown = Boolean(word.term) && (peeking || held || isPinned);
+          const bubbleId = word.term ? `hero-gloss-${word.term.id}` : undefined;
+          return (
+            <Fragment key={i}>
+              <span
+                data-word
+                data-state={reduced || i < revealed ? 'in' : 'pending'}
                 // max-w-full: without it an `inline-block` box sizes to its own text regardless of
                 // the container, so `break-words`/`hyphens-auto` on the <p> never gets a chance to
                 // apply to a long unbreakable word (measured directly: "hääleõiguslik" alone runs to
                 // ~320px at the phone's 48px headline size, wider than the 272px column at 320px).
-                'relative inline-block max-w-full',
-                word.term && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-4) [text-decoration-skip-ink:none]',
-              )}
-            >
-              {word.text}
-              {word.term && peeking ? <Bubble lang="en">{word.term.gloss}</Bubble> : null}
-            </span>
-            {i < WORDS.length - 1 ? ' ' : ''}
-          </Fragment>
-        ))}
+                className="relative inline-block max-w-full"
+              >
+                {word.term ? (
+                  // The Sentence component's term button, at headline size (packages/ui/src/Sentence/Sentence.tsx).
+                  <button
+                    type="button"
+                    aria-pressed={isPinned}
+                    aria-describedby={shown ? bubbleId : undefined}
+                    data-state={isPinned ? 'pinned' : 'idle'}
+                    onClick={() => toggle(word.term!.id)}
+                    className={clsx(
+                      'inline cursor-pointer rounded-keycap font-content text-headline-narrow sm:text-headline text-ink',
+                      focusRing,
+                      hoverFade,
+                      'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-4) [text-decoration-skip-ink:none]',
+                      !isPinned && 'decoration-dotted',
+                      isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
+                      'hover:bg-ground-hover',
+                    )}
+                  >
+                    {word.text}
+                  </button>
+                ) : (
+                  word.text
+                )}
+                {word.term && shown ? (
+                  <Bubble id={bubbleId} lang="en">
+                    {word.term.gloss}
+                  </Bubble>
+                ) : null}
+              </span>
+              {i < WORDS.length - 1 ? ' ' : ''}
+            </Fragment>
+          );
+        })}
       </p>
       <p className="max-w-[640px] font-chrome text-title text-ink">{PROMISE}</p>
       <div className="flex flex-wrap items-center gap-16">
