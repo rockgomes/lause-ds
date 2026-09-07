@@ -17,8 +17,8 @@ jobs:
       - run: npm run build:tokens
       - run: npm run build:manifest
       - run: npm run build:mcp
-      - run: npm run typecheck
       - run: npm run build:ui
+      - run: npm run typecheck
       - run: npm run build:site
       - run: npm run check:site
       - name: fail if generated files drifted
