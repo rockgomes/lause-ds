@@ -390,7 +390,7 @@ Rock renames the Netlify project (suggested name `lause-ds`, so the URL becomes 
 - [ ] **Step 1: Replace the host everywhere**
 
 ```bash
-git grep -l 'lause-ds.netlify.app' -- . ':!package-lock.json' | xargs sed -i '' 's|shiny-frangipane-78fc08\.netlify\.app|<new-name>.netlify.app|g'
+git grep -l 'shiny-frangipane-78fc08.netlify.app' -- . ':!package-lock.json' | xargs sed -i '' 's|shiny-frangipane-78fc08\.netlify\.app|lause-ds.netlify.app|g'
 git grep -n 'shiny-frangipane' -- . ':!package-lock.json'
 ```
 
@@ -399,8 +399,8 @@ Expected after the second command: only Netlify dashboard links (`app.netlify.co
 - [ ] **Step 2: Verify the new host answers**
 
 ```bash
-curl -s -o /dev/null -w '%{http_code}\n' https://<new-name>.netlify.app/
-curl -s -X POST https://<new-name>.netlify.app/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}'
+curl -s -o /dev/null -w '%{http_code}\n' https://lause-ds.netlify.app/
+curl -s -X POST https://lause-ds.netlify.app/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}'
 ```
 
 Expected: `200`, and a JSON result with `"serverInfo":{"name":"lause-ds"`.
@@ -412,7 +412,7 @@ Expected: PASS.
 
 ```bash
 git add -A
-git commit -m "docs: the site and the MCP server live at <new-name>.netlify.app"
+git commit -m "docs: the site and the MCP server live at lause-ds.netlify.app"
 ```
 
 Also tell Rock: the `lause-ds-mcp` README on npm still shows the old host until the next publish; the changeset from Task 4 covers that.
