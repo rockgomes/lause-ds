@@ -1,5 +1,11 @@
 # lause-ds-mcp
 
+## 0.1.1
+
+### Patch Changes
+
+- 2802ae2: check_usage and the manifest rules name the two narrow type roles.
+
 ## 0.1.0
 
 ### Minor Changes

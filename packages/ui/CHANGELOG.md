@@ -1,5 +1,17 @@
 # lause-ds
 
+## 0.2.0
+
+### Minor Changes
+
+- fd4e659: Two narrow type roles, reading-narrow (40/74) and headline-narrow (48/53), for viewports below 640px.
+
+### Patch Changes
+
+- 83777bf: Sentence: the term mark no longer skips the ink of descenders, so a marked word with g/j/p/q/y keeps one continuous underline.
+- 2a9e44f: Nav: 8px vertical padding so a Dial in its controls has air.
+- 02d47ef: Sentence: reading-narrow below 640px so long Estonian words wrap instead of being clipped.
+
 ## 0.1.0
 
 ### Minor Changes
