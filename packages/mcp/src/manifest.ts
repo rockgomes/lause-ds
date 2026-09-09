@@ -344,6 +344,10 @@ const INSTALL_SECTION = [
   '',
   "Every component already carries `'use client'`, so it works as it is in a React Server Components app. " +
     'Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).',
+  '',
+  'To style a plain element the same way the components do, import the shared style constants: ' +
+    '`focusRing`, `disabledControl`, `hitTarget`, `hoverFade`, and the `SurfaceState` type ' +
+    "(`'idle' | 'selected' | 'filled' | 'dimmed'`) behind `Tile` and `Cell`.",
 ];
 
 /** Renders `llms.txt`: the tokens and components an AI tool should read before touching this code. */

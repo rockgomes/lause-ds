@@ -29,16 +29,32 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 
 - `Keycap`: a keyboard hint that inherits its colour from whatever holds it.
 - `Button`: a pill button with filled, outline and dim variants, and an optional keycap.
-- `Progress`: the segmented bar under a screen: done, current and rest.
-- `Bar`: coverage of one domain: one segment per article, retained/covered/unread.
+- `Progress`: the segmented bar under a screen (done, current and rest).
+- `Bar`: coverage of one domain, one segment per article (retained, covered or unread).
 - `Dial`: a segmented control that behaves as a radio group, with arrow-key selection.
-- `Tile`: an option or word tile: idle, selected, filled or dimmed.
+- `Tile`: an option or word tile (idle, selected, filled or dimmed).
 - `TileStack`: the column that holds option tiles, one per row.
-- `Bubble`: a translation bubble above a term: the gloss, a look-up count, and a promotion note.
-- `Sentence`: the reading unit: neighbours dimmed, terms as focusable buttons, marks and pins by dial level, English under in kõrvuti.
+- `Bubble`: a translation bubble above a term, showing the gloss, a look-up count, and a promotion note.
+- `Sentence`: the reading unit (neighbours dimmed, terms as focusable buttons, marks and pins by dial level, English under in kõrvuti).
 - `Nav`: context, caps navigation that swaps to English while peeking, and controls; empty items in exam mode.
 - `Cell` / `CellGrid`: the 2×2 drill as a table, with row and column headers; shares Tile's idle/selected/filled/dimmed states.
-- `usePeek`: the peek gesture: held modifier or a latch, cleared on blur.
+- `usePeek`: the peek gesture (held modifier or a latch), cleared on blur.
+
+## Styling your own controls
+
+`focusRing`, `disabledControl`, `hitTarget` and `hoverFade` are the plain Tailwind class strings the
+components above use for their focus ring, disabled state, minimum hit target and hover fade.
+Import them to style a plain element the same way:
+
+```tsx
+import { focusRing, hoverFade } from 'lause-ds';
+
+<a href="/exam" className={`${focusRing} ${hoverFade} underline`}>
+  Start the exam
+</a>
+```
+
+`SurfaceState` is the shared `'idle' | 'selected' | 'filled' | 'dimmed'` type behind `Tile` and `Cell`.
 
 ## What the app owns
 
@@ -51,4 +67,6 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 - The unofficial-translation note: required alongside the English text (`english: { text, note }`),
   because the app is the one asserting the translation is unofficial.
 
-## Licence: MIT
+## Licence
+
+MIT

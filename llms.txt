@@ -26,6 +26,8 @@ import { Button, Dial, Tile, TileStack } from 'lause-ds';
 
 Every component already carries `'use client'`, so it works as it is in a React Server Components app. Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).
 
+To style a plain element the same way the components do, import the shared style constants: `focusRing`, `disabledControl`, `hitTarget`, `hoverFade`, and the `SurfaceState` type (`'idle' | 'selected' | 'filled' | 'dimmed'`) behind `Tile` and `Cell`.
+
 ## Tokens
 
 Each line is `token: light · dark | Tailwind utility · CSS custom property | what it is for`. The theme is closed: these utilities exist, anything else (`bg-red-500`, `p-11`) does not.
