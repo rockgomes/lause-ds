@@ -7,8 +7,20 @@ import { readFileSync } from 'node:fs';
 const [indexPath = 'site/storybook/index.json', manifestPath = 'components.manifest.json'] = process.argv.slice(2);
 const FALLBACK = { TileStack: 'Tile', CellGrid: 'Cell' };
 
-const index = JSON.parse(readFileSync(indexPath, 'utf8'));
-const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+function readJson(path) {
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      console.error(`check:storybook-links: ${path} does not exist. Run npm run build:site first.`);
+      process.exit(1);
+    }
+    throw err;
+  }
+}
+
+const index = readJson(indexPath);
+const manifest = readJson(manifestPath);
 const docsIds = new Set(Object.values(index.entries).filter((e) => e.type === 'docs').map((e) => e.id));
 
 const missing = manifest.components
