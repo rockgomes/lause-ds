@@ -600,7 +600,7 @@ function tokenizeTags(text: string): Tag[] {
       k++;
     }
     if (end === -1) {
-      // Unterminated (or not actually a tag, e.g. `a < b` in an expression), bail from here.
+      // Unterminated (or not actually a tag, e.g. `a < b` in an expression); bail from here.
       i = start + 1;
       continue;
     }

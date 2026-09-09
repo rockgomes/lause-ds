@@ -65,6 +65,12 @@ describe('llms.txt', () => {
     expect(txt).toContain('shadow.tile: 0px 6px 18px 0px rgba(15, 34, 56, 0.10) (light)');
   });
 
+  it('separates a default value from a doc that is itself a colon-delimited list', () => {
+    expect(txt).toContain(
+      "- variant?: 'filled' | 'outline' | 'dim' = 'filled'; filled: the one primary action. outline: secondary. dim: tertiary, text only.",
+    );
+  });
+
   it('puts each component under ## Components as a ### heading', () => {
     expect(txt).toContain('## Components');
     expect(txt).toMatch(/\n### Button\n/);

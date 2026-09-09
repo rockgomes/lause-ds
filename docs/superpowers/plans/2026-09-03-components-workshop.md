@@ -622,7 +622,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Progress({ total, current, label })`, `total` units, `current` the zero-based index of the current unit; a `role="progressbar"` with `aria-valuenow = current`.
+- Produces: `Progress({ total, current, label })`: `total` is units, `current` is the zero-based index of the current unit; a `role="progressbar"` with `aria-valuenow = current`.
 
 - [ ] **Step 1: Write the stories**
 
@@ -749,7 +749,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Bar({ segments, summary })`, one segment per article, each `'retained' | 'covered' | 'unread'`; a `role="img"` whose name is `summary`, so the counts never depend on colour.
+- Produces: `Bar({ segments, summary })`: one segment per article, each `'retained' | 'covered' | 'unread'`; a `role="img"` whose name is `summary`, so the counts never depend on colour.
 
 - [ ] **Step 1: Write the stories**
 
@@ -871,7 +871,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Dial<V extends string>({ options, value, onChange, label, disabled? })`, a `role="radiogroup"` of `role="radio"` buttons with roving tabindex; arrow keys and Home/End move the selection and call `onChange`.
+- Produces: `Dial<V extends string>({ options, value, onChange, label, disabled? })`: a `role="radiogroup"` of `role="radio"` buttons with roving tabindex; arrow keys and Home/End move the selection and call `onChange`.
 
 - [ ] **Step 1: Write the stories**
 
@@ -1069,7 +1069,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `Keycap` (Task 2).
-- Produces: `Tile(props: TileProps)` where `TileProps = ComponentProps<'button'> & { state?: 'idle' | 'selected' | 'filled' | 'dimmed'; keycap?: string }`, a `<button>` with `aria-pressed` = selected; `TileStack(props: ComponentProps<'div'>)`, a `role="group"` column, 640px wide at most.
+- Produces: `Tile(props: TileProps)` where `TileProps = ComponentProps<'button'> & { state?: 'idle' | 'selected' | 'filled' | 'dimmed'; keycap?: string }`: a `<button>` with `aria-pressed` = selected; `TileStack(props: ComponentProps<'div'>)`: a `role="group"` column, 640px wide at most.
 
 - [ ] **Step 1: Write the stories**
 
