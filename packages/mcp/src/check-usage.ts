@@ -19,7 +19,7 @@ const TILE_MESSAGE = 'Options stack in a TileStack; only the two of a true/false
 const STEM_MESSAGE =
   'Type is used through the roles: text-label, text-body, text-title, text-reading, text-headline, text-display (and text-reading-narrow, text-headline-narrow below 640px)';
 const FOCUS_MESSAGE =
-  "Every interactive element needs the focus ring (import focusRing from lause-ds' styles or use the components)";
+  "Every interactive element needs the focus ring (import { focusRing } from 'lause-ds' or use the components)";
 
 // ---------------------------------------------------------------------------
 // The closed theme, read once from theme.css
