@@ -53,7 +53,7 @@ describe('llms.txt', () => {
 
   it('gives every token its utility and its custom property', () => {
     expect(txt).toContain(
-      'color.ink: #0f2238 (light) · #e3ecf7 (dark) — bg-ink / text-ink · --lause-color-ink — text, filled controls',
+      'color.ink: #0f2238 (light) · #e3ecf7 (dark) | bg-ink / text-ink · --lause-color-ink | text, filled controls',
     );
     expect(txt).toContain('font.content: Young Serif, Georgia, serif (light)');
     expect(txt).toContain('font-content · --lause-font-content');

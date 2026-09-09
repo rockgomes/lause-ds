@@ -1,4 +1,4 @@
-# Lause DS — Plan 2: Components and the Workshop
+# Lause DS, Plan 2: Components and the Workshop
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -8,9 +8,9 @@
 
 **Tech Stack:** React 19.2, Tailwind 4.3 via `@tailwindcss/vite`, Vite 8, Storybook 10.6 (`@storybook/react-vite`, `addon-a11y`, `addon-vitest`, `addon-docs`), vitest 4.1 browser mode with `@vitest/browser-playwright` and Chromium, `clsx`, `@changesets/cli` 3.
 
-**Spec:** `docs/specs/2026-09-03-lause-ds-design.md` — §2 decisions 5, 7, 8, 10; §4 components. Appearance rules come from the trainer's design decisions (`docs/design/2026-09-03-lause-design-decisions.md` in `rockgomes/estonian-citizenship-test`, branch `docs/lause-design-decisions`, PR #1 there): pills, keycaps with a 1.5px `ink` border, segmented bars with done `ink` / current `accent` / rest `ink` at 18%, hit targets never under 44px.
+**Spec:** `docs/specs/2026-09-03-lause-ds-design.md`, §2 decisions 5, 7, 8, 10; §4 components. Appearance rules come from the trainer's design decisions (`docs/design/2026-09-03-lause-design-decisions.md` in `rockgomes/estonian-citizenship-test`, branch `docs/lause-design-decisions`, PR #1 there): pills, keycaps with a 1.5px `ink` border, segmented bars with done `ink` / current `accent` / rest `ink` at 18%, hit targets never under 44px.
 
-**Scope of this plan:** the workshop plus the six chrome components — `Keycap`, `Button`, `Progress`, `Bar`, `Dial`, `Tile` (with `TileStack`). The four reading components (`Sentence`, `Bubble`, `Cell`, `Nav`) are Plan 3; they need the language-layer behaviour and are worth their own plan.
+**Scope of this plan:** the workshop plus the six chrome components: `Keycap`, `Button`, `Progress`, `Bar`, `Dial`, `Tile` (with `TileStack`). The four reading components (`Sentence`, `Bubble`, `Cell`, `Nav`) are Plan 3; they need the language-layer behaviour and are worth their own plan.
 
 **Proof screens:** spec §7 says a component merges only with its proof screen in the app. The app does not exist yet (the trainer repo holds content and the pipeline). Until it does, each component's stories, built from the Lause frames, are its proof; the rule applies in full once the app consumes `lause-ds`.
 
@@ -64,7 +64,7 @@ packages/ui/src/Tile/Tile.tsx               option tile: idle / selected / fille
 
 **Interfaces:**
 - Consumes: `packages/ui/src/tokens/index.css` (Plan 1), the `--lause-*` variables and the Tailwind theme keys `--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--spacing-*`, `--leading-*`.
-- Produces: the story-test harness every later task relies on — a story file under `src/<Name>/` is discovered, rendered in Chromium, its `play` run, and axe checked; the `theme` global (`'light' | 'dark'`) settable per story with `globals: { theme: 'dark' }`; the `radius.keycap` semantic token (`rounded-keycap`).
+- Produces: the story-test harness every later task relies on: a story file under `src/<Name>/` is discovered, rendered in Chromium, its `play` run, and axe checked; the `theme` global (`'light' | 'dark'`) settable per story with `globals: { theme: 'dark' }`; the `radius.keycap` semantic token (`rounded-keycap`).
 
 - [ ] **Step 1: Add the keycap radius token**
 
@@ -341,14 +341,14 @@ export const Light: Story = {};
 export const Dark: Story = { globals: { theme: 'dark' } };
 ```
 
-Note: the class list uses every `text-<role>` name literally in the file (`text-label`, `text-body`, `text-title`, `text-reading`, `text-headline`, `text-display`) so Tailwind's scanner sees them — that is why the `roles` array and the template string both exist. If Tailwind drops them, add the six names in a comment.
+Note: the class list uses every `text-<role>` name literally in the file (`text-label`, `text-body`, `text-title`, `text-reading`, `text-headline`, `text-display`) so Tailwind's scanner sees them. That is why the `roles` array and the template string both exist. If Tailwind drops them, add the six names in a comment.
 
 - [ ] **Step 6: Run the stories as tests**
 
 Run: `npx vitest run --project ui`
 Expected: 2 tests (`Tokens › Light`, `Tokens › Dark`) pass, no a11y violations. If Chromium is missing, run `npx playwright install chromium`.
 
-Run: `npm run storybook` briefly and open http://localhost:6006 — the Tokens story shows eight swatches and six type samples; the toolbar has a Theme switch; the a11y panel is green. Stop the server.
+Run: `npm run storybook` briefly and open http://localhost:6006. The Tokens story shows eight swatches and six type samples; the toolbar has a Theme switch; the a11y panel is green. Stop the server.
 
 Run: `npm test && npm run typecheck && npm run build:ui`
 Expected: all green; `packages/ui/dist/index.js` and `index.d.ts` exist.
@@ -607,7 +607,7 @@ Expected: 6 passed, no a11y violations. If axe reports a contrast violation on `
 
 ```bash
 git add packages/ui/src/Button packages/ui/src/index.ts
-git commit -m "feat(ui): Button — filled, outline, dim; shows its key
+git commit -m "feat(ui): Button, filled, outline, dim; shows its key
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -622,7 +622,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Progress({ total, current, label })` — `total` units, `current` the zero-based index of the current unit; a `role="progressbar"` with `aria-valuenow = current`.
+- Produces: `Progress({ total, current, label })`, `total` units, `current` the zero-based index of the current unit; a `role="progressbar"` with `aria-valuenow = current`.
 
 - [ ] **Step 1: Write the stories**
 
@@ -734,7 +734,7 @@ Expected: 6 passed.
 
 ```bash
 git add packages/ui/src/Progress packages/ui/src/index.ts
-git commit -m "feat(ui): Progress — segmented bar, done / current / rest
+git commit -m "feat(ui): Progress, segmented bar, done / current / rest
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -749,7 +749,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Bar({ segments, summary })` — one segment per article, each `'retained' | 'covered' | 'unread'`; a `role="img"` whose name is `summary`, so the counts never depend on colour.
+- Produces: `Bar({ segments, summary })`, one segment per article, each `'retained' | 'covered' | 'unread'`; a `role="img"` whose name is `summary`, so the counts never depend on colour.
 
 - [ ] **Step 1: Write the stories**
 
@@ -856,7 +856,7 @@ Expected: 4 passed.
 
 ```bash
 git add packages/ui/src/Bar packages/ui/src/index.ts
-git commit -m "feat(ui): Bar — one segment per article, retained / covered / unread
+git commit -m "feat(ui): Bar, one segment per article, retained / covered / unread
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -871,7 +871,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: the harness.
-- Produces: `Dial<V extends string>({ options, value, onChange, label, disabled? })` — a `role="radiogroup"` of `role="radio"` buttons with roving tabindex; arrow keys and Home/End move the selection and call `onChange`.
+- Produces: `Dial<V extends string>({ options, value, onChange, label, disabled? })`, a `role="radiogroup"` of `role="radio"` buttons with roving tabindex; arrow keys and Home/End move the selection and call `onChange`.
 
 - [ ] **Step 1: Write the stories**
 
@@ -1054,7 +1054,7 @@ Expected: 5 passed. If axe flags the unselected `text-dim` segments for contrast
 
 ```bash
 git add packages/ui/src/Dial packages/ui/src/index.ts
-git commit -m "feat(ui): Dial — segmented radiogroup with arrow-key selection
+git commit -m "feat(ui): Dial, segmented radiogroup with arrow-key selection
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -1220,7 +1220,7 @@ Expected: all green across both packages.
 
 ```bash
 git add packages/ui/src/Tile packages/ui/src/index.ts
-git commit -m "feat(ui): Tile and TileStack — idle, selected, filled, dimmed
+git commit -m "feat(ui): Tile and TileStack, idle, selected, filled, dimmed
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -1347,7 +1347,7 @@ Foundation and the first six components done: Keycap, Button, Progress, Bar, Dia
 
 Replace the `## Layout` block with:
 ```
-tokens/           W3C design-token JSON — the single source
+tokens/           W3C design-token JSON: the single source
 packages/tokens   the token build tool (private)
 packages/ui       lause-ds: React + Tailwind components, one folder per component, stories beside them
 packages/mcp      the MCP server; reads tokens/ and packages/ui (Plan 5)
@@ -1386,7 +1386,7 @@ git commit -m "chore(release): changesets and a release workflow; lause-ds is pu
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 git push -u origin feat/components
-gh pr create --base main --head feat/components --title "feat: components and the workshop — six components, Storybook, stories as axe-checked tests, changesets" --body "Plan 2 of the Lause design system.
+gh pr create --base main --head feat/components --title "feat: components and the workshop: six components, Storybook, stories as axe-checked tests, changesets" --body "Plan 2 of the Lause design system.
 
 - packages/ui is a real package: React 19 + Tailwind v4 on the token theme, built with tsc to dist/
 - Storybook 10 workshop; every story runs in Chromium as a vitest test, replays its play function, and fails on any axe violation

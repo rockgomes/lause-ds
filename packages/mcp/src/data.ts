@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Copied from packages/tokens/src/dtcg.ts — the two packages stay independent,
+// Copied from packages/tokens/src/dtcg.ts: the two packages stay independent,
 // so this is a deliberate duplication rather than a shared dependency.
 export type Token = { $type: string; $value: unknown; $description?: string };
 export type Group = { [key: string]: Token | Group };
@@ -54,7 +54,7 @@ export type Data = {
  * inlined as parsed JSON or raw text so esbuild can bundle it into the
  * hosted Netlify function, which has neither a monorepo root nor these files
  * on disk at runtime. A field is `null` when its source file was missing at
- * build time — the same case `copy-data.mjs` already warns about.
+ * build time: the same case `copy-data.mjs` already warns about.
  */
 export type Bundle = {
   primitives: Group | null;
@@ -82,13 +82,13 @@ function hasTokens(dir: string): boolean {
  *
  * The published layout is checked first: `copy-data.mjs` writes every data
  * file under `<dist>/data`, so if that directory holds the tokens it is the
- * root — no walking up. This matters in a consumer that itself uses npm
+ * root: no walking up. This matters in a consumer that itself uses npm
  * workspaces: walking up from `node_modules/lause-ds-mcp/dist` would find
  * *their* `package.json` with a `workspaces` key and hand back a root that
  * has no `tokens/` in it, and `loadData` would throw ENOENT.
  *
  * Only then does it walk up looking for a `package.json` with a
- * `"workspaces"` key — this repo's own layout — and a candidate is accepted
+ * `"workspaces"` key (this repo's own layout), and a candidate is accepted
  * only when it also holds `tokens/primitives.tokens.json`, for the same
  * reason. Falls back to `<startDir>/data`.
  *
@@ -107,7 +107,7 @@ export function findRoot(startDir: string = dirname(fileURLToPath(import.meta.ur
         const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as Record<string, unknown>;
         if (pkg && typeof pkg === 'object' && 'workspaces' in pkg) return dir;
       } catch {
-        // Not valid JSON — keep walking up.
+        // Not valid JSON, keep walking up.
       }
     }
     const parent = dirname(dir);
@@ -145,7 +145,7 @@ export function loadData(root: string = findRoot()): Data {
 
 /**
  * Builds the same `Data` shape `loadData` returns, but from an in-memory
- * `Bundle` instead of the filesystem — this is what the hosted Netlify
+ * `Bundle` instead of the filesystem: this is what the hosted Netlify
  * function uses, since its esbuild bundle has no monorepo root to call
  * `loadData(findRoot())` against. `themeCss` and `sources` ride along as the
  * two bundle-only fields `getComponent` and `checkUsage` prefer when present.
@@ -223,7 +223,7 @@ function formatValue(value: unknown): string {
 
 /**
  * Resolves a semantic token to its primitive value. Semantic token values are
- * always a single `{alias}` hop into the primitive group — this is that
+ * always a single `{alias}` hop into the primitive group: this is that
  * one-hop rule, not the general alias-chasing `resolve` in
  * packages/tokens/src/dtcg.ts.
  */

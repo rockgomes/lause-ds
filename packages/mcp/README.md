@@ -1,7 +1,7 @@
 # lause-ds-mcp
 
-The [Lause design system](https://github.com/rockgomes/lause-ds) — tokens, components, and
-usage rules — served over the Model Context Protocol, so an AI tool can look up the design
+The [Lause design system](https://github.com/rockgomes/lause-ds) (tokens, components, and
+usage rules) served over the Model Context Protocol, so an AI tool can look up the design
 system instead of guessing at it.
 
 ## Install and run
@@ -18,8 +18,8 @@ Add it to Claude Code:
 claude mcp add lause -- npx lause-ds-mcp
 ```
 
-Or skip the install and point a client at the hosted server instead — a Netlify Function,
-no local process:
+Or skip the install and point a client at the hosted server instead (a Netlify Function,
+no local process):
 
 ```bash
 claude mcp add --transport http lause https://lause-ds.netlify.app/mcp

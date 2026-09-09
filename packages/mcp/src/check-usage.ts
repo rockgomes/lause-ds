@@ -10,7 +10,7 @@ export type Finding = { rule: string; line: number; excerpt: string; message: st
 
 const RAW_HEX_MESSAGE = 'Use a semantic colour token (bg-ink, text-dim, …)';
 const RAW_FONT_MESSAGE = 'Use font-content or font-chrome';
-// The brief gives no exact wording for off-theme-utility (unlike the other five rules) — this is
+// The brief gives no exact wording for off-theme-utility (unlike the other five rules): this is
 // the wording chosen for it; see the task report for the reasoning.
 const OFF_THEME_MESSAGE = 'Use a token from the closed theme instead of this off-theme Tailwind utility (see list_tokens)';
 const RAW_SIZE_MESSAGE =
@@ -37,7 +37,7 @@ type ThemeSet = {
 };
 
 /**
- * The closed-theme source CSS. Prefers `data.themeCss` — the hosted Netlify
+ * The closed-theme source CSS. Prefers `data.themeCss`, the hosted Netlify
  * function's bundled text (see `dataFromBundle`), which has no filesystem to
  * fall back to. Otherwise reads the monorepo source
  * (`packages/ui/src/tokens/theme.css` under the workspace root) or, for the
@@ -127,7 +127,7 @@ function skipString(text: string, open: number): number {
       continue;
     }
     if (ch === quote) return i;
-    // A plain quote never spans a line — an apostrophe in JSX prose
+    // A plain quote never spans a line: an apostrophe in JSX prose
     // ("don't") is not the start of a string literal.
     if (ch === '\n' && quote !== '`') return open;
     i++;
@@ -139,9 +139,9 @@ function skipString(text: string, open: number): number {
  * Blanks out comments, preserving every line number and every offset: a
  * comment becomes spaces, newlines stay.
  *
- * The `//` pass is string-aware — it skips over `"…"`, `'…'` and `` `…` ``
+ * The `//` pass is string-aware: it skips over `"…"`, `'…'` and `` `…` ``
  * literals the way `tokenizeTags` does, so the `//` in
- * `href="https://example.com"` no longer blanks the rest of the line — and it
+ * `href="https://example.com"` no longer blanks the rest of the line, and it
  * refuses a `//` written straight after a `:` or a `\` (a bare URL, and the
  * `\/\/` of a regex literal like `/https?:\/\//`).
  */
@@ -205,9 +205,9 @@ const FONT_FAMILY_RE = /font-family\s*:/i;
 const FONT_SIZE_RE = /font-size\s*:/;
 
 /**
- * A font name is only a violation inside a styling context — a class
+ * A font name is only a violation inside a styling context: a class
  * attribute value, a `style` attribute (string or object form), a
- * `font-family:` CSS declaration, or a `fontFamily:` JS style key — never in
+ * `font-family:` CSS declaration, or a `fontFamily:` JS style key; never in
  * ordinary JSX text or an unrelated string literal ("Georgia is a country.").
  * Each match run is line-scoped; the class strings of that line are passed
  * in, since those are extracted once for the whole document.
@@ -280,7 +280,7 @@ const SIZE_KEYWORDS = new Set(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4x
 
 /**
  * Suffixes that share a closed namespace's prefix but name a CSS keyword
- * rather than a themeable value — `mx-auto` is not a spacing key, `border-b`
+ * rather than a themeable value: `mx-auto` is not a spacing key, `border-b`
  * is not a colour, `text-balance` is not a type role, `font-light` is a
  * weight (weights stay open, see the README) and `bg-cover` is a background
  * size. None of them can be replaced by a token, so none of them is a
@@ -303,7 +303,7 @@ function isKeywordSuffix(prefix: string, rest: string): boolean {
 
 /**
  * Static utilities that use a closed-namespace prefix but name a keyword, not
- * a themeable value — e.g. `rounded-full` isn't a radius key, `border-2` (see
+ * a themeable value: `rounded-full` isn't a radius key, `border-2` (see
  * the numeric-width check below) isn't a colour. Kept explicit and small; see
  * the task report for exactly why each one is here.
  */
@@ -346,7 +346,7 @@ type ClassFinding = { rule: 'off-theme-utility' | 'stem-without-role' | 'raw-siz
 
 // A variant segment: `sm:`, `hover:`, `enabled:`, `[&>*]:`. Written as a
 // prefix match rather than a split on ':' so the colon inside an arbitrary
-// value — `decoration-(length:--lause-stroke-mark)` — is left alone.
+// value (e.g. `decoration-(length:--lause-stroke-mark)`) is left alone.
 const VARIANT_RE = /^(?:\[[^\]]*\]|[\w.@/-]+):/;
 
 /** Strips a leading `sm:`/`hover:`/`enabled:active:` variant chain and a leading `-` (negative utility). */
@@ -380,7 +380,7 @@ function classifyToken(rawToken: string, theme: ThemeSet): ClassFinding | null {
 
   const bracketMatch = token.match(/\[([^\]]+)\]/);
   if (bracketMatch) {
-    // An arbitrary text size stays under stem-without-role — never double-reported as raw-size —
+    // An arbitrary text size stays under stem-without-role, never double-reported as raw-size,
     // regardless of what the value is.
     if (token.startsWith('text-[')) return { rule: 'stem-without-role', util: token };
     if (isRawSizeValue(bracketMatch[1])) return { rule: 'raw-size', util: token };
@@ -495,8 +495,8 @@ function stringLiteralsIn(text: string, from: number, to: number): ClassString[]
  * Every class string in the document: a `className`/`class` attribute value
  * (any quote style), and every string literal passed to a class-name helper
  * (`clsx`, `cn`, `twMerge`, `classNames`, `cva`, `cx`) found by balanced,
- * quote-aware parenthesis matching. The whole document, not a line at a time
- * — prettier wraps a long `clsx(...)` call over several lines, and each
+ * quote-aware parenthesis matching. The whole document, not a line at a time:
+ * prettier wraps a long `clsx(...)` call over several lines, and each
  * string keeps its own offset so its findings land on its own line.
  */
 function extractClassStrings(text: string): ClassString[] {
@@ -548,8 +548,8 @@ const TAG_START_RE = /<(\/)?([A-Za-z][\w.]*)/y;
 /**
  * Tokenizes JSX/HTML tags with a small scanner rather than a single regex.
  * From each `<name`, it walks forward tracking `{}` depth (a `>` inside a
- * brace-expression — e.g. the arrow in `onClick={() => f()}`, or a
- * comparison like `{(e) => { if (x > 1) go(); }}` — never ends the tag) and
+ * brace-expression, e.g. the arrow in `onClick={() => f()}`, or a
+ * comparison like `{(e) => { if (x > 1) go(); }}`; never ends the tag) and
  * skips over `"…"`, `'…'` and `` `…` `` string literals verbatim, so a `>`
  * or unbalanced brace inside a quoted attribute value can't confuse the
  * depth count either. The tag ends at the first `>` seen at depth 0.
@@ -600,7 +600,7 @@ function tokenizeTags(text: string): Tag[] {
       k++;
     }
     if (end === -1) {
-      // Unterminated (or not actually a tag, e.g. `a < b` in an expression) — bail from here.
+      // Unterminated (or not actually a tag, e.g. `a < b` in an expression), bail from here.
       i = start + 1;
       continue;
     }

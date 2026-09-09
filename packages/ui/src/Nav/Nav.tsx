@@ -58,7 +58,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
                     data-state={isCurrent ? 'current' : 'idle'}
                     onClick={(event: MouseEvent<HTMLAnchorElement>) => {
                       // The href supports no-JS and reflects the URL; onNavigate is for apps
-                      // with client routing, which handle the transition themselves — so the
+                      // with client routing, which handle the transition themselves, so the
                       // browser's own navigation is prevented for a plain left-click here.
                       if (onNavigate && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
                         event.preventDefault();

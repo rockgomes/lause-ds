@@ -1,14 +1,14 @@
-# Lause DS — Plan 3: The Reading Components
+# Lause DS, Plan 3: The Reading Components
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** The four components that carry the language layer — `Bubble`, `Sentence`, `Nav`, `Cell` — plus the headless `usePeek` hook that turns a held ⌥, a latch, and window blur into one `peeking` boolean, all on the token theme, each with stories that are axe-checked tests.
+**Goal:** The four components that carry the language layer (`Bubble`, `Sentence`, `Nav`, `Cell`) plus the headless `usePeek` hook that turns a held ⌥, a latch, and window blur into one `peeking` boolean, all on the token theme, each with stories that are axe-checked tests.
 
 **Architecture:** Same package and harness as Plan 2 (`packages/ui`, one folder per component, stories run as vitest browser tests with axe as error, `Dark` story per component, shared class constants in `src/styles.ts`). The language-layer state (which words are pinned, the look-up tally, the dial level, the latch) belongs to the app; these components take it as props and report intent through callbacks. `usePeek` is the one piece of behaviour the system owns, because the spec fixes its rules (momentary, latchable, clears on blur, intercepts Alt).
 
-**Tech Stack:** unchanged — React 19.2, Tailwind 4.3, Storybook 10.6, vitest 4.1 browser mode, culori in the token build.
+**Tech Stack:** unchanged: React 19.2, Tailwind 4.3, Storybook 10.6, vitest 4.1 browser mode, culori in the token build.
 
-**Spec:** `docs/specs/2026-09-03-lause-ds-design.md` — §4 rows Sentence, Bubble, Cell, Nav; §2 decisions 5, 6, 10. Behaviour: the trainer spec §7 "The reader and the language layer" (`docs/superpowers/specs/2026-09-01-estonian-citizenship-exam-trainer-design.md` in `rockgomes/estonian-citizenship-test`) and the design decisions §3–§4, §8 (`docs/design/2026-09-03-lause-design-decisions.md` there, branch `docs/lause-design-decisions`). The interaction prototype "Node Map & Language Layer" is the reference for pin, peek, latch and put-away.
+**Spec:** `docs/specs/2026-09-03-lause-ds-design.md`, §4 rows Sentence, Bubble, Cell, Nav; §2 decisions 5, 6, 10. Behaviour: the trainer spec §7 "The reader and the language layer" (`docs/superpowers/specs/2026-09-01-estonian-citizenship-exam-trainer-design.md` in `rockgomes/estonian-citizenship-test`) and the design decisions §3–§4, §8 (`docs/design/2026-09-03-lause-design-decisions.md` there, branch `docs/lause-design-decisions`). The interaction prototype "Node Map & Language Layer" is the reference for pin, peek, latch and put-away.
 
 **Fixed rules these components implement:**
 - Dial levels: `et` no marks, peek and click still work; `tugi` terms marked with a dotted accent underline; `korvuti` as tugi plus the Riigi Teataja English under the sentence, always with the unofficial-translation line.
@@ -89,7 +89,7 @@ const em = (v: number): Token => ({ $type: 'dimension', $value: { value: v, unit
 
 - [ ] **Step 3: Run to verify it passes, regenerate, check the outputs**
 
-Run: `npx vitest run packages/tokens/test/scales.test.ts` — Expected: all pass.
+Run: `npx vitest run packages/tokens/test/scales.test.ts`. Expected: all pass.
 Run: `npm run build:tokens && npm test && npm run typecheck`
 Check: `grep -n "stroke-mark\|stroke-pin\|tracking-caps" packages/ui/src/tokens/tokens.css` shows `--lause-stroke-mark: 3px;`, `--lause-stroke-pin: 4px;`, `--lause-type-tracking-caps: 0.1em;`. The emitters need no change: `raw()` prints `${value}${unit}` and Figma gets FLOAT values.
 
@@ -113,7 +113,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 - Modify: `packages/ui/src/index.ts`
 
 **Interfaces:**
-- Produces: `Bubble({ children, count?, note?, size?, id?, className? })` — an absolutely positioned bubble that sits above whatever `position: relative` parent contains it, with a tail. `role="note"`. Sentence places it inside each term.
+- Produces: `Bubble({ children, count?, note?, size?, id?, className? })`: an absolutely positioned bubble that sits above whatever `position: relative` parent contains it, with a tail. `role="note"`. Sentence places it inside each term.
 
 - [ ] **Step 1: Write the stories**
 
@@ -171,7 +171,7 @@ export const Dark: Story = {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `npx vitest run --project ui src/Bubble` — Expected: FAIL, cannot resolve `./Bubble.js`.
+Run: `npx vitest run --project ui src/Bubble`. Expected: FAIL, cannot resolve `./Bubble.js`.
 
 - [ ] **Step 3: Implement**
 
@@ -232,13 +232,13 @@ export { Bubble, type BubbleProps } from './Bubble/Bubble.js';
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `npx vitest run --project ui src/Bubble` — Expected: 5 passed.
+Run: `npx vitest run --project ui src/Bubble`. Expected: 5 passed.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add packages/ui/src/Bubble packages/ui/src/index.ts
-git commit -m "feat(ui): Bubble — translation above a word, with count and tail
+git commit -m "feat(ui): Bubble, translation above a word, with count and tail
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -413,7 +413,7 @@ export const Dark: Story = {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `npx vitest run --project ui src/Sentence` — Expected: FAIL, cannot resolve `./Sentence.js`.
+Run: `npx vitest run --project ui src/Sentence`. Expected: FAIL, cannot resolve `./Sentence.js`.
 
 - [ ] **Step 3: Implement**
 
@@ -523,13 +523,13 @@ export { Sentence, type SentenceProps, type Segment, type Term, type Support } f
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `npx vitest run --project ui src/Sentence` — Expected: 7 passed. If axe reports `nested-interactive` or `button-name` issues around the Bubble inside the button, move the bubble out of the button into a wrapping `<span className="relative inline">` that holds both the button and the bubble, keep `aria-describedby`, and re-run.
+Run: `npx vitest run --project ui src/Sentence`. Expected: 7 passed. If axe reports `nested-interactive` or `button-name` issues around the Bubble inside the button, move the bubble out of the button into a wrapping `<span className="relative inline">` that holds both the button and the bubble, keep `aria-describedby`, and re-run.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add packages/ui/src/Sentence packages/ui/src/index.ts
-git commit -m "feat(ui): Sentence — the reading unit with marks, pins and peek
+git commit -m "feat(ui): Sentence, the reading unit with marks, pins and peek
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -543,7 +543,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 - Modify: `packages/ui/src/index.ts`
 
 **Interfaces:**
-- Produces: `usePeek(options?: { latched?: boolean; key?: string }): { peeking: boolean; held: boolean }` — `held` is true while the modifier (default `'Alt'`) is physically down; `peeking = held || latched`; both clear on window `blur` and on `visibilitychange` to hidden; the modifier's keydown is `preventDefault`ed so it cannot move focus to the browser menu bar.
+- Produces: `usePeek(options?: { latched?: boolean; key?: string }): { peeking: boolean; held: boolean }`: `held` is true while the modifier (default `'Alt'`) is physically down; `peeking = held || latched`; both clear on window `blur` and on `visibilitychange` to hidden; the modifier's keydown is `preventDefault`ed so it cannot move focus to the browser menu bar.
 
 - [ ] **Step 1: Write the stories**
 
@@ -622,7 +622,7 @@ export const Dark: Story = { globals: { theme: 'dark' } };
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `npx vitest run --project ui src/usePeek` — Expected: FAIL, cannot resolve `./usePeek.js`.
+Run: `npx vitest run --project ui src/usePeek`. Expected: FAIL, cannot resolve `./usePeek.js`.
 
 - [ ] **Step 3: Implement**
 
@@ -691,13 +691,13 @@ export { usePeek, type UsePeekOptions, type PeekState } from './usePeek/usePeek.
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `npx vitest run --project ui src/usePeek` — Expected: 4 passed. If `userEvent.keyboard('{Alt>}')` does not reach a `window` listener in the runner, dispatch `new KeyboardEvent('keydown', { key: 'Alt', bubbles: true })` on `window` in the play instead and note it in the report.
+Run: `npx vitest run --project ui src/usePeek`. Expected: 4 passed. If `userEvent.keyboard('{Alt>}')` does not reach a `window` listener in the runner, dispatch `new KeyboardEvent('keydown', { key: 'Alt', bubbles: true })` on `window` in the play instead and note it in the report.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add packages/ui/src/usePeek packages/ui/src/index.ts
-git commit -m "feat(ui): usePeek — held modifier, latch, and blur clearing as one boolean
+git commit -m "feat(ui): usePeek, held modifier, latch, and blur clearing as one boolean
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -798,7 +798,7 @@ export const Dark: Story = { globals: { theme: 'dark' }, args: { peeking: true }
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `npx vitest run --project ui src/Nav` — Expected: FAIL, cannot resolve `./Nav.js`.
+Run: `npx vitest run --project ui src/Nav`. Expected: FAIL, cannot resolve `./Nav.js`.
 
 - [ ] **Step 3: Implement**
 
@@ -881,7 +881,7 @@ export function Nav({ context, items, current, peeking = false, controls, label,
 }
 ```
 
-Note: `tracking-normal` is Tailwind's static zero; `--tracking-*` is not among the closed namespaces, which is fine — the token is used for the caps value and the reset is the only static one.
+Note: `tracking-normal` is Tailwind's static zero; `--tracking-*` is not among the closed namespaces, which is fine: the token is used for the caps value and the reset is the only static one.
 
 Add to `packages/ui/src/index.ts`:
 ```ts
@@ -890,13 +890,13 @@ export { Nav, type NavProps, type NavItem } from './Nav/Nav.js';
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `npx vitest run --project ui src/Nav` — Expected: 4 passed.
+Run: `npx vitest run --project ui src/Nav`. Expected: 4 passed.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add packages/ui/src/Nav packages/ui/src/index.ts
-git commit -m "feat(ui): Nav — context, caps navigation that swaps to English on peek, controls
+git commit -m "feat(ui): Nav, context, caps navigation that swaps to English on peek, controls
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -911,7 +911,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `Keycap`, `focusRing`, `disabledControl`, `hoverFade`.
-- Produces: `Cell(props)` — `ComponentProps<'button'> & { title: string; subtitle?: string; keycap?: string; state?: 'idle' | 'selected' | 'filled' | 'dimmed' }`; `CellGrid({ rows: readonly [string, string], columns: readonly [string, string], label, children })` — a `<table>` with row and column headers and four cells, in reading order row by row.
+- Produces: `Cell(props)`: `ComponentProps<'button'> & { title: string; subtitle?: string; keycap?: string; state?: 'idle' | 'selected' | 'filled' | 'dimmed' }`; `CellGrid({ rows: readonly [string, string], columns: readonly [string, string], label, children })`: a `<table>` with row and column headers and four cells, in reading order row by row.
 
 - [ ] **Step 1: Write the stories**
 
@@ -976,7 +976,7 @@ export const Dark: Story = {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `npx vitest run --project ui src/Cell` — Expected: FAIL, cannot resolve `./Cell.js`.
+Run: `npx vitest run --project ui src/Cell`. Expected: FAIL, cannot resolve `./Cell.js`.
 
 - [ ] **Step 3: Implement**
 
@@ -1086,14 +1086,14 @@ export { Cell, CellGrid, type CellProps, type CellState, type CellGridProps } fr
 
 - [ ] **Step 4: Run to verify it passes**
 
-Run: `npx vitest run --project ui src/Cell` — Expected: 6 passed.
-Run: `npm test && npm run typecheck && npm run build:ui` — Expected: all green.
+Run: `npx vitest run --project ui src/Cell`. Expected: 6 passed.
+Run: `npm test && npm run typecheck && npm run build:ui`. Expected: all green.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add packages/ui/src/Cell packages/ui/src/index.ts
-git commit -m "feat(ui): Cell and CellGrid — the 2×2 drill as a table
+git commit -m "feat(ui): Cell and CellGrid, the 2×2 drill as a table
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
@@ -1133,10 +1133,10 @@ git commit -m "docs: the reading components and the peek hook
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 git push -u origin feat/reading-components
-gh pr create --base main --head feat/reading-components --title "feat: the reading components — Sentence, Bubble, Nav, Cell, usePeek" --body "Plan 3 of the Lause design system.
+gh pr create --base main --head feat/reading-components --title "feat: the reading components: Sentence, Bubble, Nav, Cell, usePeek" --body "Plan 3 of the Lause design system.
 
 - Bubble: translation above a word, with the look-up count and the promotion note
-- Sentence: the reading unit — neighbours dimmed, terms as focusable buttons, dotted marks in tugi, solid pins with bubbles, every gloss while peeking, the English under in kõrvuti
+- Sentence: the reading unit: neighbours dimmed, terms as focusable buttons, dotted marks in tugi, solid pins with bubbles, every gloss while peeking, the English under in kõrvuti
 - usePeek: held ⌥ or a latch → peeking; clears on blur; intercepts Alt
 - Nav: context, caps navigation that swaps to English on peek, controls; exam mode
 - Cell + CellGrid: the 2×2 drill as a table with row and column headers
@@ -1149,7 +1149,7 @@ Spec: docs/specs/2026-09-03-lause-ds-design.md · Plan: docs/superpowers/plans/2
 
 - [ ] **Step 4: Confirm CI**
 
-Run: `gh pr checks --watch --interval 15` — Expected: `test` passes.
+Run: `gh pr checks --watch --interval 15`. Expected: `test` passes.
 
 ---
 

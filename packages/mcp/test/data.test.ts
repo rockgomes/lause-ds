@@ -7,7 +7,7 @@ import { getComponent } from '../src/tools.js';
 
 /**
  * Builds a `Bundle` the way `copy-data.mjs` does, but reading straight from
- * the repo instead of writing `dist/data/bundle.json` — this is what proves
+ * the repo instead of writing `dist/data/bundle.json`: this is what proves
  * `dataFromBundle` produces the same `Data` the filesystem-backed `loadData`
  * does, without needing a build step in this test.
  */
@@ -96,8 +96,8 @@ describe('findRoot inside a consumer that uses npm workspaces', () => {
   const consumer = mkdtempSync(join(tmpdir(), 'lause-ds-consumer-'));
   const dist = join(consumer, 'node_modules', 'lause-ds-mcp', 'dist');
 
-  // The consumer's own workspace root — exactly what the old walk-up found,
-  // and it has no tokens/ of its own.
+  // The consumer's own workspace root, exactly what the old walk-up found, and
+  // it has no tokens/ of its own.
   writeFileSync(join(consumer, 'package.json'), JSON.stringify({ name: 'consumer', workspaces: ['packages/*'] }));
   mkdirSync(join(dist, 'data', 'tokens'), { recursive: true });
   for (const file of ['primitives.tokens.json', 'semantic.light.tokens.json', 'semantic.dark.tokens.json']) {

@@ -4,7 +4,7 @@ import { buildServer } from 'lause-ds-mcp';
 import { dataFromBundle, type Bundle } from 'lause-ds-mcp/data';
 import bundle from 'lause-ds-mcp/data/bundle.json' with { type: 'json' };
 
-// Loaded once at module scope from the bundle esbuild inlines at build time —
+// Loaded once at module scope from the bundle esbuild inlines at build time:
 // every request reuses the same in-memory data, only the MCP server and
 // transport are built fresh per request (see below). No filesystem
 // discovery: inside the deployed function bundle there is no monorepo root
@@ -31,7 +31,7 @@ function withCors(response: Response): Response {
 }
 
 /**
- * The Lause design system MCP server, hosted as a Netlify Function. No auth —
+ * The Lause design system MCP server, hosted as a Netlify Function. No auth:
  * every tool here is read-only reference data (tokens, components, usage
  * rules), so there is nothing to gate.
  */
@@ -45,7 +45,7 @@ export default async (req: Request, _context: Context): Promise<Response> => {
     return new Response('Method not allowed', { status: 405, headers: CORS_HEADERS });
   }
 
-  // Fresh server + transport per request — the transport is stateless
+  // Fresh server + transport per request: the transport is stateless
   // (sessionIdGenerator: undefined) and explicitly forbids reuse across
   // requests, and a serverless function has no durable place to keep one
   // instance alive between invocations anyway.
@@ -62,8 +62,8 @@ export default async (req: Request, _context: Context): Promise<Response> => {
     const response = await transport.handleRequest(req);
     return withCors(response);
   } catch {
-    // Anything that escapes the transport — a body that fails to read, a bug
-    // in a tool — becomes one JSON-RPC internal error. The message is fixed:
+    // Anything that escapes the transport (a body that fails to read, a bug
+    // in a tool) becomes one JSON-RPC internal error. The message is fixed:
     // a stack trace would tell a stranger about the inside of this function.
     return withCors(
       new Response(JSON.stringify({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal error' }, id: null }), {
@@ -72,8 +72,8 @@ export default async (req: Request, _context: Context): Promise<Response> => {
       }),
     );
   } finally {
-    // One server and transport per request, so both are closed per request —
-    // otherwise every invocation leaks the pair it built.
+    // One server and transport per request, so both are closed per request.
+    // Otherwise every invocation leaks the pair it built.
     await transport?.close();
     await server?.close();
   }

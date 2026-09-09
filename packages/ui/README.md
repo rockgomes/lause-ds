@@ -1,6 +1,6 @@
 # lause-ds
 
-Tokens and React components for the Lause design system, drawn from one real product — the
+Tokens and React components for the Lause design system, drawn from one real product: the
 Estonian citizenship exam trainer (`rockgomes/estonian-citizenship-test`). See the
 [full repo](https://github.com/rockgomes/lause-ds) for the tokens, Figma library and MCP server
 this package is built from.
@@ -27,18 +27,18 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 
 ## Components
 
-- `Keycap` — a keyboard hint that inherits its colour from whatever holds it.
-- `Button` — a pill button with filled, outline and dim variants, and an optional keycap.
-- `Progress` — the segmented bar under a screen: done, current and rest.
-- `Bar` — coverage of one domain: one segment per article, retained/covered/unread.
-- `Dial` — a segmented control that behaves as a radio group, with arrow-key selection.
-- `Tile` — an option or word tile: idle, selected, filled or dimmed.
-- `TileStack` — the column that holds option tiles, one per row.
-- `Bubble` — a translation bubble above a term: the gloss, a look-up count, and a promotion note.
-- `Sentence` — the reading unit: neighbours dimmed, terms as focusable buttons, marks and pins by dial level, English under in kõrvuti.
-- `Nav` — context, caps navigation that swaps to English while peeking, and controls; empty items in exam mode.
-- `Cell` / `CellGrid` — the 2×2 drill as a table, with row and column headers; shares Tile's idle/selected/filled/dimmed states.
-- `usePeek` — the peek gesture: held modifier or a latch, cleared on blur.
+- `Keycap`: a keyboard hint that inherits its colour from whatever holds it.
+- `Button`: a pill button with filled, outline and dim variants, and an optional keycap.
+- `Progress`: the segmented bar under a screen: done, current and rest.
+- `Bar`: coverage of one domain: one segment per article, retained/covered/unread.
+- `Dial`: a segmented control that behaves as a radio group, with arrow-key selection.
+- `Tile`: an option or word tile: idle, selected, filled or dimmed.
+- `TileStack`: the column that holds option tiles, one per row.
+- `Bubble`: a translation bubble above a term: the gloss, a look-up count, and a promotion note.
+- `Sentence`: the reading unit: neighbours dimmed, terms as focusable buttons, marks and pins by dial level, English under in kõrvuti.
+- `Nav`: context, caps navigation that swaps to English while peeking, and controls; empty items in exam mode.
+- `Cell` / `CellGrid`: the 2×2 drill as a table, with row and column headers; shares Tile's idle/selected/filled/dimmed states.
+- `usePeek`: the peek gesture: held modifier or a latch, cleared on blur.
 
 ## What the app owns
 
@@ -51,4 +51,4 @@ The theme replaces Tailwind's default scales (see below). Load Young Serif and I
 - The unofficial-translation note: required alongside the English text (`english: { text, note }`),
   because the app is the one asserting the translation is unofficial.
 
-## Licence — MIT
+## Licence: MIT
