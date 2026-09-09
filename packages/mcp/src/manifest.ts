@@ -268,11 +268,10 @@ function renderProp(prop: ManifestProp): string {
   const optional = prop.required ? '' : '?';
   const withDefault = prop.default !== undefined ? ` = ${prop.default}` : '';
   // A prop's doc text is often itself a colon-delimited list of the enum values (`filled: ...
-  // outline: ...`). Joining that onto `= 'filled'` with another colon reads as a doubled,
-  // duplicated field (`= 'filled': filled: ...`). A semicolon only shows up here when there is
-  // a default to separate the doc from, so it never collides with a colon inside the doc itself.
-  const docSeparator = prop.default !== undefined ? '; ' : ': ';
-  const withDoc = prop.doc ? `${docSeparator}${prop.doc}` : '';
+  // outline: ...`), and a type can carry its own punctuation (a union type uses ` | ` already).
+  // ` | ` is the one separator the token lines already use for the same job, so the prop line
+  // matches it instead of adding a third separator to the file.
+  const withDoc = prop.doc ? ` | ${prop.doc}` : '';
   return `- ${prop.name}${optional}: ${prop.type}${withDefault}${withDoc}`;
 }
 
@@ -368,6 +367,9 @@ export function renderLlms(manifest: Manifest, data: Data): string {
     ...tokenLines,
     '',
     '## Components',
+    '',
+    'Each prop line is `name: type = default | what it is for`, with `= default` only when the prop has ' +
+      'one. `|` is the same separator the token lines use above.',
     '',
     manifest.components.map(renderComponent).join('\n\n'),
     '',

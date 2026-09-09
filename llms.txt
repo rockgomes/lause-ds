@@ -61,12 +61,14 @@ shadow.tile: 0px 6px 18px 0px rgba(15, 34, 56, 0.10) (light) · 0px 6px 18px 0px
 
 ## Components
 
+Each prop line is `name: type = default | what it is for`, with `= default` only when the prop has one. `|` is the same separator the token lines use above.
+
 ### Keycap
 
 A keyboard hint. Inherits its colour, so it follows the text of whatever holds it.
 
 #### Props
-- held?: boolean = false; Drawn filled while the key is physically held, as ⌥ is during a peek.
+- held?: boolean = false | Drawn filled while the key is physically held, as ⌥ is during a peek.
 
 States: Default, Held, Row, Dark
 
@@ -78,8 +80,8 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 8:9)
 A pill button. Every control in Lause shows its key, so pass `keycap` whenever there is one.
 
 #### Props
-- variant?: 'filled' | 'outline' | 'dim' = 'filled'; filled: the one primary action. outline: secondary. dim: tertiary, text only.
-- keycap?: string: The key that triggers this action; drawn as a Keycap after the label.
+- variant?: 'filled' | 'outline' | 'dim' = 'filled' | filled: the one primary action. outline: secondary. dim: tertiary, text only.
+- keycap?: string | The key that triggers this action; drawn as a Keycap after the label.
 
 States: Filled, Hover, DisabledNoHover, Outline, Dim, Disabled, Bar, Dark
 
@@ -96,9 +98,9 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 9:65)
 The segmented bar under every screen: done in ink, current in accent, the rest faint.
 
 #### Props
-- total: number: Number of units: sentences, cards, questions, arrows.
-- current: number: Zero-based index of the current unit. Units before it are done. Pass `total` when everything is done.
-- label: string: Accessible name, e.g. "Lause 5 / 8".
+- total: number | Number of units: sentences, cards, questions, arrows.
+- current: number | Zero-based index of the current unit. Units before it are done. Pass `total` when everything is done.
+- label: string | Accessible name, e.g. "Lause 5 / 8".
 
 States: Midway, First, Last, Complete, Exam, Dark
 
@@ -113,8 +115,8 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (component 9:69)
 Coverage of one domain: one segment per article. Read and retained in ink, read but not retained in accent, unread faint.
 
 #### Props
-- segments: readonly BarSegment[]: One entry per article, in article order.
-- label: string: The counts in words, e.g. "Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10". This is the accessible name.
+- segments: readonly BarSegment[] | One entry per article, in article order.
+- label: string | The counts in words, e.g. "Riigikord: 4 kinnistunud, 2 loetud, 4 lugemata, kokku 10". This is the accessible name.
 
 States: Domain, Untouched, Rows, Dark
 
@@ -129,10 +131,10 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (component 9:81)
 A segmented control that behaves as a radio group: arrow keys move and select, Home/End jump.
 
 #### Props
-- options: readonly DialOption<V>[]: Two or three positions.
+- options: readonly DialOption<V>[] | Two or three positions.
 - value: V
 - onChange: (value: V) => void
-- label: string: Accessible name of the group, e.g. "Tugi".
+- label: string | Accessible name of the group, e.g. "Tugi".
 - disabled?: boolean = false
 
 States: Support, Hover, Keyboard, TwoPositions, Disabled, Dark
@@ -148,8 +150,8 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 10:35)
 An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item.
 
 #### Props
-- state?: 'idle' | 'selected' | 'filled' | 'dimmed' = 'idle'; idle: available. selected: chosen, accent ring. filled: written in, ink. dimmed: no longer relevant.
-- keycap?: string: The number key that picks this tile.
+- state?: 'idle' | 'selected' | 'filled' | 'dimmed' = 'idle' | idle: available. selected: chosen, accent ring. filled: written in, ink. dimmed: no longer relevant.
+- keycap?: string | The number key that picks this tile.
 
 States: Idle, Selected, Hover, Filled, Dimmed, Stack, TrueFalse, Dark
 
@@ -165,7 +167,7 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 11:69)
 The column that holds option tiles: 640px wide at most, one tile per row.
 
 #### Props
-- label: string: Accessible name of the group, e.g. "Vali õige vastus".
+- label: string | Accessible name of the group, e.g. "Vali õige vastus".
 
 States: Idle, Selected, Hover, Filled, Dimmed, Stack, TrueFalse, Dark
 
@@ -181,9 +183,9 @@ A translation bubble that sits above the word it belongs to. Render it inside an
 `position: relative`; it centres itself over that element and draws a tail down to it.
 
 #### Props
-- children: ReactNode: The translation.
-- count?: number: How many times this term has been looked up; shown as ×N in accent.
-- note?: string: A short note after the count, e.g. the app's promotion text.
+- children: ReactNode | The translation.
+- count?: number | How many times this term has been looked up; shown as ×N in accent.
+- note?: string | A short note after the count, e.g. the app's promotion text.
 
 States: Pinned, Promoted, NoCount, Dark
 
@@ -198,20 +200,20 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (component 12:5)
 The reading unit: one sentence at reading size, its neighbours dimmed, its terms openable.
 
 #### Props
-- segments: readonly Segment[]: The sentence in reading order: plain strings and markable terms.
-- previous?: string: The neighbours, dimmed above and below.
+- segments: readonly Segment[] | The sentence in reading order: plain strings and markable terms.
+- previous?: string | The neighbours, dimmed above and below.
 - next?: string
-- support: 'et' | 'tugi' | 'korvuti': The dial level. et: no marks, terms still open. tugi: marks. korvuti: marks and the English under.
-- pinned: readonly string[]: Term ids whose bubble is shown.
-- counts?: Readonly<Record<string, number>> = {}; Look-up tally per term id, shown in the bubble.
-- notes?: Readonly<Record<string, string>> = {}; Per-term note shown after the count, e.g. the promotion text at three look-ups.
-- peeking?: boolean = false; While true every gloss shows, pinned or not.
+- support: 'et' | 'tugi' | 'korvuti' | The dial level. et: no marks, terms still open. tugi: marks. korvuti: marks and the English under.
+- pinned: readonly string[] | Term ids whose bubble is shown.
+- counts?: Readonly<Record<string, number>> = {} | Look-up tally per term id, shown in the bubble.
+- notes?: Readonly<Record<string, string>> = {} | Per-term note shown after the count, e.g. the promotion text at three look-ups.
+- peeking?: boolean = false | While true every gloss shows, pinned or not.
 Announces nothing; the glosses are already in the accessibility tree and the app decides whether to announce the mode.
-- english?: { text: string; note: string }: The Riigi Teataja English and the fixed unofficial-translation line, shown under the sentence
+- english?: { text: string; note: string } | The Riigi Teataja English and the fixed unofficial-translation line, shown under the sentence
 in korvuti; the note is never optional because the text is an unofficial translation of
 constitutional law.
-- onToggle: (termId: string) => void: Called with the term id when a term is clicked or opened with Enter/Space.
-- label: string: Accessible name of the reading region, e.g. "Lause 5 / 8".
+- onToggle: (termId: string) => void | Called with the term id when a term is clicked or opened with Enter/Space.
+- label: string | Accessible name of the reading region, e.g. "Lause 5 / 8".
 
 States: Tugi, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
 
@@ -230,9 +232,9 @@ loses focus or is hidden; the latch is the app's and survives blur. The modifier
 is cancelled so it cannot move focus to the browser's menu bar.
 
 #### Props
-- latched?: boolean = false; The latch: holds the peek on without the key.
-- key?: string = 'Alt'; The modifier that peeks while held.
-- enabled?: boolean = true; Set false to register no listeners and report `held: false`, e.g. while the reader is off-screen.
+- latched?: boolean = false | The latch: holds the peek on without the key.
+- key?: string = 'Alt' | The modifier that peeks while held.
+- enabled?: boolean = true | Set false to register no listeners and report `held: false`, e.g. while the reader is off-screen.
 
 Source: packages/ui/src/usePeek/usePeek.ts
 
@@ -241,13 +243,13 @@ Source: packages/ui/src/usePeek/usePeek.ts
 The top chrome: context left, caps navigation centre, controls right.
 
 #### Props
-- context: ReactNode: Top-left: where the learner is, e.g. "§ 60 · lause 5 / 8".
-- items: readonly NavItem[]: The centre items. Empty in exam mode.
-- current?: string: The current item's id.
-- peeking?: boolean = false; While true the items read their English labels. The chrome swaps; it never gains a subtitle.
-- controls?: ReactNode: Top-right: the dial and the peek hint, or the exam's one action.
-- label: string: Accessible name of the navigation.
-- onNavigate?: (id: string) => void: Supply this when the app owns routing. A plain left-click then calls it with the item id and
+- context: ReactNode | Top-left: where the learner is, e.g. "§ 60 · lause 5 / 8".
+- items: readonly NavItem[] | The centre items. Empty in exam mode.
+- current?: string | The current item's id.
+- peeking?: boolean = false | While true the items read their English labels. The chrome swaps; it never gains a subtitle.
+- controls?: ReactNode | Top-right: the dial and the peek hint, or the exam's one action.
+- label: string | Accessible name of the navigation.
+- onNavigate?: (id: string) => void | Supply this when the app owns routing. A plain left-click then calls it with the item id and
 suppresses the browser's own navigation; modifier and middle clicks still open the link.
 Leave it out and the links navigate by themselves.
 
@@ -264,9 +266,9 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 15:71)
 One cell of the 2×2 drill: the subject, the verdict, and its key.
 
 #### Props
-- subject: string: The row's subject, e.g. "Igaüks".
-- verdict?: string: The column's verdict, e.g. "tohib piirata".
-- keycap?: string: The number key that picks this cell.
+- subject: string | The row's subject, e.g. "Igaüks".
+- verdict?: string | The column's verdict, e.g. "tohib piirata".
+- keycap?: string | The number key that picks this cell.
 - state?: 'idle' | 'selected' | 'filled' | 'dimmed' = 'idle'
 
 States: Idle, Selected, Filled, Dimmed, Grid, Dark
@@ -282,10 +284,10 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 16:101)
 The 2×2 drill laid out as a table, so the headers are read with each cell.
 
 #### Props
-- rows: readonly [string, string]: The two row headers, top to bottom.
-- columns: readonly [string, string]: The two column headers, left to right.
-- label: string: Accessible name of the table.
-- children: readonly [ReactNode, ReactNode, ReactNode, ReactNode]: Exactly four cells, in reading order: row 1 left, row 1 right, row 2 left, row 2 right.
+- rows: readonly [string, string] | The two row headers, top to bottom.
+- columns: readonly [string, string] | The two column headers, left to right.
+- label: string | Accessible name of the table.
+- children: readonly [ReactNode, ReactNode, ReactNode, ReactNode] | Exactly four cells, in reading order: row 1 left, row 1 right, row 2 left, row 2 right.
 - className?: string
 
 States: Idle, Selected, Filled, Dimmed, Grid, Dark

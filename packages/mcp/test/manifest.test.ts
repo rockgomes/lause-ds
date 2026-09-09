@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { generateManifest, renderLlms } from '../src/manifest.js';
 import { loadData } from '../src/data.js';
 
-const root = new URL('../../../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../../../', import.meta.url));
 const manifest = generateManifest(root);
 
 describe('manifest', () => {
@@ -65,10 +66,13 @@ describe('llms.txt', () => {
     expect(txt).toContain('shadow.tile: 0px 6px 18px 0px rgba(15, 34, 56, 0.10) (light)');
   });
 
-  it('separates a default value from a doc that is itself a colon-delimited list', () => {
+  it('separates the doc from the rest of the line with the same bar the token lines use, whether the prop has a default or not', () => {
+    // With a default: the doc text is itself a colon-delimited list of the enum values.
     expect(txt).toContain(
-      "- variant?: 'filled' | 'outline' | 'dim' = 'filled'; filled: the one primary action. outline: secondary. dim: tertiary, text only.",
+      "- variant?: 'filled' | 'outline' | 'dim' = 'filled' | filled: the one primary action. outline: secondary. dim: tertiary, text only.",
     );
+    // Without a default: the doc text also contains a colon of its own.
+    expect(txt).toContain('- total: number | Number of units: sentences, cards, questions, arrows.');
   });
 
   it('puts each component under ## Components as a ### heading', () => {
