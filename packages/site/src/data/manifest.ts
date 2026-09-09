@@ -37,7 +37,7 @@ export type ComponentDoc = {
 // TileStack and CellGrid have no story (Storybook docs id `tile--docs` / `cell--docs`, not
 // `tilestack--docs` / `cellgrid--docs`) and no set of their own in the library file: both fall
 // back to the master they compose (Tile, Cell). usePeek is a hook with no Figma component at all.
-// Reused for both storybookUrl and figmaUrl below.
+// Reused for both storybookUrl and figmaUrl below. scripts/check-storybook-links.mjs mirrors this map.
 const FIGMA_FALLBACK_NAME: Record<string, string> = { TileStack: 'Tile', CellGrid: 'Cell' };
 
 function figmaUrlFor(name: string): string | undefined {
