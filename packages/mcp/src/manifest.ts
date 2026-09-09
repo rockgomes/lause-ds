@@ -268,11 +268,12 @@ function renderProp(prop: ManifestProp): string {
   const optional = prop.required ? '' : '?';
   const withDefault = prop.default !== undefined ? ` = ${prop.default}` : '';
   // A prop's doc text is often itself a colon-delimited list of the enum values (`filled: ...
-  // outline: ...`), and a type can carry its own punctuation (a union type uses ` | ` already).
-  // ` | ` is the one separator the token lines already use for the same job, so the prop line
-  // matches it instead of adding a third separator to the file.
+  // outline: ...`), and a union type carries its own ` | ` already. Wrapping the type (and its
+  // default, if any) in backticks gives the boundary a structural marker instead of a guessed
+  // separator: a parser reads the type as the text between the first backtick and the next, then
+  // the doc text, if there is any, after the ` | ` that follows the closing backtick.
   const withDoc = prop.doc ? ` | ${prop.doc}` : '';
-  return `- ${prop.name}${optional}: ${prop.type}${withDefault}${withDoc}`;
+  return `- ${prop.name}${optional}: \`${prop.type}${withDefault}\`${withDoc}`;
 }
 
 function renderComponent(component: ManifestComponent): string {
@@ -372,8 +373,10 @@ export function renderLlms(manifest: Manifest, data: Data): string {
     '',
     '## Components',
     '',
-    'Each prop line is `name: type = default | what it is for`, with `= default` only when the prop has ' +
-      'one. `|` is the same separator the token lines use above.',
+    'A prop line is `name: ` then the type in backticks, with `= default` inside them when the prop has ' +
+      'one, then ` | ` and the doc text, or nothing more when there is none. Read the type as the text ' +
+      "between the first backtick and the next: a union's own `|` sits inside those backticks, so it is " +
+      'never mistaken for the separator before the doc text.',
     '',
     manifest.components.map(renderComponent).join('\n\n'),
     '',

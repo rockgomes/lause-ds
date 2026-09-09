@@ -66,13 +66,22 @@ describe('llms.txt', () => {
     expect(txt).toContain('shadow.tile: 0px 6px 18px 0px rgba(15, 34, 56, 0.10) (light)');
   });
 
-  it('separates the doc from the rest of the line with the same bar the token lines use, whether the prop has a default or not', () => {
-    // With a default: the doc text is itself a colon-delimited list of the enum values.
+  it('wraps the type in backticks so a union type\'s own bar is never mistaken for the doc separator', () => {
+    // With a default: the type is a union, and the doc text is itself a colon-delimited list of
+    // the enum values. The backticks close right after the default, before the doc text begins.
     expect(txt).toContain(
-      "- variant?: 'filled' | 'outline' | 'dim' = 'filled' | filled: the one primary action. outline: secondary. dim: tertiary, text only.",
+      "- variant?: `'filled' | 'outline' | 'dim' = 'filled'` | filled: the one primary action. outline: secondary. dim: tertiary, text only.",
     );
-    // Without a default: the doc text also contains a colon of its own.
-    expect(txt).toContain('- total: number | Number of units: sentences, cards, questions, arrows.');
+    // Without a default: a plain type, still fenced, and the doc text also contains a colon of its own.
+    expect(txt).toContain('- total: `number` | Number of units: sentences, cards, questions, arrows.');
+  });
+
+  it('never lets a prop type carry a backtick, since that would break the delimiter', () => {
+    for (const component of manifest.components) {
+      for (const prop of component.props) {
+        expect(prop.type).not.toContain('`');
+      }
+    }
   });
 
   it('puts each component under ## Components as a ### heading', () => {
