@@ -167,14 +167,14 @@ function readTextOrPlaceholder(path: string): string {
  * The manifest entry for `name` plus its source and story file text. Unknown
  * names return an error listing every known component name, in manifest
  * order, rather than guessing. When `data.sources[dirName]` is present (the
- * hosted Netlify function's bundled data — see `dataFromBundle`), where `dirName`
+ * hosted Netlify function's bundled data; see `dataFromBundle`), where `dirName`
  * is the directory name derived from `component.source`, its text is used
  * directly; otherwise the source and story files are read from `root`,
  * which is how stdio and tests still work. Either way, a missing source or
  * story file yields the placeholder string rather than throwing.
  *
  * `root` is optional and `findRoot()` is called only when the bundle misses,
- * so the hosted function — which always hits the bundle — never touches the
+ * so the hosted function, which always hits the bundle, never touches the
  * filesystem, not even to discover a root it would not read from.
  */
 export function getComponent(data: Data, name: string, root?: string): GetComponentResult {

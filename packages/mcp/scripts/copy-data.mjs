@@ -6,17 +6,17 @@ const out = join(root, 'packages/mcp/dist/data');
 mkdirSync(join(out, 'tokens'), { recursive: true });
 mkdirSync(join(out, 'figma'), { recursive: true });
 
-// components.manifest.json and llms.txt land in Task 2 — skip them (with a
+// components.manifest.json and llms.txt land in Task 2: skip them (with a
 // warning) rather than fail the build until they exist.
 //
 // theme.css is bundled too: check-usage.ts reads it to build the closed-theme
 // key set, and the published package layout has no monorepo root to find it
-// at its usual `packages/ui/src/tokens/theme.css` path — so it's copied here
+// at its usual `packages/ui/src/tokens/theme.css` path, so it's copied here
 // at that same relative path under `dist/data`, which is exactly where
 // `findRoot()` points a published install.
 //
 // Every one of these files is also read into `bundle.json` below (as parsed
-// JSON or raw text, `null` when missing) — the hosted Netlify function reads
+// JSON or raw text, `null` when missing): the hosted Netlify function reads
 // that bundle instead of discovering these files on disk at runtime, since
 // the deployed esbuild bundle has neither a monorepo root nor these paths.
 const FILES = [
@@ -59,7 +59,7 @@ const bundle = {
 };
 
 // getComponent reads a component's source and story text straight off disk
-// (packages/ui/src/<Name>/<Name>.tsx and <Name>.stories.tsx) — a published
+// (packages/ui/src/<Name>/<Name>.tsx and <Name>.stories.tsx): a published
 // install has no monorepo to find those in, so they're bundled here too, at
 // the same relative path `findRoot()` resolves to in that layout, and their
 // text is also recorded into `bundle.sources` so the hosted function never
@@ -69,7 +69,7 @@ const bundle = {
 // for whatever doesn't make it into the bundle.
 //
 // The main source file is usually `<Name>.tsx`, but a hook like usePeek has
-// no JSX and lives in `<Name>.ts` instead — try `.tsx` first, then fall back
+// no JSX and lives in `<Name>.ts` instead: try `.tsx` first, then fall back
 // to `.ts`.
 const uiSrc = join(root, 'packages/ui/src');
 if (existsSync(uiSrc)) {
@@ -90,7 +90,7 @@ if (existsSync(uiSrc)) {
     }
     if (sourceText === null) {
       console.warn(`copy-data: skipping missing packages/ui/src/${name}/${name}.tsx`);
-      continue; // no main source at all — no bundle entry for this directory
+      continue; // no main source at all, no bundle entry for this directory
     }
 
     const storiesRel = `packages/ui/src/${name}/${name}.stories.tsx`;

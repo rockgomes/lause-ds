@@ -8,6 +8,6 @@ export default defineConfig({
   server: {
     // The MCP function only exists in a Netlify deploy; in `vite dev` the
     // Ask panel talks to production.
-    proxy: { '/mcp': { target: 'https://shiny-frangipane-78fc08.netlify.app', changeOrigin: true } },
+    proxy: { '/mcp': { target: 'https://lause-ds.netlify.app', changeOrigin: true } },
   },
 });

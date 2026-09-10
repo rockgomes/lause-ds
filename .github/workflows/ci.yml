@@ -21,6 +21,13 @@ jobs:
       - run: npm run typecheck
       - run: npm run build:site
       - run: npm run check:site
+      - run: npm run check:storybook-links
       - name: fail if generated files drifted
         run: git add -A tokens packages/ui/src/tokens figma components.manifest.json llms.txt && git diff --cached --exit-code -- tokens packages/ui/src/tokens figma components.manifest.json llms.txt
+      - name: no em dashes
+        run: |
+          if git grep -n $'\xe2\x80\x94' -- . ':!package-lock.json'; then
+            echo 'Em dashes are not allowed in this repo. Use a comma, a colon, a full stop or brackets.'
+            exit 1
+          fi
       - run: npm test

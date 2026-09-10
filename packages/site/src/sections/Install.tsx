@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
 import { clsx } from 'clsx';
-import { Button } from 'lause-ds';
+import { Button, focusRing } from 'lause-ds';
 import library from '../../../../figma/library.json';
-import { focusRing } from '../styles.js';
 
 // Minimal local copy of the shape read off `figma/library.json`, see `data/manifest.ts` for the
 // same pattern (the site must not depend on the server package, and the manifest's own file
@@ -13,7 +12,7 @@ const libraryData = library as unknown as Library;
 const COMMANDS: readonly { command: string; description: string }[] = [
   { command: 'npm install lause-ds', description: 'the React components and the Tailwind theme' },
   {
-    command: 'claude mcp add --transport http lause https://shiny-frangipane-78fc08.netlify.app/mcp',
+    command: 'claude mcp add --transport http lause https://lause-ds.netlify.app/mcp',
     description: 'the hosted MCP server, no install',
   },
   { command: 'npx lause-ds-mcp', description: 'the same server over stdio, from npm' },

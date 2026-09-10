@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
-// typescript 7 (tsgo) exposes the compiler API only under unstable/; pinned exactly in the root package.json — revisit on any TypeScript bump.
+// typescript 7 (tsgo) exposes the compiler API only under unstable/; pinned exactly in the root package.json: revisit on any TypeScript bump.
 import { API, SignatureKind, SymbolFlags, type Checker, type Program, type Symbol as ApiSymbol, type Type } from 'typescript/unstable/sync';
 import {
   SyntaxKind,
@@ -87,7 +87,7 @@ function samePath(a: string, b: string): boolean {
 
 /**
  * Resolves a type annotation to the source text of a literal union, following
- * simple (non-generic) type-alias references up to a few hops — e.g.
+ * simple (non-generic) type-alias references up to a few hops, e.g.
  * `state?: TileState` where `TileState = SurfaceState` and `SurfaceState` is
  * itself the union. Returns `undefined` when the annotation isn't (or does
  * not lead to) a union purely of literal types, so the caller can fall back
@@ -116,7 +116,7 @@ function literalUnionText(checker: Checker, annotation: TypeNode | undefined): s
 /**
  * The type string for a prop: a literal union is expanded (`ButtonVariant` → `'filled' | 'outline' |
  * 'dim'`), following simple alias hops as `literalUnionText` does; anything else prints as written
- * in the property's own annotation, e.g. `ReactNode` rather than `ReactNode`'s expansion — which
+ * in the property's own annotation, e.g. `ReactNode` rather than `ReactNode`'s expansion, which
  * `checker.typeToString` gives for a *union* alias only when nothing forces it to rebuild the type
  * (an optional property's `NonNullable` does). Falls back to `checker.typeToString(fallback)` on the
  * rare property with no parseable annotation node.
@@ -267,8 +267,13 @@ export function generateManifest(root: string): Manifest {
 function renderProp(prop: ManifestProp): string {
   const optional = prop.required ? '' : '?';
   const withDefault = prop.default !== undefined ? ` = ${prop.default}` : '';
-  const withDoc = prop.doc ? ` — ${prop.doc}` : '';
-  return `- ${prop.name}${optional}: ${prop.type}${withDefault}${withDoc}`;
+  // A prop's doc text is often itself a colon-delimited list of the enum values (`filled: ...
+  // outline: ...`), and a union type carries its own ` | ` already. Wrapping the type (and its
+  // default, if any) in backticks gives the boundary a structural marker instead of a guessed
+  // separator: a parser reads the type as the text between the first backtick and the next, then
+  // the doc text, if there is any, after the ` | ` that follows the closing backtick.
+  const withDoc = prop.doc ? ` | ${prop.doc}` : '';
+  return `- ${prop.name}${optional}: \`${prop.type}${withDefault}\`${withDoc}`;
 }
 
 function renderComponent(component: ManifestComponent): string {
@@ -305,14 +310,14 @@ function renderUtilities(entry: TokenEntry): string {
  * One token per line, in the form a reader can act on without a second
  * lookup: the resolved value in both modes, then the Tailwind utility and
  * the CSS custom property, then what the token is for. The values, the
- * utility keys and the custom properties all come from `listTokens` — the
+ * utility keys and the custom properties all come from `listTokens`, the
  * same mapping the `list_tokens` tool serves, not a second copy of it.
  */
 function renderTokenLine(entry: TokenEntry): string {
   const light = renderTokenValue(entry.light);
   const dark = renderTokenValue(entry.dark);
-  const description = entry.description ? ` — ${entry.description}` : '';
-  return `${entry.name}: ${light} (light) · ${dark} (dark) — ${renderUtilities(entry)} · ${entry.css}${description}`;
+  const description = entry.description ? ` | ${entry.description}` : '';
+  return `${entry.name}: ${light} (light) · ${dark} (dark) | ${renderUtilities(entry)} · ${entry.css}${description}`;
 }
 
 const INSTALL_SECTION = [
@@ -340,6 +345,10 @@ const INSTALL_SECTION = [
   '',
   "Every component already carries `'use client'`, so it works as it is in a React Server Components app. " +
     'Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).',
+  '',
+  'To style a plain element the same way the components do, import the shared style constants: ' +
+    '`focusRing`, `disabledControl`, `hitTarget`, `hoverFade`, and the `SurfaceState` type ' +
+    "(`'idle' | 'selected' | 'filled' | 'dimmed'`) behind `Tile` and `Cell`.",
 ];
 
 /** Renders `llms.txt`: the tokens and components an AI tool should read before touching this code. */
@@ -351,18 +360,23 @@ export function renderLlms(manifest: Manifest, data: Data): string {
     '',
     'Lause is the design system behind an Estonian-citizenship exam trainer: tokens, components, and the usage ' +
       'rules an AI tool needs before touching this code. This file and components.manifest.json are generated by ' +
-      '`npm run build:manifest` — read them before the source.',
+      '`npm run build:manifest`. Read them before the source.',
     '',
     ...INSTALL_SECTION,
     '',
     '## Tokens',
     '',
-    'Each line is `token: light · dark — Tailwind utility · CSS custom property — what it is for`. The theme is ' +
+    'Each line is `token: light · dark | Tailwind utility · CSS custom property | what it is for`. The theme is ' +
       'closed: these utilities exist, anything else (`bg-red-500`, `p-11`) does not.',
     '',
     ...tokenLines,
     '',
     '## Components',
+    '',
+    'A prop line is `name: ` then the type in backticks, with `= default` inside them when the prop has ' +
+      'one, then ` | ` and the doc text, or nothing more when there is none. Read the type as the text ' +
+      "between the first backtick and the next: a union's own `|` sits inside those backticks, so it is " +
+      'never mistaken for the separator before the doc text.',
     '',
     manifest.components.map(renderComponent).join('\n\n'),
     '',

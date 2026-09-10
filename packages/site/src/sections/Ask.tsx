@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { clsx } from 'clsx';
-import { Button, Dial, type DialOption } from 'lause-ds';
+import { Button, Dial, focusRing, hitTarget, type DialOption } from 'lause-ds';
 import { callTool, type ToolName } from '../mcp-client.js';
 import { componentDocs } from '../data/manifest.js';
-import { focusRing, hitTarget } from '../styles.js';
 
 type Mode = 'tokens' | 'component' | 'check';
 

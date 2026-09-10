@@ -1,4 +1,4 @@
-# Lause DS — Plan 1: Foundation and Tokens
+# Lause DS, Plan 1: Foundation and Tokens
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** Node 24, npm workspaces, TypeScript 5, vitest, tsx, culori (OKLCH conversion, gamut clamping, WCAG contrast), GitHub Actions.
 
-**Spec:** `docs/specs/2026-09-03-lause-ds-design.md` — §2 decisions 3, 6, 10; §3 tokens.
+**Spec:** `docs/specs/2026-09-03-lause-ds-design.md`, §2 decisions 3, 6, 10; §3 tokens.
 
 **Roadmap (later plans, not here):** Plan 2 components + Storybook + axe + changesets; Plan 3 Figma library via the Figma MCP; Plan 4 MCP server on Netlify Functions; Plan 5 docs site and release.
 
@@ -216,9 +216,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 - Produces:
   - `type Token = { $type: string; $value: unknown; $description?: string }`
   - `type Group = { [key: string]: Token | Group }`
-  - `flatten(group: Group): Map<string, Token>` — keys are dot paths (`color.navy.500`)
-  - `isAlias(value: unknown): value is string` — true for `"{a.b.c}"`
-  - `resolve(path: string, ...groups: Group[]): Token` — follows aliases across the given groups; throws `Error("unresolved alias {x}")` when a path is missing; throws on cycles.
+  - `flatten(group: Group): Map<string, Token>`: keys are dot paths (`color.navy.500`)
+  - `isAlias(value: unknown): value is string`: true for `"{a.b.c}"`
+  - `resolve(path: string, ...groups: Group[]): Token`: follows aliases across the given groups; throws `Error("unresolved alias {x}")` when a path is missing; throws on cycles.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -634,7 +634,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 - [ ] **Step 2: Write the dark file**
 
-`tokens/semantic.dark.tokens.json` — same keys; only the `color` group differs:
+`tokens/semantic.dark.tokens.json`: same keys; only the `color` group differs:
 ```json
 {
   "color": {
@@ -799,7 +799,7 @@ export function checkPairs(pairs: Pair[], semantic: Group, prim: Group): Result[
 - [ ] **Step 5: Run, and tune until it passes**
 
 Run: `npx vitest run packages/tokens/test/contrast.test.ts`
-Expected: 3 passed. If a pair fails, the fix is in the semantic file, not the test: move that token one step darker (light mode) or lighter (dark mode) — `dim` navy.600 → navy.700, `accent-text` coral.700 → coral.800, dark `dim` ice.400 → ice.300 — re-run, and record every move with its ratio in the task report and in `docs/specs/2026-09-03-lause-ds-design.md` §3 next to the token. Never lower a minimum.
+Expected: 3 passed. If a pair fails, the fix is in the semantic file, not the test: move that token one step darker (light mode) or lighter (dark mode) (`dim` navy.600 → navy.700, `accent-text` coral.700 → coral.800, dark `dim` ice.400 → ice.300), re-run, and record every move with its ratio in the task report and in `docs/specs/2026-09-03-lause-ds-design.md` §3 next to the token. Never lower a minimum.
 
 - [ ] **Step 6: Commit**
 
@@ -820,10 +820,10 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 **Interfaces:**
 - Consumes: `flatten`, `resolve`, `isAlias` (Task 2).
 - Produces:
-  - `emitTokensCss(prim: Group, light: Group, dark: Group): string` — `:root { --lause-<path>: … }` for every primitive and every light semantic, then `[data-theme="dark"] { … }` for dark semantics. Semantic values reference primitives with `var(--lause-…)`. Typography composites emit four properties: `--lause-type-reading-font`, `-size`, `-leading`, `-weight`.
-  - `emitThemeCss(light: Group): string` — a Tailwind v4 `@theme inline { … }` block mapping `--color-<name>`, `--font-<name>`, `--radius-<name>`, `--shadow-<name>`, `--text-<role>`, `--text-<role>--line-height` to the `--lause-*` variables.
+  - `emitTokensCss(prim: Group, light: Group, dark: Group): string`: `:root { --lause-<path>: … }` for every primitive and every light semantic, then `[data-theme="dark"] { … }` for dark semantics. Semantic values reference primitives with `var(--lause-…)`. Typography composites emit four properties: `--lause-type-reading-font`, `-size`, `-leading`, `-weight`.
+  - `emitThemeCss(light: Group): string`: a Tailwind v4 `@theme inline { … }` block mapping `--color-<name>`, `--font-<name>`, `--radius-<name>`, `--shadow-<name>`, `--text-<role>`, `--text-<role>--line-height` to the `--lause-*` variables.
   - `emitFigmaVariables(prim: Group, light: Group, dark: Group): FigmaFile` where `FigmaFile = { collections: { name: string; modes: string[]; variables: { name: string; type: 'COLOR' | 'FLOAT' | 'STRING'; values: Record<string, string | number> }[] }[] }`. Two collections: `Primitives` (one mode `Value`) and `Semantic` (modes `Light`, `Dark`). Names use `/` (`color/navy/500`). Colours are hex strings; dimensions and numbers are floats; font families are strings (first family).
-  - `cssName(path: string): string` — `color.navy.500` → `--lause-color-navy-500`.
+  - `cssName(path: string): string`: `color.navy.500` → `--lause-color-navy-500`.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -936,7 +936,7 @@ function semanticLines(group: Group): string[] {
 export function emitTokensCss(prim: Group, light: Group, dark: Group): string {
   const primLines = [...flatten(prim)].map(([path, t]) => `  ${cssName(path)}: ${raw(t)};`);
   return [
-    '/* generated by @lause-ds/tokens — do not edit */',
+    '/* generated by @lause-ds/tokens, do not edit */',
     ':root {',
     ...primLines,
     ...semanticLines(light),
@@ -1199,7 +1199,7 @@ git commit -m "docs: foundation status and how to use the tokens
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 git push -u origin feat/foundation
-gh pr create --base main --head feat/foundation --title "feat: foundation — workspace, CI, and the token pipeline" --body "Plan 1 of the Lause design system.
+gh pr create --base main --head feat/foundation --title "feat: foundation: workspace, CI, and the token pipeline" --body "Plan 1 of the Lause design system.
 
 - npm workspace, TypeScript, vitest, GitHub Actions CI (build, drift check, tests)
 - tokens: OKLCH colour ramps from three anchors; type ramp 16 × 1.2 exposed as roles; space, radius, leading, shadow, fonts, opacity
