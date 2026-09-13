@@ -1,5 +1,15 @@
 # lause-ds
 
+## 0.3.0
+
+### Minor Changes
+
+- 6e8a758: Export the shared class strings focusRing, disabledControl, hitTarget and hoverFade, and the SurfaceState type, so consumers style their own links and controls the way the components do.
+
+### Patch Changes
+
+- afe9006: Keycap: drop a leading-none class the closed theme never defined. No visual change.
+
 ## 0.2.0
 
 ### Minor Changes

@@ -6,4 +6,4 @@
  * drifts from `packages/mcp/package.json`, so a version bump cannot ship
  * without updating it.
  */
-export const VERSION = '0.1.1';
+export const VERSION = '0.1.2';
