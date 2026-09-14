@@ -88,6 +88,66 @@ export const Tugi: Story = {
   },
 };
 
+/**
+ * Estimates the visible top of a term's letters from its button's bounding rect.
+ *
+ * `getBoundingClientRect()` on the term button returns the top of its own CSS line box, not the
+ * font box: the button carries the same paired font-size/line-height utility as the reading
+ * paragraph (a generous "open" leading), so the rect top sits half a leading above the font's
+ * ascent, and the font's ascent itself sits well above the capitals (Young Serif's font box, ascent
+ * plus descent, is about 1.2em; its capitals are about 0.7em). Both offsets are approximated here
+ * from the measured font-size and line-height, using those two ratios.
+ */
+function approximateLetterTop(term: Element): number {
+  const rect = term.getBoundingClientRect();
+  const style = getComputedStyle(term);
+  const fontSize = Number.parseFloat(style.fontSize);
+  const lineHeight = Number.parseFloat(style.lineHeight);
+  const fontBox = fontSize * 1.2;
+  const capHeight = fontSize * 0.7;
+  const halfLeading = (lineHeight - fontBox) / 2;
+  const emptyAscent = fontBox - capHeight;
+  return rect.top + halfLeading + emptyAscent;
+}
+
+/** The bubble's bottom edge, tail included (the tail is an 8px CSS triangle, drawn outside the box). */
+function bubbleBottomWithTail(note: Element): number {
+  return note.getBoundingClientRect().bottom + 8;
+}
+
+export const Gap: Story = {
+  name: 'gap above the word (57px reading size)',
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const region = canvas.getByRole('region', { name: 'Lause 5 / 8' });
+    const terms = within(region).getAllByRole('button');
+    await userEvent.click(terms[0]);
+    const note = canvas.getByRole('note');
+
+    const gap = approximateLetterTop(terms[0]) - bubbleBottomWithTail(note);
+    await expect(gap).toBeGreaterThanOrEqual(2);
+    await expect(gap).toBeLessThanOrEqual(16);
+    restFocus();
+  },
+};
+
+export const GapNarrow: Story = {
+  name: 'gap above the word (40px narrow reading size)',
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const region = canvas.getByRole('region', { name: 'Lause 5 / 8' });
+    const terms = within(region).getAllByRole('button');
+    await userEvent.click(terms[0]);
+    const note = canvas.getByRole('note');
+
+    const gap = approximateLetterTop(terms[0]) - bubbleBottomWithTail(note);
+    await expect(gap).toBeGreaterThanOrEqual(2);
+    await expect(gap).toBeLessThanOrEqual(16);
+    restFocus();
+  },
+};
+
 export const Keyboard: Story = {
   play: async ({ canvasElement, args }) => {
     const terms = within(canvasElement).getAllByRole('button');

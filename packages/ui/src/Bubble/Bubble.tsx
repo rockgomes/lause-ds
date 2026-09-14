@@ -21,7 +21,7 @@ export function Bubble({ children, count, note, className, ...rest }: BubbleProp
     <span
       role="note"
       className={clsx(
-        'pointer-events-none absolute bottom-full left-1/2 mb-8 -translate-x-1/2 max-w-[min(320px,90vw)] whitespace-normal text-balance sm:max-w-none sm:whitespace-nowrap rounded-bubble bg-ink px-12 py-4 font-chrome italic text-title font-normal text-on-ink',
+        'pointer-events-none absolute bottom-full left-1/2 -mb-8 sm:-mb-16 -translate-x-1/2 max-w-[min(320px,90vw)] whitespace-normal text-balance sm:max-w-none sm:whitespace-nowrap rounded-bubble bg-ink px-12 py-4 font-chrome italic text-title font-normal text-on-ink',
         // the tail
         "after:absolute after:left-1/2 after:top-full after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-ink after:content-['']",
         className,

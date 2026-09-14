@@ -397,6 +397,8 @@
       ],
       "states": [
         "Tugi",
+        "Gap",
+        "GapNarrow",
         "Keyboard",
         "TwoPins",
         "Peeking",
