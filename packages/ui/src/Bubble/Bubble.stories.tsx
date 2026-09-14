@@ -39,8 +39,8 @@ export const Promoted: Story = { args: { children: 'with the right to vote', cou
 export const NoCount: Story = { args: { count: undefined } };
 
 /**
- * A gloss wider than the word it sits over must still render as one line: the Sentence's line
- * height (1.85) exists so a one-line bubble never covers the line above it.
+ * A gloss wider than the word it sits over must render as one line at 640px and up
+ * (never covering the line above), and wrap at narrower widths to stay inside the column.
  */
 export const LongGloss: Story = {
   args: { children: 'with the right to vote', count: 3 },
@@ -52,6 +52,26 @@ export const LongGloss: Story = {
     const lineHeight = Number.parseFloat(style.lineHeight);
     const height = note.getBoundingClientRect().height;
     await expect(height).toBeLessThan(lineHeight * 2);
+  },
+};
+
+/**
+ * At 320px viewport width, the long gloss wraps and stays inside the section's bounds.
+ */
+export const LongGlossNarrow: Story = {
+  args: { children: 'with the right to vote', count: 3 },
+  render: (args) => <Word bubble={<Bubble {...args} />}>x</Word>,
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    const style = getComputedStyle(note);
+    await expect(style.whiteSpace).toBe('normal');
+    const section = note.closest('section') || note.closest('p')?.parentElement;
+    if (section) {
+      const noteBounds = note.getBoundingClientRect();
+      const sectionBounds = section.getBoundingClientRect();
+      await expect(noteBounds.right).toBeLessThanOrEqual(sectionBounds.right + 1);
+    }
   },
 };
 
