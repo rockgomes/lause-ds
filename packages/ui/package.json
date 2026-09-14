@@ -1,6 +1,6 @@
 {
   "name": "lause-ds",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": false,
   "type": "module",
   "description": "Lause design system: tokens and React components.",

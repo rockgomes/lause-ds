@@ -1,5 +1,11 @@
 # lause-ds
 
+## 0.3.1
+
+### Patch Changes
+
+- 6ddfddc: Bubble: one line from 640px up, so a gloss wider than its word never covers the line above. Below 640px it still wraps inside the column until phones get their own gloss note.
+
 ## 0.3.0
 
 ### Minor Changes
