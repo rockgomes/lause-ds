@@ -46,7 +46,7 @@ const FAMILY_CLASS: Record<'content' | 'chrome', string> = {
 // The family token names, shown as plain text in the caption, never as CSS or a class name, so
 // this never trips the raw-font-name check (that check only looks at styling contexts).
 const FAMILY_NAME: Record<'content' | 'chrome', string> = {
-  content: 'Young Serif',
+  content: 'Source Serif 4',
   chrome: 'Instrument Sans',
 };
 

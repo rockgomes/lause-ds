@@ -31,6 +31,8 @@ Two audiences, one artefact.
 | 9 | The MCP server runs on Netlify Functions, in the same repo and deploy as the docs site | One host, one pipeline, a preview per pull request; fits the git-connected, CI-on-every-push rule |
 | 10 | WCAG AA on every component, checked in CI: a script tests every token contrast pair, every Storybook story runs an axe check, a failing check fails the pull request | Contrast is a gate, not an afterthought; a visible failing check is the proof |
 
+Update (2026-09-15, Rock's decision): the content font (`font.family.serif`) became Source Serif 4, replacing Young Serif, for legibility.
+
 ## 3. Tokens
 
 Format: W3C Design Tokens Community Group JSON (`*.tokens.json`). Three tiers.

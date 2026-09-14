@@ -22,7 +22,7 @@ Then import components normally:
 import { Button, Dial, Tile, TileStack } from 'lause-ds';
 ```
 
-The theme replaces Tailwind's default scales (see below). Load Young Serif and Instrument Sans yourself
+The theme replaces Tailwind's default scales (see below). Load Source Serif 4 and Instrument Sans yourself
 (Google Fonts, or self-hosted).
 
 ## Components

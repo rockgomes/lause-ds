@@ -69,7 +69,7 @@ const RULES_BY_COMPONENT: Record<string, string[]> = {
 // The system-wide rules every component obeys, regardless of what it is.
 const SYSTEM_RULES: string[] = [
   'Use only token utilities: the Tailwind theme is closed, so bg-red-500 or p-11 do not exist.',
-  'Two fonts only: font-content (Young Serif) for what is being learned, font-chrome (Instrument Sans) for the app.',
+  'Two fonts only: font-content (Source Serif 4) for what is being learned, font-chrome (Instrument Sans) for the app.',
   'Type is used through the roles (label, body, title, reading, headline, display, and reading-narrow / headline-narrow below 640px), never a size number.',
   'Contrast is a gate: every text pair 4.5:1, every graphic pair 3:1, in both modes.',
   'Hit targets are at least 44px.',
@@ -344,7 +344,7 @@ const INSTALL_SECTION = [
   '```',
   '',
   "Every component already carries `'use client'`, so it works as it is in a React Server Components app. " +
-    'Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).',
+    'Load Source Serif 4 and Instrument Sans yourself (Google Fonts, or self-hosted).',
   '',
   'To style a plain element the same way the components do, import the shared style constants: ' +
     '`focusRing`, `disabledControl`, `hitTarget`, `hoverFade`, and the `SurfaceState` type ' +
