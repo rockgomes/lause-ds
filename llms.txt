@@ -217,7 +217,7 @@ constitutional law.
 - onToggle: `(termId: string) => void` | Called with the term id when a term is clicked or opened with Enter/Space.
 - label: `string` | Accessible name of the reading region, e.g. "Lause 5 / 8".
 
-States: Tugi, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
+States: Tugi, Gap, GapNarrow, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
 
 #### Rules
 - The English pair (text + note) is required together: the note says the translation is unofficial.
