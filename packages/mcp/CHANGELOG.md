@@ -1,5 +1,11 @@
 # lause-ds-mcp
 
+## 0.1.3
+
+### Patch Changes
+
+- 2cb326e: Token data and llms.txt name Source Serif 4 as the content font.
+
 ## 0.1.2
 
 ### Patch Changes
