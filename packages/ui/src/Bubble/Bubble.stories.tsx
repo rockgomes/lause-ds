@@ -38,6 +38,23 @@ export const Promoted: Story = { args: { children: 'with the right to vote', cou
 
 export const NoCount: Story = { args: { count: undefined } };
 
+/**
+ * A gloss wider than the word it sits over must still render as one line: the Sentence's line
+ * height (1.85) exists so a one-line bubble never covers the line above it.
+ */
+export const LongGloss: Story = {
+  args: { children: 'with the right to vote', count: 3 },
+  render: (args) => <Word bubble={<Bubble {...args} />}>x</Word>,
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    const style = getComputedStyle(note);
+    await expect(style.whiteSpace).toBe('nowrap');
+    const lineHeight = Number.parseFloat(style.lineHeight);
+    const height = note.getBoundingClientRect().height;
+    await expect(height).toBeLessThan(lineHeight * 2);
+  },
+};
+
 export const Dark: Story = {
   globals: { theme: 'dark' },
   render: () => (
