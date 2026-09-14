@@ -103,11 +103,11 @@
   --lause-type-reading-font: var(--lause-font-family-serif);
   --lause-type-reading-size: var(--lause-type-size-57);
   --lause-type-reading-leading: var(--lause-type-leading-open);
-  --lause-type-reading-weight: 400;
+  --lause-type-reading-weight: 600;
   --lause-type-reading-narrow-font: var(--lause-font-family-serif);
   --lause-type-reading-narrow-size: var(--lause-type-size-40);
   --lause-type-reading-narrow-leading: var(--lause-type-leading-open);
-  --lause-type-reading-narrow-weight: 400;
+  --lause-type-reading-narrow-weight: 600;
   --lause-type-headline-font: var(--lause-font-family-serif);
   --lause-type-headline-size: var(--lause-type-size-83);
   --lause-type-headline-leading: var(--lause-type-leading-tight);
@@ -157,11 +157,11 @@
   --lause-type-reading-font: var(--lause-font-family-serif);
   --lause-type-reading-size: var(--lause-type-size-57);
   --lause-type-reading-leading: var(--lause-type-leading-open);
-  --lause-type-reading-weight: 400;
+  --lause-type-reading-weight: 600;
   --lause-type-reading-narrow-font: var(--lause-font-family-serif);
   --lause-type-reading-narrow-size: var(--lause-type-size-40);
   --lause-type-reading-narrow-leading: var(--lause-type-leading-open);
-  --lause-type-reading-narrow-weight: 400;
+  --lause-type-reading-narrow-weight: 600;
   --lause-type-headline-font: var(--lause-font-family-serif);
   --lause-type-headline-size: var(--lause-type-size-83);
   --lause-type-headline-leading: var(--lause-type-leading-tight);

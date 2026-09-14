@@ -151,6 +151,18 @@ export const GapNarrow: Story = {
   },
 };
 
+export const Weight: Story = {
+  name: 'reading text is weight 600',
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const region = canvas.getByRole('region', { name: 'Lause 5 / 8' });
+    const reading = region.querySelector('p[lang="et"]') as HTMLElement;
+    await expect(getComputedStyle(reading).fontWeight).toBe('600');
+    const terms = within(region).getAllByRole('button');
+    await expect(getComputedStyle(terms[0]).fontWeight).toBe('600');
+  },
+};
+
 export const Keyboard: Story = {
   play: async ({ canvasElement, args }) => {
     const terms = within(canvasElement).getAllByRole('button');
