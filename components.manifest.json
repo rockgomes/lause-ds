@@ -306,6 +306,8 @@
         "Pinned",
         "Promoted",
         "NoCount",
+        "LongGloss",
+        "LongGlossNarrow",
         "Dark"
       ],
       "proofScreen": "Lugeja, ⌥ held",

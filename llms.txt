@@ -189,7 +189,7 @@ A translation bubble that sits above the word it belongs to. Render it inside an
 - count?: `number` | How many times this term has been looked up; shown as ×N in accent.
 - note?: `string` | A short note after the count, e.g. the app's promotion text.
 
-States: Pinned, Promoted, NoCount, Dark
+States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark
 
 #### Rules
 - Sits above its word; the count is decorative to assistive technology.
