@@ -27,7 +27,7 @@ describe('scales', () => {
     expect(f.get('stroke.thin')?.$value).toEqual({ value: 1.5, unit: 'px' });
     expect(f.get('stroke.focus')?.$value).toEqual({ value: 2, unit: 'px' });
     expect(f.get('type.leading.open')?.$value).toBe(1.85);
-    expect(f.get('font.family.serif')?.$value).toEqual(['Young Serif', 'Georgia', 'serif']);
+    expect(f.get('font.family.serif')?.$value).toEqual(['Source Serif 4', 'Georgia', 'serif']);
     expect(f.get('opacity.dim')?.$value).toBe(0.38);
     expect(f.get('shadow.mid')?.$type).toBe('shadow');
     expect((f.get('shadow.mid')?.$value as any).offsetY).toEqual({ value: 6, unit: 'px' });

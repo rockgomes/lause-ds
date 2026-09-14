@@ -24,7 +24,7 @@ Then import components normally:
 import { Button, Dial, Tile, TileStack } from 'lause-ds';
 ```
 
-Every component already carries `'use client'`, so it works as it is in a React Server Components app. Load Young Serif and Instrument Sans yourself (Google Fonts, or self-hosted).
+Every component already carries `'use client'`, so it works as it is in a React Server Components app. Load Source Serif 4 and Instrument Sans yourself (Google Fonts, or self-hosted).
 
 To style a plain element the same way the components do, import the shared style constants: `focusRing`, `disabledControl`, `hitTarget`, `hoverFade`, and the `SurfaceState` type (`'idle' | 'selected' | 'filled' | 'dimmed'`) behind `Tile` and `Cell`.
 
@@ -45,16 +45,16 @@ color.ink-hover: #2d4460 (light) · #cddcf0 (dark) | bg-ink-hover / text-ink-hov
 color.ink-active: #091727 (light) · #b2cae7 (dark) | bg-ink-active / text-ink-active · --lause-color-ink-active | pressed on ink fills
 color.ground-hover: #cddcf0 (light) · #0f2238 (dark) | bg-ground-hover / text-ground-hover · --lause-color-ground-hover | hover fill on ground-level controls
 color.surface-hover: #f0f6fc (light) · #2d4460 (dark) | bg-surface-hover / text-surface-hover · --lause-color-surface-hover | hover fill on tiles
-font.content: Young Serif, Georgia, serif (light) · Young Serif, Georgia, serif (dark) | font-content · --lause-font-content
+font.content: Source Serif 4, Georgia, serif (light) · Source Serif 4, Georgia, serif (dark) | font-content · --lause-font-content
 font.chrome: Instrument Sans, Helvetica Neue, Arial, sans-serif (light) · Instrument Sans, Helvetica Neue, Arial, sans-serif (dark) | font-chrome · --lause-font-chrome
 type.label: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 13px, lineHeight 1.3, fontWeight 600 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 13px, lineHeight 1.3, fontWeight 600 (dark) | text-label · --lause-type-label-size
 type.body: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 16px, lineHeight 1.5, fontWeight 400 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 16px, lineHeight 1.5, fontWeight 400 (dark) | text-body · --lause-type-body-size
 type.title: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 19px, lineHeight 1.3, fontWeight 600 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 19px, lineHeight 1.3, fontWeight 600 (dark) | text-title · --lause-type-title-size
-type.reading: fontFamily Young Serif, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Young Serif, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (dark) | text-reading · --lause-type-reading-size
-type.reading-narrow: fontFamily Young Serif, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Young Serif, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (dark) | text-reading-narrow · --lause-type-reading-narrow-size | reading size for narrow viewports (below 640px)
-type.headline: fontFamily Young Serif, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Young Serif, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (dark) | text-headline · --lause-type-headline-size
-type.headline-narrow: fontFamily Young Serif, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Young Serif, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (dark) | text-headline-narrow · --lause-type-headline-narrow-size | headline size for narrow viewports (below 640px)
-type.display: fontFamily Young Serif, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Young Serif, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (dark) | text-display · --lause-type-display-size
+type.reading: fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (dark) | text-reading · --lause-type-reading-size
+type.reading-narrow: fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (dark) | text-reading-narrow · --lause-type-reading-narrow-size | reading size for narrow viewports (below 640px)
+type.headline: fontFamily Source Serif 4, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (dark) | text-headline · --lause-type-headline-size
+type.headline-narrow: fontFamily Source Serif 4, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (dark) | text-headline-narrow · --lause-type-headline-narrow-size | headline size for narrow viewports (below 640px)
+type.display: fontFamily Source Serif 4, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (dark) | text-display · --lause-type-display-size
 radius.control: 999px (light) · 999px (dark) | rounded-control · --lause-radius-control
 radius.card: 22px (light) · 22px (dark) | rounded-card · --lause-radius-card
 radius.bubble: 10px (light) · 10px (dark) | rounded-bubble · --lause-radius-bubble
@@ -302,7 +302,7 @@ Source: packages/ui/src/Cell/Cell.tsx
 ## Rules
 
 - Use only token utilities: the Tailwind theme is closed, so bg-red-500 or p-11 do not exist.
-- Two fonts only: font-content (Young Serif) for what is being learned, font-chrome (Instrument Sans) for the app.
+- Two fonts only: font-content (Source Serif 4) for what is being learned, font-chrome (Instrument Sans) for the app.
 - Type is used through the roles (label, body, title, reading, headline, display, and reading-narrow / headline-narrow below 640px), never a size number.
 - Contrast is a gate: every text pair 4.5:1, every graphic pair 3:1, in both modes.
 - Hit targets are at least 44px.
