@@ -50,8 +50,8 @@ font.chrome: Instrument Sans, Helvetica Neue, Arial, sans-serif (light) · Instr
 type.label: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 13px, lineHeight 1.3, fontWeight 600 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 13px, lineHeight 1.3, fontWeight 600 (dark) | text-label · --lause-type-label-size
 type.body: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 16px, lineHeight 1.5, fontWeight 400 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 16px, lineHeight 1.5, fontWeight 400 (dark) | text-body · --lause-type-body-size
 type.title: fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 19px, lineHeight 1.3, fontWeight 600 (light) · fontFamily Instrument Sans, Helvetica Neue, Arial, sans-serif, fontSize 19px, lineHeight 1.3, fontWeight 600 (dark) | text-title · --lause-type-title-size
-type.reading: fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 400 (dark) | text-reading · --lause-type-reading-size
-type.reading-narrow: fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 400 (dark) | text-reading-narrow · --lause-type-reading-narrow-size | reading size for narrow viewports (below 640px)
+type.reading: fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 600 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 57px, lineHeight 1.85, fontWeight 600 (dark) | text-reading · --lause-type-reading-size
+type.reading-narrow: fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 600 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 40px, lineHeight 1.85, fontWeight 600 (dark) | text-reading-narrow · --lause-type-reading-narrow-size | reading size for narrow viewports (below 640px)
 type.headline: fontFamily Source Serif 4, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 83px, lineHeight 1.1, fontWeight 400 (dark) | text-headline · --lause-type-headline-size
 type.headline-narrow: fontFamily Source Serif 4, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 48px, lineHeight 1.1, fontWeight 400 (dark) | text-headline-narrow · --lause-type-headline-narrow-size | headline size for narrow viewports (below 640px)
 type.display: fontFamily Source Serif 4, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (light) · fontFamily Source Serif 4, Georgia, serif, fontSize 143px, lineHeight 1.1, fontWeight 400 (dark) | text-display · --lause-type-display-size
@@ -217,7 +217,7 @@ constitutional law.
 - onToggle: `(termId: string) => void` | Called with the term id when a term is clicked or opened with Enter/Space.
 - label: `string` | Accessible name of the reading region, e.g. "Lause 5 / 8".
 
-States: Tugi, Gap, GapNarrow, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
+States: Tugi, Gap, GapNarrow, Weight, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
 
 #### Rules
 - The English pair (text + note) is required together: the note says the translation is unofficial.

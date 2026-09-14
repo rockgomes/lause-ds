@@ -89,7 +89,7 @@ export function Sentence({
       {...rest}
     >
       {previous ? <p className="text-title font-normal text-dim">{previous}</p> : null}
-      <p lang="et" className="text-reading-narrow sm:text-reading font-normal text-ink">
+      <p lang="et" className="text-reading-narrow sm:text-reading text-ink">
         {segments.map((seg, i) => {
           if (!isTerm(seg)) return <span key={i}>{seg}</span>;
           const isPinned = pinned.includes(seg.id);
@@ -106,7 +106,7 @@ export function Sentence({
                 data-marked={marked}
                 onClick={() => onToggle(seg.id)}
                 className={clsx(
-                  'inline cursor-pointer rounded-keycap font-content text-reading-narrow sm:text-reading font-normal text-ink',
+                  'inline cursor-pointer rounded-keycap font-content text-reading-narrow sm:text-reading text-ink',
                   focusRing,
                   hoverFade,
                   marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12) [text-decoration-skip-ink:none]',

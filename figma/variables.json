@@ -862,8 +862,8 @@
           "name": "type/reading/fontWeight",
           "type": "FLOAT",
           "values": {
-            "Light": 400,
-            "Dark": 400
+            "Light": 600,
+            "Dark": 600
           }
         },
         {
@@ -902,8 +902,8 @@
           "name": "type/reading-narrow/fontWeight",
           "type": "FLOAT",
           "values": {
-            "Light": 400,
-            "Dark": 400
+            "Light": 600,
+            "Dark": 600
           }
         },
         {

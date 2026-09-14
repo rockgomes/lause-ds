@@ -28,13 +28,13 @@ describe('emit css', () => {
   });
   it('expands typography roles', () => {
     expect(css).toContain('--lause-type-reading-size: var(--lause-type-size-57);');
-    expect(css).toContain('--lause-type-reading-weight: 400;');
+    expect(css).toContain('--lause-type-reading-weight: 600;');
   });
   it('expands the narrow typography roles onto the existing ramp steps (40 and 48)', () => {
     expect(css).toContain('--lause-type-reading-narrow-font: var(--lause-font-family-serif);');
     expect(css).toContain('--lause-type-reading-narrow-size: var(--lause-type-size-40);');
     expect(css).toContain('--lause-type-reading-narrow-leading: var(--lause-type-leading-open);');
-    expect(css).toContain('--lause-type-reading-narrow-weight: 400;');
+    expect(css).toContain('--lause-type-reading-narrow-weight: 600;');
     expect(css).toContain('--lause-type-headline-narrow-font: var(--lause-font-family-serif);');
     expect(css).toContain('--lause-type-headline-narrow-size: var(--lause-type-size-48);');
     expect(css).toContain('--lause-type-headline-narrow-leading: var(--lause-type-leading-tight);');

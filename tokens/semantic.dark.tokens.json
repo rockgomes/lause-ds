@@ -19,8 +19,8 @@
     "label":    { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.13}",  "lineHeight": "{type.leading.snug}",   "fontWeight": 600 } },
     "body":     { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.16}",  "lineHeight": "{type.leading.normal}", "fontWeight": 400 } },
     "title":    { "$type": "typography", "$value": { "fontFamily": "{font.family.sans}",  "fontSize": "{type.size.19}",  "lineHeight": "{type.leading.snug}",   "fontWeight": 600 } },
-    "reading":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.57}",  "lineHeight": "{type.leading.open}",   "fontWeight": 400 } },
-    "reading-narrow": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.40}", "lineHeight": "{type.leading.open}",  "fontWeight": 400 }, "$description": "reading size for narrow viewports (below 640px)" },
+    "reading":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.57}",  "lineHeight": "{type.leading.open}",   "fontWeight": 600 } },
+    "reading-narrow": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.40}", "lineHeight": "{type.leading.open}",  "fontWeight": 600 }, "$description": "reading size for narrow viewports (below 640px)" },
     "headline": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.83}",  "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } },
     "headline-narrow": { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.48}", "lineHeight": "{type.leading.tight}", "fontWeight": 400 }, "$description": "headline size for narrow viewports (below 640px)" },
     "display":  { "$type": "typography", "$value": { "fontFamily": "{font.family.serif}", "fontSize": "{type.size.143}", "lineHeight": "{type.leading.tight}",  "fontWeight": 400 } }
