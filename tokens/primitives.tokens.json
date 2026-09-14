@@ -353,7 +353,7 @@
       "serif": {
         "$type": "fontFamily",
         "$value": [
-          "Young Serif",
+          "Source Serif 4",
           "Georgia",
           "serif"
         ]

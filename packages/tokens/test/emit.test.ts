@@ -20,7 +20,7 @@ describe('emit css', () => {
   it('emits primitives with raw values', () => {
     expect(css).toContain('--lause-color-navy-900: #0f2238;');
     expect(css).toContain('--lause-type-size-57: 57px;');
-    expect(css).toContain('--lause-font-family-serif: "Young Serif", Georgia, serif;');
+    expect(css).toContain('--lause-font-family-serif: "Source Serif 4", Georgia, serif;');
   });
   it('emits semantics as var() references, light in the :root/[data-theme="light"] island and dark under data-theme', () => {
     expect(css).toMatch(/:root, \[data-theme="light"\] \{[^}]*--lause-color-ink: var\(--lause-color-navy-900\);/s);

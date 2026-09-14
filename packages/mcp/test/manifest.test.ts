@@ -56,7 +56,7 @@ describe('llms.txt', () => {
     expect(txt).toContain(
       'color.ink: #0f2238 (light) · #e3ecf7 (dark) | bg-ink / text-ink · --lause-color-ink | text, filled controls',
     );
-    expect(txt).toContain('font.content: Young Serif, Georgia, serif (light)');
+    expect(txt).toContain('font.content: Source Serif 4, Georgia, serif (light)');
     expect(txt).toContain('font-content · --lause-font-content');
     expect(txt).toContain('type.body: fontFamily Instrument Sans');
     expect(txt).toContain('text-body · --lause-type-body-size');

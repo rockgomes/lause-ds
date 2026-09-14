@@ -16,7 +16,7 @@
     "mid": { "color": { "hue": "navy", "step": "900", "alpha": 0.10 }, "offsetX": 0, "offsetY": 6, "blur": 18, "spread": 0 }
   },
   "font": {
-    "serif": ["Young Serif", "Georgia", "serif"],
+    "serif": ["Source Serif 4", "Georgia", "serif"],
     "sans": ["Instrument Sans", "Helvetica Neue", "Arial", "sans-serif"]
   },
   "opacity": { "dim": 0.38, "faint": 0.18 }

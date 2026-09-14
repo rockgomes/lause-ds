@@ -196,7 +196,7 @@ const HEX_RE = /#[0-9a-fA-F]{3,8}\b/g;
 // Rule 2: raw-font
 // ---------------------------------------------------------------------------
 
-const FONT_NAMES = ['Young Serif', 'Instrument Sans', 'Inter', 'Georgia', 'Arial', 'system-ui'];
+const FONT_NAMES = ['Source Serif 4', 'Instrument Sans', 'Inter', 'Georgia', 'Arial', 'system-ui'];
 function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

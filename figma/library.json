@@ -11,6 +11,9 @@
       "SemiBold"
     ]
   },
+  "notes": [
+    "2026-09-15: the content font became Source Serif 4 in code (tokens/src/scales.json). The Figma text styles listed under \"fonts\" above still say Young Serif until the re-import script runs; ids are unchanged."
+  ],
   "discovery": {
     "librariesAddedToFile": [
       "Rock's Team Colors"

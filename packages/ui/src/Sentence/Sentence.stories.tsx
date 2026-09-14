@@ -89,25 +89,28 @@ export const Tugi: Story = {
 };
 
 /**
- * Estimates the visible top of a term's letters from its button's bounding rect.
+ * Measures the visible top of a term's letters from real font metrics, not a ratio guessed for
+ * one typeface.
  *
  * `getBoundingClientRect()` on the term button returns the top of its own CSS line box, not the
  * font box: the button carries the same paired font-size/line-height utility as the reading
  * paragraph (a generous "open" leading), so the rect top sits half a leading above the font's
- * ascent, and the font's ascent itself sits well above the capitals (Young Serif's font box, ascent
- * plus descent, is about 1.2em; its capitals are about 0.7em). Both offsets are approximated here
- * from the measured font-size and line-height, using those two ratios.
+ * ascent, and the font's ascent itself sits above the letter's actual ink. Canvas `measureText`
+ * reports both for the real, computed font, so neither offset needs to be approximated.
  */
-function approximateLetterTop(term: Element): number {
-  const rect = term.getBoundingClientRect();
-  const style = getComputedStyle(term);
-  const fontSize = Number.parseFloat(style.fontSize);
+function measureLetterTop(term: Element): number {
+  const el = term as HTMLElement;
+  const txt = el.textContent ?? '';
+  const style = getComputedStyle(el);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d')!;
+  ctx.font =
+    style.font || `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  const m = ctx.measureText(txt);
+  const fontBox = m.fontBoundingBoxAscent + m.fontBoundingBoxDescent;
   const lineHeight = Number.parseFloat(style.lineHeight);
-  const fontBox = fontSize * 1.2;
-  const capHeight = fontSize * 0.7;
   const halfLeading = (lineHeight - fontBox) / 2;
-  const emptyAscent = fontBox - capHeight;
-  return rect.top + halfLeading + emptyAscent;
+  return el.getBoundingClientRect().top + halfLeading + (m.fontBoundingBoxAscent - m.actualBoundingBoxAscent);
 }
 
 /** The bubble's bottom edge, tail included (the tail is an 8px CSS triangle, drawn outside the box). */
@@ -124,7 +127,7 @@ export const Gap: Story = {
     await userEvent.click(terms[0]);
     const note = canvas.getByRole('note');
 
-    const gap = approximateLetterTop(terms[0]) - bubbleBottomWithTail(note);
+    const gap = measureLetterTop(terms[0]) - bubbleBottomWithTail(note);
     await expect(gap).toBeGreaterThanOrEqual(2);
     await expect(gap).toBeLessThanOrEqual(16);
     restFocus();
@@ -141,7 +144,7 @@ export const GapNarrow: Story = {
     await userEvent.click(terms[0]);
     const note = canvas.getByRole('note');
 
-    const gap = approximateLetterTop(terms[0]) - bubbleBottomWithTail(note);
+    const gap = measureLetterTop(terms[0]) - bubbleBottomWithTail(note);
     await expect(gap).toBeGreaterThanOrEqual(2);
     await expect(gap).toBeLessThanOrEqual(16);
     restFocus();
