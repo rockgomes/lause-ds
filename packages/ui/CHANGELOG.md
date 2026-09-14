@@ -1,5 +1,15 @@
 # lause-ds
 
+## 0.4.0
+
+### Minor Changes
+
+- 2cb326e: The content typeface is Source Serif 4 (was Young Serif): a reading serif with optical sizes and clearer diacritics. Load it with opsz,wght@8..60,400..600 from Google Fonts.
+
+### Patch Changes
+
+- a833d20: Bubble: sits just above the letters of its word, not above the font box.
+
 ## 0.3.1
 
 ### Patch Changes
