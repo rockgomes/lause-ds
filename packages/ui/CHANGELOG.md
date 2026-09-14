@@ -1,5 +1,11 @@
 # lause-ds
 
+## 0.4.1
+
+### Patch Changes
+
+- deff7f6: The reading roles (reading, reading-narrow) are weight 600 for legibility. Headlines, display and chrome stay as they were.
+
 ## 0.4.0
 
 ### Minor Changes
