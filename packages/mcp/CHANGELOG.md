@@ -1,5 +1,11 @@
 # lause-ds-mcp
 
+## 0.1.4
+
+### Patch Changes
+
+- deff7f6: Token data names the reading roles at weight 600.
+
 ## 0.1.3
 
 ### Patch Changes
