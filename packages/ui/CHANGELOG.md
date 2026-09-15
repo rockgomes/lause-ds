@@ -1,5 +1,11 @@
 # lause-ds
 
+## 0.4.2
+
+### Patch Changes
+
+- ccb4c49: The headline roles (headline, headline-narrow) are weight 700. Reading stays 600, display and chrome stay as they were.
+
 ## 0.4.1
 
 ### Patch Changes

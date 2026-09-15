@@ -1,5 +1,11 @@
 # lause-ds-mcp
 
+## 0.1.5
+
+### Patch Changes
+
+- ccb4c49: Token data names the headline roles at weight 700.
+
 ## 0.1.4
 
 ### Patch Changes
