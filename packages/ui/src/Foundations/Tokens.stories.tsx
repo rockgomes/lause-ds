@@ -62,9 +62,11 @@ export const Light: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const reading = canvas.getByText('Igaühel on õigus vabalt liikuda', { selector: '[data-role="reading"]' });
+    const headline = canvas.getByText('Igaühel on õigus vabalt liikuda', { selector: '[data-role="headline"]' });
     const display = canvas.getByText('Igaühel on õigus vabalt liikuda', { selector: '[data-role="display"]' });
     await expect(getComputedStyle(reading).fontSize).toBe('57px');
     await expect(getComputedStyle(display).fontSize).toBe('143px');
+    await expect(getComputedStyle(headline).fontWeight).toBe('700');
   },
 };
 export const Dark: Story = { globals: { theme: 'dark' } };

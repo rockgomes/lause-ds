@@ -38,7 +38,7 @@ describe('emit css', () => {
     expect(css).toContain('--lause-type-headline-narrow-font: var(--lause-font-family-serif);');
     expect(css).toContain('--lause-type-headline-narrow-size: var(--lause-type-size-48);');
     expect(css).toContain('--lause-type-headline-narrow-leading: var(--lause-type-leading-tight);');
-    expect(css).toContain('--lause-type-headline-narrow-weight: 400;');
+    expect(css).toContain('--lause-type-headline-narrow-weight: 700;');
   });
   it('serializes composite shadows as one CSS value', () => {
     expect(css).toContain('--lause-shadow-mid: 0px 6px 18px 0px rgba(15, 34, 56, 0.10);');
