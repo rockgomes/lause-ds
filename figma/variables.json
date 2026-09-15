@@ -942,8 +942,8 @@
           "name": "type/headline/fontWeight",
           "type": "FLOAT",
           "values": {
-            "Light": 400,
-            "Dark": 400
+            "Light": 700,
+            "Dark": 700
           }
         },
         {
@@ -982,8 +982,8 @@
           "name": "type/headline-narrow/fontWeight",
           "type": "FLOAT",
           "values": {
-            "Light": 400,
-            "Dark": 400
+            "Light": 700,
+            "Dark": 700
           }
         },
         {

@@ -144,6 +144,10 @@ export function Hero({ reducedMotion }: HeroProps) {
               >
                 {word.term ? (
                   // The Sentence component's term button, at headline size (packages/ui/src/Sentence/Sentence.tsx).
+                  // max-w-full here too: the button is its own box, so it does not inherit the
+                  // span's width constraint. Without it, the button sizes to its unbroken word
+                  // (330px for "hääleõiguslik" at the bold 700 headline-narrow weight) and pushes
+                  // past the 320px viewport instead of wrapping onto a second line.
                   <button
                     type="button"
                     aria-pressed={isPinned}
@@ -151,7 +155,7 @@ export function Hero({ reducedMotion }: HeroProps) {
                     data-state={isPinned ? 'pinned' : 'idle'}
                     onClick={() => toggle(word.term!.id)}
                     className={clsx(
-                      'inline cursor-pointer rounded-keycap font-content text-headline-narrow sm:text-headline text-ink',
+                      'inline max-w-full cursor-pointer rounded-keycap font-content text-headline-narrow sm:text-headline text-ink',
                       focusRing,
                       hoverFade,
                       'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-4) [text-decoration-skip-ink:none]',
