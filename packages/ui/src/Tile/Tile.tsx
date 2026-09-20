@@ -23,7 +23,9 @@ const states: Record<TileState, string> = {
     'bg-surface text-dim shadow-tile enabled:hover:bg-surface-hover enabled:active:bg-surface-hover enabled:active:shadow-none',
 };
 
-/** An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item. */
+/** An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item.
+ * Drawn as the boards draw the option pills (`LauseExam.png`, `LauseOnboard.png`): the chrome face at the title size, the
+ * keycap on the right edge, tall enough to read as a button, not a row. */
 export function Tile({ state = 'idle', keycap, className, children, type = 'button', ...rest }: TileProps) {
   return (
     <button
@@ -32,7 +34,7 @@ export function Tile({ state = 'idle', keycap, className, children, type = 'butt
       aria-pressed={state === 'selected' || state === 'filled'}
       aria-disabled={state === 'dimmed' || undefined}
       className={clsx(
-        'flex w-full items-center gap-16 rounded-control px-24 py-12 text-left font-content text-title font-normal',
+        'flex w-full items-center gap-16 rounded-control px-24 py-16 text-left font-chrome text-title',
         hitTarget,
         focusRing,
         disabledControl,
@@ -42,8 +44,8 @@ export function Tile({ state = 'idle', keycap, className, children, type = 'butt
       )}
       {...rest}
     >
-      {keycap ? <Keycap aria-hidden="true" className="shrink-0">{keycap}</Keycap> : null}
       <span className="flex-1">{children}</span>
+      {keycap ? <Keycap aria-hidden="true" className="shrink-0">{keycap}</Keycap> : null}
     </button>
   );
 }

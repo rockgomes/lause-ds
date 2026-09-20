@@ -212,7 +212,7 @@
       "name": "Tile",
       "kind": "component",
       "source": "packages/ui/src/Tile/Tile.tsx",
-      "summary": "An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item.",
+      "summary": "An option or word tile. Tiles stack vertically in a TileStack; they never sit in a row except the two of a true/false item.\nDrawn as the boards draw the option pills (`LauseExam.png`, `LauseOnboard.png`): the chrome face at the title size, the\nkeycap on the right edge, tall enough to read as a button, not a row.",
       "props": [
         {
           "name": "state",
