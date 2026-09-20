@@ -1,5 +1,11 @@
 # lause-ds
 
+## 0.5.0
+
+### Minor Changes
+
+- 465464c: Tile matches the boards' option pills: the chrome face at the title size (semibold sans) instead of the serif reading face, the keycap on the right edge, and taller padding (16px) so a tile reads as a button. Tile's markup order changes: the label span comes first, the keycap second.
+
 ## 0.4.2
 
 ### Patch Changes
