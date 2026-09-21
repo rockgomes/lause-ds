@@ -50,6 +50,8 @@ const meta = {
     segments,
     previous: 'Riigikogu liikmed valitakse vabadel valimistel proportsionaalsuse põhimõtte alusel.',
     next: 'Riigikogu liikmete valimise korra sätestab Riigikogu valimise seadus.',
+    previousLabel: 'eelmine lause',
+    nextLabel: 'järgmine lause',
     support: 'tugi',
     pinned: [],
     counts: {},

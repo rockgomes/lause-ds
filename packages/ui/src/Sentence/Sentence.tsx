@@ -20,6 +20,11 @@ export type SentenceProps = Omit<ComponentProps<'section'>, 'children' | 'onTogg
   /** The neighbours, dimmed above and below. */
   previous?: string;
   next?: string;
+  /** Caps labels over the neighbours, e.g. "eelmine lause" and "järgmine lause", so a reader
+   * knows what the dim lines are. The app passes them in its own language; without them the
+   * neighbours render bare. */
+  previousLabel?: string;
+  nextLabel?: string;
   /** The dial level. et: no marks, terms still open. tugi: marks. korvuti: marks and the English under. */
   support: Support;
   /** Term ids whose bubble is shown. */
@@ -52,6 +57,8 @@ export function Sentence({
   segments,
   previous,
   next,
+  previousLabel,
+  nextLabel,
   support,
   pinned,
   counts = {},
@@ -88,7 +95,12 @@ export function Sentence({
       className={clsx('flex max-w-[1020px] flex-col gap-24 overflow-x-clip font-content', className)}
       {...rest}
     >
-      {previous ? <p className="text-title font-normal text-dim">{previous}</p> : null}
+      {previous ? (
+        <div className="flex flex-col gap-4">
+          {previousLabel ? <span className="font-chrome text-label uppercase tracking-caps text-dim">{previousLabel}</span> : null}
+          <p className="text-title font-normal text-dim">{previous}</p>
+        </div>
+      ) : null}
       <p lang="et" className="text-reading-narrow sm:text-reading text-ink">
         {segments.map((seg, i) => {
           if (!isTerm(seg)) return <span key={i}>{seg}</span>;
@@ -132,7 +144,12 @@ export function Sentence({
           <p className="text-label text-dim">{english.note}</p>
         </div>
       ) : null}
-      {next ? <p className="text-title font-normal text-dim">{next}</p> : null}
+      {next ? (
+        <div className="flex flex-col gap-4">
+          {nextLabel ? <span className="font-chrome text-label uppercase tracking-caps text-dim">{nextLabel}</span> : null}
+          <p className="text-title font-normal text-dim">{next}</p>
+        </div>
+      ) : null}
       <p aria-live="polite" className="sr-only">
         {announcement}
       </p>
