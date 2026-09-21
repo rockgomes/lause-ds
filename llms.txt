@@ -207,6 +207,10 @@ The reading unit: one sentence at reading size, its neighbours dimmed, its terms
 - segments: `readonly Segment[]` | The sentence in reading order: plain strings and markable terms.
 - previous?: `string` | The neighbours, dimmed above and below.
 - next?: `string`
+- previousLabel?: `string` | Caps labels over the neighbours, e.g. "eelmine lause" and "järgmine lause", so a reader
+knows what the dim lines are. The app passes them in its own language; without them the
+neighbours render bare.
+- nextLabel?: `string`
 - support: `'et' | 'tugi' | 'korvuti'` | The dial level. et: no marks, terms still open. tugi: marks. korvuti: marks and the English under.
 - pinned: `readonly string[]` | Term ids whose bubble is shown.
 - counts?: `Readonly<Record<string, number>> = {}` | Look-up tally per term id, shown in the bubble.

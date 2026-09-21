@@ -344,6 +344,18 @@
           "doc": ""
         },
         {
+          "name": "previousLabel",
+          "type": "string",
+          "required": false,
+          "doc": "Caps labels over the neighbours, e.g. \"eelmine lause\" and \"järgmine lause\", so a reader\nknows what the dim lines are. The app passes them in its own language; without them the\nneighbours render bare."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "required": false,
+          "doc": ""
+        },
+        {
           "name": "support",
           "type": "'et' | 'tugi' | 'korvuti'",
           "required": true,
