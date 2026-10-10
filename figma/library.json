@@ -12,7 +12,8 @@
     ]
   },
   "notes": [
-    "2026-09-15: the content font became Source Serif 4 in code (tokens/src/scales.json). The Figma text styles listed under \"fonts\" above still say Young Serif until the re-import script runs; ids are unchanged. The Reading and Reading narrow text styles also need weight 600 (tokens/semantic.light.tokens.json, tokens/semantic.dark.tokens.json) once that re-import runs. The Headline and Headline narrow text styles also need weight 700 (same two files) once that re-import runs."
+    "2026-09-15: the content font became Source Serif 4 in code (tokens/src/scales.json). The Figma text styles listed under \"fonts\" above still say Young Serif until the re-import script runs; ids are unchanged. The Reading and Reading narrow text styles also need weight 600 (tokens/semantic.light.tokens.json, tokens/semantic.dark.tokens.json) once that re-import runs. The Headline and Headline narrow text styles also need weight 700 (same two files) once that re-import runs.",
+    "2026-10-10 (Plan 8): Term is public (page Term, set 7:48, 8 variants) and Bubble has size=title|body; not published yet. Publishing is Rock's click in the Assets panel; then the site file's libraryKeys need the Term and Bubble set keys."
   ],
   "discovery": {
     "librariesAddedToFile": [
@@ -231,6 +232,7 @@
     "Dial": "3:63",
     "Tile": "3:64",
     "Bubble": "3:65",
+    "Term": "42:2",
     "Sentence": "3:66",
     "Nav": "3:67",
     "Cell": "3:68",
@@ -293,17 +295,37 @@
       "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Bubble": {
-      "componentId": "12:5",
+      "setId": "42:211",
       "docId": "12:2",
-      "variants": 1,
+      "variants": 2,
       "props": {
-        "gloss": "gloss#12:0",
-        "count": "count#12:1",
-        "countText": "countText#12:2",
-        "note": "note#12:3",
-        "noteText": "noteText#12:4"
+        "gloss": "gloss#42:4",
+        "count": "count#42:5",
+        "countText": "countText#42:6",
+        "note": "note#42:7",
+        "noteText": "noteText#42:8"
+      },
+      "variantIds": {
+        "title": "12:5",
+        "body": "42:205"
       },
       "source": "packages/ui/src/Bubble/Bubble.tsx",
+      "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
+    },
+    "Term": {
+      "setId": "7:48",
+      "docId": "42:202",
+      "variants": 8,
+      "props": {
+        "text": "text#7:24"
+      },
+      "markLines": {
+        "reading/idle": "43:193",
+        "reading/pinned": "43:194",
+        "body/idle": "43:195",
+        "body/pinned": "43:196"
+      },
+      "source": "packages/ui/src/Term/Term.tsx",
       "codeConnect": "unavailable: Figma Code Connect needs an Organization or Enterprise seat; Rock's Team is Pro. documentationLinks point at the source file; this ledger is the mapping Plan 5 serves."
     },
     "Sentence": {
@@ -370,14 +392,6 @@
         "label": "label#7:14",
         "labelEn": "labelEn#7:19"
       }
-    },
-    ".Building Blocks/Term": {
-      "setId": "7:48",
-      "variants": 4,
-      "props": {
-        "text": "text#7:24"
-      },
-      "ruling": "no peeked axis, the bubble is composed by Sentence"
     }
   },
   "rulings": [
@@ -386,7 +400,13 @@
     "Term has no peeked axis; Sentence composes the Bubble",
     "ice ramp merged into navy (Rock, 2026-09-04): 11 ice variables removed from Figma, 13 colour semantics re-pointed, Colour page updated",
     "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context",
-    "Code Connect blocked by plan tier (Pro). Fallback: documentationLinks to the GitHub source on every set + the setId→source map in this ledger."
+    "Code Connect blocked by plan tier (Pro). Fallback: documentationLinks to the GitHub source on every set + the setId→source map in this ledger.",
+    "Term (Plan 8, 2026-10-10): the line is a separate mark line layer, not a text decoration. A text decoration on a text bound to a TEXT component property lives in that property's shared text data: every variant bound to text#7:24 shows the same underline, so a dotted idle line and a solid pinned line cannot coexist that way (tested through the API)",
+    "Term: the mark's top edge sits 4 px under the baseline (line y = baseline + 4 + weight/2; baseline 72 in Reading, 18 in Body, measured from the glyph outlines). The 4 px is a literal: a line position cannot bind to space/4. Re-measure after the Reading style moves to Source Serif 4",
+    "Term: dotted is the dash pattern [0.01, 2 x weight] with round caps (round dots; a 0 dash renders as dashes). Weight is bound to stroke/mark, stroke/pin or stroke/thin and colour to color/accent; the dash pattern is a literal",
+    "Term: only marked variants have a mark layer, as in code; the old building block drew a line on marked=false, state=pinned",
+    "Bubble became a component set (42:211) with size=title (12:5, keeps its library key) and size=body (42:205). Its property keys changed to gloss#42:4, count#42:5, countText#42:6, note#42:7, noteText#42:8",
+    "Bubble size=body: the gloss binds type/body (16/24 italic) and the bottom padding is 14 instead of 6, so the bubble sits 8 px higher (mb-8 in code); the 14 is a literal"
   ],
   "audits": {
     "unboundFillsOrStrokes": 0,

@@ -198,7 +198,7 @@ States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, Title
 - Sits above its word; the count is decorative to assistive technology.
 
 Source: packages/ui/src/Bubble/Bubble.tsx
-Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (component 12:5)
+Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 42:211)
 
 ### Sentence
 
@@ -257,6 +257,7 @@ States: BodyIdle, BodyPinned, BodyGap, BodyInheritsFont, ReadingIdle, ReadingPin
 - Unmarked terms (Eesti keeles) still open on click.
 
 Source: packages/ui/src/Term/Term.tsx
+Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 7:48)
 
 ### TermText
 

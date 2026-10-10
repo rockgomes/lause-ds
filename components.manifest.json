@@ -322,7 +322,7 @@
       "proofScreen": "Lugeja, ⌥ held",
       "figma": {
         "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
-        "componentId": "12:5"
+        "setId": "42:211"
       },
       "rules": [
         "Sits above its word; the count is decorative to assistive technology."
@@ -521,6 +521,10 @@
         "Dark"
       ],
       "proofScreen": "Lugeja, Skeemid",
+      "figma": {
+        "file": "https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF",
+        "setId": "7:48"
+      },
       "rules": [
         "The line sits 4 px under the letters at both sizes.",
         "Body size keeps the paragraph font; reading size is the content font.",
