@@ -13,7 +13,7 @@
   },
   "notes": [
     "2026-09-15: the content font became Source Serif 4 in code (tokens/src/scales.json). The Figma text styles listed under \"fonts\" above still say Young Serif until the re-import script runs; ids are unchanged. The Reading and Reading narrow text styles also need weight 600 (tokens/semantic.light.tokens.json, tokens/semantic.dark.tokens.json) once that re-import runs. The Headline and Headline narrow text styles also need weight 700 (same two files) once that re-import runs.",
-    "2026-10-10 (Plan 8): Term is public (page Term, set 7:48, 8 variants) and Bubble has size=title|body; not published yet. Publishing is Rock's click in the Assets panel; then the site file's libraryKeys need the Term and Bubble set keys."
+    "2026-10-10 (Plan 8): Term is public (page Term, set 7:48, 8 variants) and Bubble has size=title|body; not published yet. Publishing is Rock's click in the Assets panel; then the site file's libraryKeys need the Term and Bubble set keys. After publishing, check the Bubble instance overrides in the site file: the Bubble property keys changed from #12:x to #42:x."
   ],
   "discovery": {
     "librariesAddedToFile": [
@@ -401,7 +401,7 @@
     "ice ramp merged into navy (Rock, 2026-09-04): 11 ice variables removed from Figma, 13 colour semantics re-pointed, Colour page updated",
     "Nav exam variant shows the reader context text because a shared TEXT property has one default; the app supplies context",
     "Code Connect blocked by plan tier (Pro). Fallback: documentationLinks to the GitHub source on every set + the setId→source map in this ledger.",
-    "Term (Plan 8, 2026-10-10): the line is a separate mark line layer, not a text decoration. A text decoration on a text bound to a TEXT component property lives in that property's shared text data: every variant bound to text#7:24 shows the same underline, so a dotted idle line and a solid pinned line cannot coexist that way (tested through the API)",
+    "Term (Plan 8, 2026-10-10): the line is a separate mark line layer, not a text decoration. Observed in Plan 8: setting a text decoration on one Term variant changed it on all variants and instances, so the line is a separate mark layer (a dotted idle line and a solid pinned line cannot coexist as a decoration)",
     "Term: the mark's top edge sits 4 px under the baseline (line y = baseline + 4 + weight/2; baseline 72 in Reading, 18 in Body, measured from the glyph outlines). The 4 px is a literal: a line position cannot bind to space/4. Re-measure after the Reading style moves to Source Serif 4",
     "Term: dotted is the dash pattern [0.01, 2 x weight] with round caps (round dots; a 0 dash renders as dashes). Weight is bound to stroke/mark, stroke/pin or stroke/thin and colour to color/accent; the dash pattern is a literal",
     "Term: only marked variants have a mark layer, as in code; the old building block drew a line on marked=false, state=pinned",
@@ -413,7 +413,7 @@
     "unnamedNodes": 0,
     "pagesAudited": 11
   },
-  "published": true,
+  "published": "partial: the Plan 8 Term and Bubble sets wait for Rock's publish",
   "site": {
     "fileKey": "FTC4XMc13ylTR72j1i2FLn",
     "fileUrl": "https://www.figma.com/design/FTC4XMc13ylTR72j1i2FLn",

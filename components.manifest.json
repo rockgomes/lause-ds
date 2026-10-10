@@ -535,7 +535,7 @@
       "name": "TermText",
       "kind": "component",
       "source": "packages/ui/src/TermText/TermText.tsx",
-      "summary": "A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps\nits layout. It announces each newly pinned gloss in a polite live region.",
+      "summary": "A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps\nits layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller\nclips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long\nbubble near the edge never makes the page scroll sideways.",
       "props": [
         {
           "name": "segments",
@@ -587,10 +587,18 @@
           "type": "(termId: string) => void",
           "required": true,
           "doc": "Called with the term id when a term is clicked or opened with Enter or Space."
+        },
+        {
+          "name": "live",
+          "type": "boolean",
+          "required": false,
+          "doc": "Renders the polite live region that announces newly pinned glosses. Pass false when the caller's\nown container is already a live region.",
+          "default": "true"
         }
       ],
       "states": [
         "Tugi",
+        "NoLiveRegion",
         "EestiKeeles",
         "SharedId",
         "NoWrapperElement"
@@ -598,7 +606,9 @@
       "proofScreen": "Skeemid",
       "rules": [
         "Renders inline with no element of its own: put it inside the caller's <p> or <li>.",
-        "Term ids that repeat pin together."
+        "Term ids that repeat pin together.",
+        "The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.",
+        "Pass live={false} inside a container that is already a live region."
       ]
     },
     {

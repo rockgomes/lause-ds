@@ -20,18 +20,26 @@ export type TermTextProps = {
   peeking?: boolean;
   /** Called with the term id when a term is clicked or opened with Enter or Space. */
   onToggle: (termId: string) => void;
+  /**
+   * Renders the polite live region that announces newly pinned glosses. Pass false when the caller's
+   * own container is already a live region.
+   */
+  live?: boolean;
 };
 
 /**
  * A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps
- * its layout. It announces each newly pinned gloss in a polite live region.
+ * its layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller
+ * clips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long
+ * bubble near the edge never makes the page scroll sideways.
  */
-export function TermText({ segments, size, support, pinned, counts = {}, notes = {}, peeking = false, onToggle }: TermTextProps) {
+export function TermText({ segments, size, support, pinned, counts = {}, notes = {}, peeking = false, onToggle, live = true }: TermTextProps) {
   const marked = support !== 'et';
   const prevPinnedRef = useRef(pinned);
   const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {
+    if (!live) return;
     const prev = prevPinnedRef.current;
     const newlyPinned = pinned.filter((id) => !prev.includes(id));
     if (newlyPinned.length > 0) {
@@ -42,7 +50,7 @@ export function TermText({ segments, size, support, pinned, counts = {}, notes =
       setAnnouncement(glosses.join(', '));
     }
     prevPinnedRef.current = pinned;
-  }, [pinned]);
+  }, [pinned, live]);
 
   return (
     <>
@@ -65,10 +73,12 @@ export function TermText({ segments, size, support, pinned, counts = {}, notes =
           <span key={i}>{seg}</span>
         ),
       )}
-      {/* The glosses are English; inside the caller's lang="et" paragraph the region says so. */}
-      <span aria-live="polite" lang="en" className="sr-only">
-        {announcement}
-      </span>
+      {live && (
+        /* The glosses are English; inside the caller's lang="et" paragraph the region says so. */
+        <span aria-live="polite" lang="en" className="sr-only">
+          {announcement}
+        </span>
+      )}
     </>
   );
 }

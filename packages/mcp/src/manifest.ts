@@ -64,7 +64,12 @@ const RULES_BY_COMPONENT: Record<string, string[]> = {
     'Body size keeps the paragraph font; reading size is the content font.',
     'Unmarked terms (Eesti keeles) still open on click.',
   ],
-  TermText: ["Renders inline with no element of its own: put it inside the caller's <p> or <li>.", 'Term ids that repeat pin together.'],
+  TermText: [
+    "Renders inline with no element of its own: put it inside the caller's <p> or <li>.",
+    'Term ids that repeat pin together.',
+    'The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.',
+    'Pass live={false} inside a container that is already a live region.',
+  ],
   Nav: ['Chrome stays Estonian; while peeking it swaps to English and never gains a subtitle.'],
   Cell: CELL_RULES,
   CellGrid: CELL_RULES,

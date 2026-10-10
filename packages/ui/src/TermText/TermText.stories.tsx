@@ -68,6 +68,13 @@ export const Tugi: Story = {
   },
 };
 
+export const NoLiveRegion: Story = {
+  args: { live: false },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('[aria-live]')).toBeNull();
+  },
+};
+
 export const EestiKeeles: Story = {
   args: { support: 'et' },
   play: async ({ canvasElement }) => {
