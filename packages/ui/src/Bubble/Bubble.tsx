@@ -24,7 +24,8 @@ export function Bubble({ children, count, note, size = 'title', className, ...re
       role="note"
       className={clsx(
         'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 max-w-[min(320px,90vw)] whitespace-normal text-balance sm:max-w-none sm:whitespace-nowrap rounded-bubble bg-ink px-12 py-4 font-chrome italic font-normal text-on-ink',
-        size === 'body' ? 'text-body' : 'text-title',
+        // body: at 16 px the inline box's top is only about 4.5 px above the letters, so the 8 px tail would overlap them; mb-8 lifts the bubble clear.
+        size === 'body' ? 'text-body mb-8' : 'text-title',
         // the tail
         "after:absolute after:left-1/2 after:top-full after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-ink after:content-['']",
         className,
