@@ -184,7 +184,9 @@ Source: packages/ui/src/Tile/Tile.tsx
 ### Bubble
 
 A translation bubble that sits above the word it belongs to. Render it inside an element with
-`position: relative`; it centres itself over that element and draws a tail down to it.
+`position: relative`; it centres itself over that element and draws a tail down to it. At body
+size it wraps (at most 240 px wide) and keeps itself inside the visible box, the viewport and its
+nearest ancestor that clips sideways, by shifting sideways; the tail stays over the word.
 
 #### Props
 - children: `ReactNode` | The translation.
@@ -192,10 +194,11 @@ A translation bubble that sits above the word it belongs to. Render it inside an
 - note?: `string` | A short note after the count, e.g. the app's promotion text.
 - size?: `'title' | 'body' = 'title'` | title: over reading-size text (the reader). body: over 16 px text, so it covers less of the line above.
 
-States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, TitleByDefault
+States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, TitleByDefault, BodyWraps, BodyAtRightEdge, BodyAtLeftEdge
 
 #### Rules
 - Sits above its word; the count is decorative to assistive technology.
+- At body size it wraps and shifts sideways to stay inside its clipping box; the tail stays over the word.
 
 Source: packages/ui/src/Bubble/Bubble.tsx
 Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 42:211)
@@ -262,9 +265,8 @@ Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 7:48)
 ### TermText
 
 A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps
-its layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller
-clips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long
-bubble near the edge never makes the page scroll sideways.
+its layout. It announces each newly pinned gloss in a polite live region (see `live`). At body
+size the caller need not clip; the bubble stays in view.
 
 #### Props
 - segments: `readonly Segment[]` | The text in reading order: plain strings and terms.
@@ -283,7 +285,7 @@ States: Tugi, NoLiveRegion, EestiKeeles, SharedId, NoWrapperElement
 #### Rules
 - Renders inline with no element of its own: put it inside the caller's <p> or <li>.
 - Term ids that repeat pin together.
-- The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.
+- At body size the caller need not clip; the bubble stays in view.
 - Pass live={false} inside a container that is already a live region.
 
 Source: packages/ui/src/TermText/TermText.tsx

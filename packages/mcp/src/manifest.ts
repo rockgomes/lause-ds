@@ -67,13 +67,16 @@ const RULES_BY_COMPONENT: Record<string, string[]> = {
   TermText: [
     "Renders inline with no element of its own: put it inside the caller's <p> or <li>.",
     'Term ids that repeat pin together.',
-    'The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.',
+    'At body size the caller need not clip; the bubble stays in view.',
     'Pass live={false} inside a container that is already a live region.',
   ],
   Nav: ['Chrome stays Estonian; while peeking it swaps to English and never gains a subtitle.'],
   Cell: CELL_RULES,
   CellGrid: CELL_RULES,
-  Bubble: ['Sits above its word; the count is decorative to assistive technology.'],
+  Bubble: [
+    'Sits above its word; the count is decorative to assistive technology.',
+    'At body size it wraps and shifts sideways to stay inside its clipping box; the tail stays over the word.',
+  ],
   Dial: ['The exam disables it as one control.'],
   Progress: ['One segment per unit; the counts are given in words.'],
   Bar: ['One segment per unit; the counts are given in words.'],
