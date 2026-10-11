@@ -190,14 +190,15 @@ A translation bubble that sits above the word it belongs to. Render it inside an
 - children: `ReactNode` | The translation.
 - count?: `number` | How many times this term has been looked up; shown as ×N in accent.
 - note?: `string` | A short note after the count, e.g. the app's promotion text.
+- size?: `'title' | 'body' = 'title'` | title: over reading-size text (the reader). body: over 16 px text, so it covers less of the line above.
 
-States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark
+States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, TitleByDefault
 
 #### Rules
 - Sits above its word; the count is decorative to assistive technology.
 
 Source: packages/ui/src/Bubble/Bubble.tsx
-Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (component 12:5)
+Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 42:211)
 
 ### Sentence
 
@@ -223,7 +224,7 @@ constitutional law.
 - onToggle: `(termId: string) => void` | Called with the term id when a term is clicked or opened with Enter/Space.
 - label: `string` | Accessible name of the reading region, e.g. "Lause 5 / 8".
 
-States: Tugi, Gap, GapNarrow, Weight, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark
+States: Tugi, Gap, GapNarrow, Weight, Keyboard, TwoPins, Peeking, EestiKeeles, Korvuti, RepeatedTerm, Narrow, Dark, LineOffset
 
 #### Rules
 - The English pair (text + note) is required together: the note says the translation is unofficial.
@@ -231,6 +232,61 @@ States: Tugi, Gap, GapNarrow, Weight, Keyboard, TwoPins, Peeking, EestiKeeles, K
 
 Source: packages/ui/src/Sentence/Sentence.tsx
 Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 14:322)
+
+### Term
+
+One word that opens its English: marked in Tugi and Kõrvuti, the bubble above it when pinned or peeked.
+
+#### Props
+- id: `string` | The term's id; onToggle is called with it.
+- text: `string` | The word as written.
+- gloss: `string` | Its English, shown in the bubble.
+- size: `'reading' | 'body'` | reading: the reader's 40 to 57 px text. body: 16 px text, which keeps the paragraph's font.
+- marked: `boolean` | The underline (the Tugi and Kõrvuti levels). Unmarked terms still open on click.
+- pinned: `boolean` | The bubble shows and the line turns solid.
+- peeking?: `boolean = false` | While true the bubble shows, pinned or not.
+- count?: `number` | Look-up tally, shown in the bubble.
+- note?: `string` | Shown after the count, e.g. the promotion text at three look-ups.
+- onToggle: `(id: string) => void` | Called with the id when the term is clicked or opened with Enter or Space.
+
+States: BodyIdle, BodyPinned, BodyGap, BodyInheritsFont, ReadingIdle, ReadingPinned, Unmarked, Peeked, Dark
+
+#### Rules
+- The line sits 4 px under the letters at both sizes.
+- Body size keeps the paragraph font; reading size is the content font.
+- Unmarked terms (Eesti keeles) still open on click.
+
+Source: packages/ui/src/Term/Term.tsx
+Figma: https://www.figma.com/design/Fi9CrQ0KzJdpCuwNcWbZKF (set 7:48)
+
+### TermText
+
+A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps
+its layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller
+clips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long
+bubble near the edge never makes the page scroll sideways.
+
+#### Props
+- segments: `readonly Segment[]` | The text in reading order: plain strings and terms.
+- size: `'reading' | 'body'` | reading: Sentence's 40 to 57 px text. body: 16 px text in the caller's font.
+- support: `'et' | 'tugi' | 'korvuti'` | The dial level. et: no marks, terms still open. tugi and korvuti: marks.
+- pinned: `readonly string[]` | Term ids whose bubble is shown.
+- counts?: `Readonly<Record<string, number>> = {}` | Look-up tally per term id, shown in the bubble.
+- notes?: `Readonly<Record<string, string>> = {}` | Per-term note shown after the count.
+- peeking?: `boolean = false` | While true every gloss shows, pinned or not.
+- onToggle: `(termId: string) => void` | Called with the term id when a term is clicked or opened with Enter or Space.
+- live?: `boolean = true` | Renders the polite live region that announces newly pinned glosses. Pass false when the caller's
+own container is already a live region.
+
+States: Tugi, NoLiveRegion, EestiKeeles, SharedId, NoWrapperElement
+
+#### Rules
+- Renders inline with no element of its own: put it inside the caller's <p> or <li>.
+- Term ids that repeat pin together.
+- The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.
+- Pass live={false} inside a container that is already a live region.
+
+Source: packages/ui/src/TermText/TermText.tsx
 
 ### usePeek
 

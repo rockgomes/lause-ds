@@ -84,3 +84,27 @@ export const Dark: Story = {
     </div>
   ),
 };
+
+/** At body size (a 16 px panel) the bubble uses body text, so it covers less of the line above. */
+export const Body: Story = {
+  args: { children: 'secret', count: 2, size: 'body' },
+  render: (args) => (
+    <p className="mt-64 font-chrome text-body">
+      <span className="relative">
+        salajasel
+        <Bubble {...args} />
+      </span>
+    </p>
+  ),
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    await expect(getComputedStyle(note).fontSize).toBe('16px');
+  },
+};
+
+export const TitleByDefault: Story = {
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    await expect(getComputedStyle(note).fontSize).toBe('19px');
+  },
+};

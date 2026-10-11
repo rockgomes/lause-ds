@@ -34,6 +34,8 @@ const PROOF_SCREENS: Record<string, string> = {
   TileStack: 'Eksam',
   CellGrid: 'Õigused',
   usePeek: 'Lugeja',
+  Term: 'Lugeja, Skeemid',
+  TermText: 'Skeemid',
 };
 
 // A container carries the rules of what it holds: an agent that asks for
@@ -56,6 +58,17 @@ const RULES_BY_COMPONENT: Record<string, string[]> = {
   Sentence: [
     'The English pair (text + note) is required together: the note says the translation is unofficial.',
     'Term ids that repeat pin together.',
+  ],
+  Term: [
+    'The line sits 4 px under the letters at both sizes.',
+    'Body size keeps the paragraph font; reading size is the content font.',
+    'Unmarked terms (Eesti keeles) still open on click.',
+  ],
+  TermText: [
+    "Renders inline with no element of its own: put it inside the caller's <p> or <li>.",
+    'Term ids that repeat pin together.',
+    'The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.',
+    'Pass live={false} inside a container that is already a live region.',
   ],
   Nav: ['Chrome stays Estonian; while peeking it swaps to English and never gains a subtitle.'],
   Cell: CELL_RULES,

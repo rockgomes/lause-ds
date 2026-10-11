@@ -1,18 +1,11 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
-import { Bubble } from '../Bubble/Bubble.js';
-import { focusRing, hoverFade } from '../styles.js';
+import type { ComponentProps } from 'react';
+import { TermText } from '../TermText/TermText.js';
+import type { Segment, Support } from '../Term/Term.js';
 
-export type Term = {
-  /** Identifies the term for pinning and counting. Occurrences that share an id pin and count together; give each occurrence its own id if they must be independent. */
-  id: string;
-  text: string;
-  gloss: string;
-};
-export type Segment = string | Term;
-export type Support = 'et' | 'tugi' | 'korvuti';
+export type { Term, Segment, Support } from '../Term/Term.js';
 
 export type SentenceProps = Omit<ComponentProps<'section'>, 'children' | 'onToggle'> & {
   /** The sentence in reading order: plain strings and markable terms. */
@@ -50,8 +43,6 @@ export type SentenceProps = Omit<ComponentProps<'section'>, 'children' | 'onTogg
   label: string;
 };
 
-const isTerm = (s: Segment): s is Term => typeof s !== 'string';
-
 /** The reading unit: one sentence at reading size, its neighbours dimmed, its terms openable. */
 export function Sentence({
   segments,
@@ -70,23 +61,6 @@ export function Sentence({
   className,
   ...rest
 }: SentenceProps) {
-  const base = useId();
-  const marked = support !== 'et';
-  const prevPinnedRef = useRef(pinned);
-  const [announcement, setAnnouncement] = useState('');
-
-  useEffect(() => {
-    const prev = prevPinnedRef.current;
-    const newlyPinned = pinned.filter((id) => !prev.includes(id));
-    if (newlyPinned.length > 0) {
-      const glosses = newlyPinned
-        .map((id) => segments.find((seg): seg is Term => isTerm(seg) && seg.id === id)?.gloss)
-        .filter((gloss): gloss is string => gloss !== undefined);
-      setAnnouncement(glosses.join(', '));
-    }
-    prevPinnedRef.current = pinned;
-  }, [pinned]);
-
   return (
     <section
       aria-label={label}
@@ -102,41 +76,7 @@ export function Sentence({
         </div>
       ) : null}
       <p lang="et" className="text-reading-narrow sm:text-reading text-ink">
-        {segments.map((seg, i) => {
-          if (!isTerm(seg)) return <span key={i}>{seg}</span>;
-          const isPinned = pinned.includes(seg.id);
-          const shown = isPinned || peeking;
-          const bubbleId = `${base}-${i}`;
-          return (
-            <span key={i} className="relative inline">
-              <button
-                type="button"
-                aria-pressed={isPinned}
-                aria-describedby={shown ? bubbleId : undefined}
-                data-state={isPinned ? 'pinned' : 'idle'}
-                data-peeked={shown ? 'true' : undefined}
-                data-marked={marked}
-                onClick={() => onToggle(seg.id)}
-                className={clsx(
-                  'inline cursor-pointer rounded-keycap font-content text-reading-narrow sm:text-reading text-ink',
-                  focusRing,
-                  hoverFade,
-                  marked && 'underline decoration-accent decoration-(length:--lause-stroke-mark) underline-offset-(length:--lause-space-12) [text-decoration-skip-ink:none]',
-                  marked && !isPinned && 'decoration-dotted',
-                  isPinned && 'decoration-solid decoration-(length:--lause-stroke-pin)',
-                  'hover:bg-ground-hover',
-                )}
-              >
-                {seg.text}
-              </button>
-              {shown ? (
-                <Bubble id={bubbleId} lang="en" count={counts[seg.id]} note={notes[seg.id]}>
-                  {seg.gloss}
-                </Bubble>
-              ) : null}
-            </span>
-          );
-        })}
+        <TermText segments={segments} size="reading" support={support} pinned={pinned} counts={counts} notes={notes} peeking={peeking} onToggle={onToggle} />
       </p>
       {support === 'korvuti' && english ? (
         <div lang="en" className="flex flex-col gap-4 font-chrome">
@@ -150,9 +90,6 @@ export function Sentence({
           <p className="text-title font-normal text-dim">{next}</p>
         </div>
       ) : null}
-      <p aria-live="polite" className="sr-only">
-        {announcement}
-      </p>
     </section>
   );
 }

@@ -10,6 +10,8 @@ import {
   Nav,
   Progress,
   Sentence,
+  Term,
+  TermText,
   Tile,
   TileStack,
   usePeek,
@@ -197,6 +199,42 @@ function CellGridExample() {
   );
 }
 
+// The Term story's body sample (packages/ui/src/Term/Term.stories.tsx).
+function TermExample() {
+  const [pinned, setPinned] = useState(false);
+  return (
+    <p className="mt-64 font-chrome text-body text-ink">
+      Riigikogu valib Vabariigi Presidendi{' '}
+      <Term id="salajane" text="salajasel" gloss="secret" size="body" marked pinned={pinned} count={pinned ? 1 : undefined} onToggle={() => setPinned(!pinned)} />{' '}
+      hääletusel.
+    </p>
+  );
+}
+
+// The TermText story's sample (packages/ui/src/TermText/TermText.stories.tsx).
+function TermTextExample() {
+  const [pinned, setPinned] = useState<string[]>([]);
+  return (
+    <p className="mt-64 font-chrome text-body text-ink">
+      <TermText
+        segments={[
+          'Riigikogu ',
+          { id: 'valima', text: 'valib', gloss: 'elects' },
+          ' Vabariigi Presidendi ',
+          { id: 'salajane', text: 'salajasel', gloss: 'secret' },
+          ' ',
+          { id: 'haaletus', text: 'hääletusel', gloss: 'vote' },
+          '.',
+        ]}
+        size="body"
+        support="tugi"
+        pinned={pinned}
+        onToggle={(id) => setPinned(pinned.includes(id) ? pinned.filter((p) => p !== id) : [...pinned, id])}
+      />
+    </p>
+  );
+}
+
 /** One live example per manifest component, keyed by name, in the same order `componentDocs()` returns. */
 export const EXAMPLES: Record<string, () => ReactNode> = {
   Keycap: KeycapExample,
@@ -208,6 +246,8 @@ export const EXAMPLES: Record<string, () => ReactNode> = {
   TileStack: TileStackExample,
   Bubble: BubbleExample,
   Sentence: SentenceExample,
+  Term: TermExample,
+  TermText: TermTextExample,
   usePeek: UsePeekExample,
   Nav: NavExample,
   Cell: CellExample,

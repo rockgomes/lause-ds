@@ -10,7 +10,7 @@ const manifest = generateManifest(root);
 describe('manifest', () => {
   it('lists every export of packages/ui as a component or hook', () => {
     const names = manifest.components.map((c) => c.name).sort();
-    expect(names).toEqual(['Bar', 'Bubble', 'Button', 'Cell', 'CellGrid', 'Dial', 'Keycap', 'Nav', 'Progress', 'Sentence', 'Tile', 'TileStack', 'usePeek']);
+    expect(names).toEqual(['Bar', 'Bubble', 'Button', 'Cell', 'CellGrid', 'Dial', 'Keycap', 'Nav', 'Progress', 'Sentence', 'Term', 'TermText', 'Tile', 'TileStack', 'usePeek']);
   });
   it('reads props, types, defaults and JSDoc from the source', () => {
     const button = manifest.components.find((c) => c.name === 'Button')!;

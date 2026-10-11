@@ -259,3 +259,13 @@ export const Dark: Story = {
     },
   },
 };
+
+export const LineOffset: Story = {
+  name: 'the line sits 4 px under the letters',
+  play: async ({ canvasElement }) => {
+    const region = within(canvasElement).getByRole('region', { name: 'Lause 5 / 8' });
+    const term = within(region).getAllByRole('button')[0]!;
+    await expect(getComputedStyle(term).textUnderlineOffset).toBe('4px');
+    await expect(term).toHaveAttribute('data-size', 'reading');
+  },
+};
