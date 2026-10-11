@@ -1,6 +1,6 @@
 {
   "name": "lause-ds-mcp",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "The Lause design system as an MCP server: tokens, components, usage rules, and a usage check.",
   "type": "module",
   "license": "MIT",
