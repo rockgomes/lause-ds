@@ -29,9 +29,8 @@ export type TermTextProps = {
 
 /**
  * A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps
- * its layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller
- * clips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long
- * bubble near the edge never makes the page scroll sideways.
+ * its layout. It announces each newly pinned gloss in a polite live region (see `live`). At body
+ * size the caller need not clip; the bubble stays in view.
  */
 export function TermText({ segments, size, support, pinned, counts = {}, notes = {}, peeking = false, onToggle, live = true }: TermTextProps) {
   const marked = support !== 'et';

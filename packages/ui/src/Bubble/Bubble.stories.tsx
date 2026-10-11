@@ -108,3 +108,77 @@ export const TitleByDefault: Story = {
     await expect(getComputedStyle(note).fontSize).toBe('19px');
   },
 };
+
+const longGloss = 'to promulgate (a law); to declare (elections, a state of emergency)';
+
+/** At body size the bubble wraps inside 240 px instead of running across the panel on one line. */
+export const BodyWraps: Story = {
+  args: { children: longGloss, count: undefined, size: 'body' },
+  render: (args) => (
+    <p className="mt-128 font-chrome text-body">
+      <span className="relative">
+        kuulutab
+        <Bubble {...args} />
+      </span>
+    </p>
+  ),
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    const style = getComputedStyle(note);
+    const rect = note.getBoundingClientRect();
+    await expect(rect.width).toBeLessThanOrEqual(240);
+    await expect(rect.height).toBeGreaterThan(Number.parseFloat(style.lineHeight) * 1.5);
+  },
+};
+
+/**
+ * Checks a body bubble over a word at one edge of a 280 px panel that clips sideways: the bubble
+ * stays inside the panel (8 px margin allowed) and the tail's centre stays over the word's centre.
+ */
+async function expectInsideWithTailOverWord(canvasElement: HTMLElement) {
+  const note = within(canvasElement).getByRole('note');
+  const panel = note.closest('p')!;
+  const word = note.parentElement!;
+  const noteRect = note.getBoundingClientRect();
+  const panelRect = panel.getBoundingClientRect();
+  const wordRect = word.getBoundingClientRect();
+  await expect(noteRect.left).toBeGreaterThanOrEqual(panelRect.left);
+  await expect(noteRect.right).toBeLessThanOrEqual(panelRect.right);
+  const tailCentre = noteRect.left + Number.parseFloat(getComputedStyle(note, '::after').left);
+  const wordCentre = wordRect.left + wordRect.width / 2;
+  await expect(Math.abs(tailCentre - wordCentre)).toBeLessThanOrEqual(2);
+}
+
+/** A body bubble over the last word of a line at the right edge of a 280 px panel. */
+export const BodyAtRightEdge: Story = {
+  args: { children: longGloss, count: undefined, size: 'body' },
+  render: (args) => (
+    <p className="mt-128 w-[280px] overflow-x-clip text-right font-chrome text-body">
+      President{' '}
+      <span className="relative">
+        kuulutab
+        <Bubble {...args} />
+      </span>
+    </p>
+  ),
+  play: async ({ canvasElement }) => {
+    await expectInsideWithTailOverWord(canvasElement);
+  },
+};
+
+/** A body bubble over the first word of a line at the left edge of a 280 px panel. */
+export const BodyAtLeftEdge: Story = {
+  args: { children: longGloss, count: undefined, size: 'body' },
+  render: (args) => (
+    <p className="mt-128 w-[280px] overflow-x-clip text-left font-chrome text-body">
+      <span className="relative">
+        kuulutab
+        <Bubble {...args} />
+      </span>{' '}
+      välja seaduse
+    </p>
+  ),
+  play: async ({ canvasElement }) => {
+    await expectInsideWithTailOverWord(canvasElement);
+  },
+};

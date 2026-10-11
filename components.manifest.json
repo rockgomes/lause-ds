@@ -281,7 +281,7 @@
       "name": "Bubble",
       "kind": "component",
       "source": "packages/ui/src/Bubble/Bubble.tsx",
-      "summary": "A translation bubble that sits above the word it belongs to. Render it inside an element with\n`position: relative`; it centres itself over that element and draws a tail down to it.",
+      "summary": "A translation bubble that sits above the word it belongs to. Render it inside an element with\n`position: relative`; it centres itself over that element and draws a tail down to it. At body\nsize it wraps (at most 240 px wide) and keeps itself inside the visible box, the viewport and its\nnearest ancestor that clips sideways, by shifting sideways; the tail stays over the word.",
       "props": [
         {
           "name": "children",
@@ -317,7 +317,10 @@
         "LongGlossNarrow",
         "Dark",
         "Body",
-        "TitleByDefault"
+        "TitleByDefault",
+        "BodyWraps",
+        "BodyAtRightEdge",
+        "BodyAtLeftEdge"
       ],
       "proofScreen": "Lugeja, ⌥ held",
       "figma": {
@@ -325,7 +328,8 @@
         "setId": "42:211"
       },
       "rules": [
-        "Sits above its word; the count is decorative to assistive technology."
+        "Sits above its word; the count is decorative to assistive technology.",
+        "At body size it wraps and shifts sideways to stay inside its clipping box; the tail stays over the word."
       ]
     },
     {
@@ -535,7 +539,7 @@
       "name": "TermText",
       "kind": "component",
       "source": "packages/ui/src/TermText/TermText.tsx",
-      "summary": "A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps\nits layout. It announces each newly pinned gloss in a polite live region (see `live`). The caller\nclips horizontal overflow (`overflow-x-clip` on the paragraph or list), as Sentence does, so a long\nbubble near the edge never makes the page scroll sideways.",
+      "summary": "A run of text with its terms, inline, with no element of its own: the caller's <p> or <li> keeps\nits layout. It announces each newly pinned gloss in a polite live region (see `live`). At body\nsize the caller need not clip; the bubble stays in view.",
       "props": [
         {
           "name": "segments",
@@ -607,7 +611,7 @@
       "rules": [
         "Renders inline with no element of its own: put it inside the caller's <p> or <li>.",
         "Term ids that repeat pin together.",
-        "The caller clips horizontal overflow (overflow-x-clip on the paragraph or list), as Sentence does, so a long bubble near the edge never makes the page scroll sideways.",
+        "At body size the caller need not clip; the bubble stays in view.",
         "Pass live={false} inside a container that is already a live region."
       ]
     },
