@@ -1,5 +1,11 @@
 # lause-ds-mcp
 
+## 0.1.9
+
+### Patch Changes
+
+- 7cd7498: The body-size Bubble wraps inside 240 px and shifts sideways to stay inside the viewport and its clipping ancestor, with its tail still over the word, so a long gloss at the edge of a narrow panel is never cut or makes the page scroll sideways.
+
 ## 0.1.8
 
 ### Patch Changes
