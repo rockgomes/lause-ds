@@ -194,7 +194,7 @@ nearest ancestor that clips sideways, by shifting sideways; the tail stays over 
 - note?: `string` | A short note after the count, e.g. the app's promotion text.
 - size?: `'title' | 'body' = 'title'` | title: over reading-size text (the reader). body: over 16 px text, so it covers less of the line above.
 
-States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, TitleByDefault, BodyWraps, BodyAtRightEdge, BodyAtLeftEdge
+States: Pinned, Promoted, NoCount, LongGloss, LongGlossNarrow, Dark, Body, TitleByDefault, BodyWraps, BodyAtRightEdge, BodyAtLeftEdge, BodyNarrowViewport, BodyReMeasures
 
 #### Rules
 - Sits above its word; the count is decorative to assistive technology.

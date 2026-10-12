@@ -320,7 +320,9 @@
         "TitleByDefault",
         "BodyWraps",
         "BodyAtRightEdge",
-        "BodyAtLeftEdge"
+        "BodyAtLeftEdge",
+        "BodyNarrowViewport",
+        "BodyReMeasures"
       ],
       "proofScreen": "Lugeja, ⌥ held",
       "figma": {
