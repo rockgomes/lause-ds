@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ReactNode } from 'react';
-import { expect, within } from 'storybook/test';
+import { useState, type ReactNode } from 'react';
+import { expect, userEvent, within } from 'storybook/test';
 import { Bubble } from './Bubble.js';
 
 /** A word with a bubble above it, the way Sentence uses it. */
@@ -149,6 +149,16 @@ async function expectInsideWithTailOverWord(canvasElement: HTMLElement) {
   await expect(Math.abs(tailCentre - wordCentre)).toBeLessThanOrEqual(2);
 }
 
+/** The bubble keeps this far inside its clipping panel, in px (the component's EDGE), less rounding. */
+async function expectEightPxMargin(canvasElement: HTMLElement) {
+  const note = within(canvasElement).getByRole('note');
+  const panel = note.closest('p')!;
+  const noteRect = note.getBoundingClientRect();
+  const panelRect = panel.getBoundingClientRect();
+  await expect(noteRect.left).toBeGreaterThanOrEqual(panelRect.left + 8 - 0.5);
+  await expect(noteRect.right).toBeLessThanOrEqual(panelRect.right - 8 + 0.5);
+}
+
 /** A body bubble over the last word of a line at the right edge of a 280 px panel. */
 export const BodyAtRightEdge: Story = {
   args: { children: longGloss, count: undefined, size: 'body' },
@@ -163,6 +173,7 @@ export const BodyAtRightEdge: Story = {
   ),
   play: async ({ canvasElement }) => {
     await expectInsideWithTailOverWord(canvasElement);
+    await expectEightPxMargin(canvasElement);
   },
 };
 
@@ -180,5 +191,64 @@ export const BodyAtLeftEdge: Story = {
   ),
   play: async ({ canvasElement }) => {
     await expectInsideWithTailOverWord(canvasElement);
+    await expectEightPxMargin(canvasElement);
+  },
+};
+
+/**
+ * At a 320 px viewport a long body gloss stays at most 100vw - 32 px wide and inside the viewport,
+ * with an 8 px margin on both sides.
+ */
+export const BodyNarrowViewport: Story = {
+  args: { children: longGloss, count: undefined, size: 'body' },
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: (args) => (
+    <p className="mt-128 font-chrome text-body">
+      <span className="relative">
+        kuulutab
+        <Bubble {...args} />
+      </span>
+    </p>
+  ),
+  play: async ({ canvasElement }) => {
+    const note = within(canvasElement).getByRole('note');
+    const rect = note.getBoundingClientRect();
+    const viewport = document.documentElement.clientWidth;
+    await expect(rect.width).toBeLessThanOrEqual(viewport - 32 + 0.5);
+    await expect(rect.left).toBeGreaterThanOrEqual(8 - 0.5);
+    await expect(rect.right).toBeLessThanOrEqual(viewport - 8 + 0.5);
+  },
+};
+
+function ReMeasuring(args: { short: string; long: string }) {
+  const [long, setLong] = useState(false);
+  return (
+    <div className="w-[280px]">
+      <button type="button" onClick={() => setLong(true)}>
+        Long gloss
+      </button>
+      <p className="mt-128 w-[280px] overflow-x-clip text-right font-chrome text-body">
+        President{' '}
+        <span className="relative">
+          kuulutab
+          <Bubble size="body">{long ? args.long : args.short}</Bubble>
+        </span>
+      </p>
+    </div>
+  );
+}
+
+/** The gloss changes after mount, from short to long: the bubble measures again and stays inside its panel. */
+export const BodyReMeasures: Story = {
+  render: () => <ReMeasuring short="secret" long={longGloss} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const note = canvas.getByRole('note');
+    const widthBefore = note.getBoundingClientRect().width;
+    await userEvent.click(canvas.getByRole('button', { name: 'Long gloss' }));
+    await expect(note).toHaveTextContent('promulgate');
+    const rect = note.getBoundingClientRect();
+    await expect(rect.width).toBeGreaterThan(widthBefore);
+    await expectEightPxMargin(canvasElement);
   },
 };
